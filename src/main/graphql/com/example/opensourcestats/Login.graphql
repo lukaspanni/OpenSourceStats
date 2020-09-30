@@ -1,0 +1,5 @@
+query Login($login: String!){
+  user(login: $login) {
+    login
+  }
+}
