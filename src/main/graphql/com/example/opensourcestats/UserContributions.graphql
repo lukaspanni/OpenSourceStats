@@ -1,8 +1,10 @@
-query userContributions($startDate: DateTime, $endDate: DateTime) {
+query userContributions($startDate: DateTime!, $endDate: DateTime!) {
   viewer {
     login
     name
     contributionsCollection(from: $startDate, to: $endDate) {
+      startedAt
+      endedAt
       totalCommitContributions
       totalIssueContributions
       totalPullRequestContributions
