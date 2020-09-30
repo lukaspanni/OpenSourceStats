@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.ApolloClient;
+import com.apollographql.apollo.api.Error;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
 import com.example.opensourcestats.LoginQuery;
@@ -139,16 +141,23 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 //use Token
-                ApolloClient graphqlClient = ApolloClient.builder().serverUrl("https://api.github.com/graphql").okHttpClient((new OkHttpClient.Builder()).addInterceptor(new AuthInterceptor(accessToken)).build()).build();
+                ApolloClient graphqlClient = ApolloClient.builder().serverUrl("https://api.github.com/graphql").okHttpClient((new OkHttpClient.Builder()).addInterceptor(new AuthInterceptor("token "+accessToken)).build()).build();
                 graphqlClient.query(new LoginQuery("lukaspanni")).enqueue(new ApolloCall.Callback<LoginQuery.Data>() {
                     @Override
                     public void onResponse(@NotNull Response<LoginQuery.Data> response) {
-                        Toast.makeText(ctx, response.getData().toString(), Toast.LENGTH_LONG).show();
+                        if(response.getData() != null) {
+                            Log.i("SUCCESS", response.getData().user().login());
+                        }
+                        else{
+                            for (Error err : response.getErrors()) {
+                                Log.e("API ERROR", err.getMessage());
+                            }
+                        }
                     }
 
                     @Override
                     public void onFailure(@NotNull ApolloException e) {
-                        return;
+                        Log.e("ERROR", e.getLocalizedMessage());
                     }
                 });
             }
