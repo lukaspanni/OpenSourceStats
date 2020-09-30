@@ -1,0 +1,33 @@
+query userContributions($startDate: DateTime, $endDate: DateTime) {
+  viewer {
+    login
+    name
+    contributionsCollection(from: $startDate, to: $endDate) {
+      totalCommitContributions
+      totalIssueContributions
+      totalPullRequestContributions
+      totalPullRequestReviewContributions
+      totalRepositoryContributions
+      commitContributionsByRepository(maxRepositories: 20) {
+        repository {
+          nameWithOwner
+        }
+      }
+      issueContributionsByRepository(maxRepositories: 20) {
+        repository {
+          nameWithOwner
+        }
+      }
+      pullRequestContributionsByRepository(maxRepositories: 20) {
+        repository {
+          nameWithOwner
+        }
+      }
+      pullRequestReviewContributionsByRepository(maxRepositories: 20) {
+        repository {
+          nameWithOwner
+        }
+      }
+    }
+  }
+}

@@ -133,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void useToken(){
-        final Context ctx = this;
         authState.performActionWithFreshTokens(authService, new AuthState.AuthStateAction() {
             @Override
             public void execute(@Nullable String accessToken, @Nullable String idToken, @Nullable AuthorizationException ex) {
@@ -142,11 +141,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //use Token
                 ApolloClient graphqlClient = ApolloClient.builder().serverUrl("https://api.github.com/graphql").okHttpClient((new OkHttpClient.Builder()).addInterceptor(new AuthInterceptor("token "+accessToken)).build()).build();
-                graphqlClient.query(new LoginQuery("lukaspanni")).enqueue(new ApolloCall.Callback<LoginQuery.Data>() {
+                graphqlClient.query(new LoginQuery()).enqueue(new ApolloCall.Callback<LoginQuery.Data>() {
                     @Override
                     public void onResponse(@NotNull Response<LoginQuery.Data> response) {
                         if(response.getData() != null) {
-                            Log.i("SUCCESS", response.getData().user().login());
+                            Log.i("SUCCESS", response.getData().viewer().login());
                         }
                         else{
                             for (Error err : response.getErrors()) {

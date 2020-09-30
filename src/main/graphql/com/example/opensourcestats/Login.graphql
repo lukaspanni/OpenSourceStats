@@ -1,5 +1,5 @@
-query Login($login: String!){
-  user(login: $login) {
+query Login{
+  viewer {
     login
   }
 }
