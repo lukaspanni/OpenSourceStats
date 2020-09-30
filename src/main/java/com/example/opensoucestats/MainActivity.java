@@ -7,6 +7,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.apollographql.apollo.ApolloCall;
+import com.apollographql.apollo.ApolloClient;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.exception.ApolloException;
+import com.example.opensourcestats.LoginQuery;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.Nullable;
@@ -17,6 +22,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 
+import net.openid.appauth.AuthState;
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationRequest;
 import net.openid.appauth.AuthorizationResponse;
@@ -29,9 +35,20 @@ import net.openid.appauth.ResponseTypeValues;
 import net.openid.appauth.TokenRequest;
 import net.openid.appauth.TokenResponse;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+
 public class MainActivity extends AppCompatActivity {
 
     private AuthorizationService authService;
+    private AuthState authState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +74,12 @@ public class MainActivity extends AppCompatActivity {
                 Uri.parse("https://github.com/login/oauth/authorize"), // authorization endpoint
                 Uri.parse("https://github.com/login/oauth/access_token")); // token endpoint
 
-        AuthorizationRequest.Builder requestBuilder = new AuthorizationRequest.Builder(serviceConfig, CLIENT_ID, ResponseTypeValues.CODE, REDIRECT_URI);
+        authState = new AuthState(serviceConfig);
 
+        AuthorizationRequest.Builder requestBuilder = new AuthorizationRequest.Builder(serviceConfig, CLIENT_ID, ResponseTypeValues.CODE, REDIRECT_URI);
         AuthorizationRequest request = requestBuilder.setScope("repo:status").build();
 
         authService = new AuthorizationService(this);
-
         Intent authIntent = authService.getAuthorizationRequestIntent(request);
         startActivityForResult(authIntent, 42);
     }
@@ -70,29 +87,71 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        final Context ctx = this;
+
         if (requestCode == 42) {
-            AuthorizationResponse resp = AuthorizationResponse.fromIntent(data);
+            final AuthorizationResponse resp = AuthorizationResponse.fromIntent(data);
             AuthorizationException ex = AuthorizationException.fromIntent(data);
             if(resp != null){
-                final Context ctx = this;
                 ClientAuthentication clientAuth = new ClientSecretPost(getString(R.string.client_secret));
                 TokenRequest req = resp.createTokenExchangeRequest();
                 authService.performTokenRequest(req, clientAuth, new AuthorizationService.TokenResponseCallback() {
                     @Override
                     public void onTokenRequestCompleted(
                             TokenResponse response, AuthorizationException ex) {
+
+                        authState.update(response, ex);
                         if (response != null) {
-                            Toast.makeText(ctx, response.accessToken, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ctx, "SUCCESS", Toast.LENGTH_LONG).show();
+                            useToken();
                         } else {
                             Toast.makeText(ctx, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });
-
-
             }else{
                 Toast.makeText(this, "FAILED - " + ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    class AuthInterceptor implements Interceptor {
+        private String token;
+
+        public AuthInterceptor(String token){
+            this.token = token;
+        }
+
+
+        @Override
+        public okhttp3.Response intercept(Chain chain) throws IOException {
+            Request req = chain.request().newBuilder().addHeader("Authorization", this.token).build();
+            return chain.proceed(req);
+        }
+    }
+
+    private void useToken(){
+        final Context ctx = this;
+        authState.performActionWithFreshTokens(authService, new AuthState.AuthStateAction() {
+            @Override
+            public void execute(@Nullable String accessToken, @Nullable String idToken, @Nullable AuthorizationException ex) {
+                if(ex != null){
+                    return;
+                }
+                //use Token
+                ApolloClient graphqlClient = ApolloClient.builder().serverUrl("https://api.github.com/graphql").okHttpClient((new OkHttpClient.Builder()).addInterceptor(new AuthInterceptor(accessToken)).build()).build();
+                graphqlClient.query(new LoginQuery("lukaspanni")).enqueue(new ApolloCall.Callback<LoginQuery.Data>() {
+                    @Override
+                    public void onResponse(@NotNull Response<LoginQuery.Data> response) {
+                        Toast.makeText(ctx, response.getData().toString(), Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull ApolloException e) {
+                        return;
+                    }
+                });
+            }
+        });
     }
 }
