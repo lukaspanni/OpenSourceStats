@@ -3,6 +3,7 @@ package com.example.opensoucestats;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.example.opensourcestats.UserContributionsQuery;
 import com.example.opensourcestats.type.CustomType;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,6 +47,7 @@ import net.openid.appauth.TokenRequest;
 import net.openid.appauth.TokenResponse;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -80,7 +83,10 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        authenticate();
+        authState = this.readAuthState();
+        if (!authState.isAuthorized()) {
+            authenticate();
+        }
     }
 
     private void authenticate() {
@@ -117,6 +123,9 @@ public class MainActivity extends AppCompatActivity {
                             TokenResponse response, AuthorizationException ex) {
 
                         authState.update(response, ex);
+                        if(authState.isAuthorized()){
+                            writeAuthState(authState);
+                        }
                         if (response != null) {
                             Toast.makeText(ctx, "SUCCESS", Toast.LENGTH_LONG).show();
                             useToken();
@@ -129,6 +138,24 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "FAILED - " + ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    private void writeAuthState(@NonNull AuthState authState){
+        SharedPreferences authPreferences = getSharedPreferences("auth", MODE_PRIVATE);
+        authPreferences.edit().putString("authState", authState.jsonSerializeString()).apply();
+    }
+
+    private AuthState readAuthState(){
+        SharedPreferences authPreferences = getSharedPreferences("auth", MODE_PRIVATE);
+        String stateString = authPreferences.getString("authState", null);
+        if(stateString != null) {
+            try {
+                return AuthState.jsonDeserialize(stateString);
+            } catch (JSONException e) {
+                Log.e("Error Loading State", e.getLocalizedMessage());
+            }
+        }
+        return new AuthState();
     }
 
     class AuthInterceptor implements Interceptor {
