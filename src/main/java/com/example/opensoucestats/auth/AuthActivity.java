@@ -49,6 +49,7 @@ public class AuthActivity extends AppCompatActivity {
                 handler.getAuthService().performTokenRequest(req, clientAuth, (response, ex1) -> {
 
                     handler.getAuthState().update(response, ex1);
+                    handler.writeAuthState();
                     if (response != null) {
                         Toast.makeText(ctx, getString(R.string.auth_success_text), Toast.LENGTH_LONG).show();
                         Log.i("AUTH", "User authenticated");

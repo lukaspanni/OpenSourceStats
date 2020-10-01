@@ -50,9 +50,8 @@ public class AuthHandler {
     }
 
     public boolean checkAuth(){
-        return false;
-        // authState = readAuthState();
-        // return authState.isAuthorized();
+        authState = readAuthState();
+        return authState.isAuthorized();
     }
 
     public AuthState getAuthState(){
@@ -70,10 +69,6 @@ public class AuthHandler {
         return authService;
     }
 
-    public void setAuthState(@NonNull AuthState authState){
-        this.authState = authState;
-        this.writeAuthState(authState);
-    }
 
     public void authenticate() {
         AuthorizationServiceConfiguration serviceConfig = new AuthorizationServiceConfiguration(
@@ -89,7 +84,7 @@ public class AuthHandler {
         activity.startActivityForResult(authIntent, REQUEST_CODE);
     }
 
-    private void writeAuthState(@NonNull AuthState authState){
+    public void writeAuthState(){
         SharedPreferences authPreferences = activity.getSharedPreferences("auth", MODE_PRIVATE);
         authPreferences.edit().putString("authState", authState.jsonSerializeString()).apply();
     }
