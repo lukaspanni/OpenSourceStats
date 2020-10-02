@@ -2,7 +2,6 @@ package com.example.opensoucestats;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -12,13 +11,9 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.opensoucestats.auth.AuthActivity;
 import com.example.opensoucestats.auth.AuthHandler;
-import com.example.opensoucestats.client.ClientDataCallback;
-import com.example.opensoucestats.client.GHClient;
-import com.example.opensoucestats.client.ResponseData;
-import com.example.opensoucestats.client.UserContributionsResponse;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,22 +34,9 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
         //TODO: start with AuthActivity -> less activity switches
         handler = AuthHandler.getInstance(this);
-        if(!handler.checkAuth() && getIntent().getAction() != null){
+        if (!handler.checkAuth() && getIntent().getAction() != null) {
             Intent authIntent = new Intent(this, AuthActivity.class);
             startActivity(authIntent);
-        }else{
-            GHClient client = new GHClient(handler);
-            Date start = new Date(System.currentTimeMillis() - (7 * 1000 * 60 * 60 * 24));
-            Date end = new Date();
-            client.loadData(start, end, new ClientDataCallback() {
-                @Override
-                public void callback(ResponseData data) {
-                    UserContributionsResponse responseData = (UserContributionsResponse) data;
-                    if(data == null) return;
-                    Log.i("Commits", String.valueOf(responseData.getCommits()));
-                }
-            });
-
         }
 
     }
