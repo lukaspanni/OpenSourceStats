@@ -1,6 +1,7 @@
 package com.example.opensoucestats.ui.dashboard;
 
 import android.app.Activity;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,25 +14,28 @@ import com.example.opensoucestats.client.ResponseData;
 import com.example.opensoucestats.client.UserContributionsResponse;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class DashboardViewModel extends ViewModel {
 
     private MutableLiveData<String> overviewText;
-    private MutableLiveData<String> repositoriesText;
+    private MutableLiveData<List<String>> repositories;
     private GHClient client;
     private AuthHandler handler;
 
     public DashboardViewModel() {
         overviewText = new MutableLiveData<>();
-        repositoriesText = new MutableLiveData<>();
+        repositories = new MutableLiveData<>();
     }
 
     public LiveData<String> getOverview() {
         return overviewText;
     }
 
-    public LiveData<String> getRepositories() {
-        return repositoriesText;
+    public LiveData<List<String>> getRepositories() {
+        return repositories;
     }
 
     public void loadData(Activity activity) {
@@ -54,11 +58,7 @@ public class DashboardViewModel extends ViewModel {
                     overviewOut.append("Issues: ").append(responseData.getIssues()).append("\n");
                     overviewOut.append("PullRequests: ").append(responseData.getPullRequests()).append("\n");
                     overviewText.postValue(overviewOut.toString());
-                    StringBuilder repositoriesOut = new StringBuilder("Repositories:\n");
-                    repositoriesOut.append("Commits: ").append(responseData.getCommitRepositories()).append("\n");
-                    //repositoriesOut.append("Issues: ").append(responseData.getIssueRepositories()).append("\n");
-                    //repositoriesOut.append("PullRequests: ").append(responseData.getPullRequestRepositories()).append("\n");
-                    repositoriesText.postValue(repositoriesOut.toString());
+                    repositories.postValue(Stream.concat(Stream.concat(responseData.getCommitRepositories().stream(), responseData.getIssueRepositories().stream()), responseData.getPullRequestRepositories().stream()).collect(Collectors.toList()));
                 }
             });
         }
