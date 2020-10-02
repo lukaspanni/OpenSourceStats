@@ -1,14 +1,26 @@
 package com.example.opensoucestats.client;
 
+import java.util.Calendar;
 import java.util.Date;
 
 class TimeSpan {
     public Date start;
     public Date end;
 
+    private Date zeroDate(Date date){
+        Calendar calender = Calendar.getInstance();
+        calender.setTime(date);
+        calender.set(Calendar.HOUR_OF_DAY, 0);
+        calender.set(Calendar.MINUTE, 0);
+        calender.set(Calendar.SECOND, 0);
+        calender.set(Calendar.MILLISECOND, 0);
+
+        return calender.getTime();
+    }
+
     public TimeSpan(Date start, Date end) {
-        this.start = start;
-        this.end = end;
+        this.start = zeroDate(start);
+        this.end = zeroDate(end);
     }
 
     @Override

@@ -15,7 +15,6 @@ import com.example.opensourcestats.type.CustomType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
-import java.util.HashMap;
 
 import okhttp3.OkHttpClient;
 
@@ -23,7 +22,7 @@ public class GHClient {
 
     private final String API_ENDPOINT = "https://api.github.com/graphql";
     private AuthHandler handler;
-    private ResponseCache cache = new ResponseCache();
+    private ResponseCache cache = ResponseCache.getInstance();
 
     public GHClient(AuthHandler handler) {
         this.handler = handler;
@@ -34,6 +33,7 @@ public class GHClient {
         ResponseData data = cache.get(timeSpan);
         if(data != null){
             clientDataCallback.callback(data);
+            return;
         }
         handler.getAuthState().performActionWithFreshTokens(handler.getAuthService(), (accessToken, idToken, ex) -> {
             if (ex != null) {

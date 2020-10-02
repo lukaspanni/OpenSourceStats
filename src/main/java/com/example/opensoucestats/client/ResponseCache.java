@@ -9,12 +9,24 @@ public class ResponseCache {
     private Map<TimeSpan, CacheEntry> dataStore = new HashMap<>();
     private long maxAge; // in seconds
     private static long DEFAULT_MAXAGE = 3600;
+    private int hits = 0;
+    private int misses = 0;
 
-    public ResponseCache() {
-        this(DEFAULT_MAXAGE);
+    private static ResponseCache instance;
+
+    public static ResponseCache getInstance() {
+        return getInstance(DEFAULT_MAXAGE);
     }
 
-    public ResponseCache(long maxAge) {
+    public static ResponseCache getInstance(long maxAge) {
+        if(instance == null){
+            instance = new ResponseCache(maxAge);
+        }
+        return instance;
+    }
+
+
+    private ResponseCache(long maxAge) {
         this.maxAge = maxAge;
     }
 
@@ -24,10 +36,20 @@ public class ResponseCache {
 
     public ResponseData get(TimeSpan ts) {
         CacheEntry entry = this.dataStore.get(ts);
-        if (entry == null || entry.getAge() + this.maxAge > (new Date()).getTime() / 1000) {
+        if (entry == null || entry.getAge() + this.maxAge < (new Date()).getTime() / 1000) {
+            this.misses++;
             return null;
         }
+        this.hits++;
         return entry.getData();
+    }
+
+    public int getHits() {
+        return this.hits;
+    }
+
+    public int getMisses() {
+        return this.misses;
     }
 
 }
