@@ -29,8 +29,12 @@ public class GHClient {
         this.handler = handler;
     }
 
-    //TODO: Check if Data is already loaded
     public void loadData(Date start, Date end, ClientDataCallback clientDataCallback) {
+        TimeSpan timeSpan = new TimeSpan(start, end);
+        ResponseData data = cache.get(timeSpan);
+        if(data != null){
+            clientDataCallback.callback(data);
+        }
         handler.getAuthState().performActionWithFreshTokens(handler.getAuthService(), (accessToken, idToken, ex) -> {
             if (ex != null) {
                 return;
@@ -51,7 +55,7 @@ public class GHClient {
                         public void onResponse(@NotNull Response<UserContributionsQuery.Data> response) {
                             if (response.getData() != null) {
                                 UserContributionsResponse data = new UserContributionsResponse(response.getData().viewer());
-                                cache.put(new TimeSpan(start, end), data);
+                                cache.put(timeSpan, data);
                                 if(clientDataCallback != null) {
                                     clientDataCallback.callback(data);
                                 }
