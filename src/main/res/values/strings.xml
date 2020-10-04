@@ -1,17 +1,9 @@
 <resources>
-    <string name="app_name">OpenSouceStats</string>
-    <string name="title_home">Home</string>
+    <string name="app_name">OpenSourceStats</string>
+    <string name="title_details">Details</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_progress">Progress</string>
     <string name="title_activity_auth">AuthActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="button">Authenticate</string>
     <string name="auth_success_text">Authentication Successful</string>
     <string name="auth_failed_text">Authentication Failed</string>
