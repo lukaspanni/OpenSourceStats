@@ -17,17 +17,35 @@ import de.lukaspanni.opensourcestats.client.UserContributionsResponse;
 
 public class DashboardViewModel extends ViewModel {
 
-    private MutableLiveData<String> overviewText;
+    private MutableLiveData<Integer> commitCount;
+    private MutableLiveData<Integer> issueCount;
+    private MutableLiveData<Integer> pullRequestCount;
+    private MutableLiveData<Integer> pullRequestReviewCount;
     private GHClient client;
     private AuthHandler handler;
 
 
     public DashboardViewModel() {
-        overviewText = new MutableLiveData<>();
+        commitCount = new MutableLiveData<>();
+        issueCount= new MutableLiveData<>();
+        pullRequestCount = new MutableLiveData<>();
+        pullRequestReviewCount = new MutableLiveData<>();
     }
 
-    public LiveData<String> getOverview() {
-        return overviewText;
+    public MutableLiveData<Integer> getCommitCount() {
+        return commitCount;
+    }
+
+    public MutableLiveData<Integer> getIssueCount() {
+        return issueCount;
+    }
+
+    public MutableLiveData<Integer> getPullRequestCount() {
+        return pullRequestCount;
+    }
+
+    public MutableLiveData<Integer> getPullRequestReviewCount() {
+        return pullRequestReviewCount;
     }
 
     public void loadData(Activity activity){
@@ -43,11 +61,10 @@ public class DashboardViewModel extends ViewModel {
                 public void callback(ResponseData data) {
                     UserContributionsResponse responseData = (UserContributionsResponse) data;
                     if (data == null) return;
-                    StringBuilder overviewOut = new StringBuilder("Current Week:\n");
-                    overviewOut.append("Commits: ").append(responseData.getCommits()).append("\n");
-                    overviewOut.append("Issues: ").append(responseData.getIssues()).append("\n");
-                    overviewOut.append("PullRequests: ").append(responseData.getPullRequests()).append("\n");
-                    overviewText.postValue(overviewOut.toString());
+                    commitCount.postValue(responseData.getCommits());
+                    issueCount.postValue(responseData.getIssues());
+                    pullRequestCount.postValue(responseData.getPullRequests());
+                    pullRequestReviewCount.postValue(responseData.getPullRequestReviews());
                 }
             });
         }

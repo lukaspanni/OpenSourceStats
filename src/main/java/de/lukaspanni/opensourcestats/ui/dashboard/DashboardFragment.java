@@ -23,9 +23,15 @@ public class DashboardFragment extends Fragment {
                 ViewModelProviders.of(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-        TextView overview = root.findViewById(R.id.overview_text);
+        TextView commitCount = root.findViewById(R.id.commit_count);
+        TextView issueCount = root.findViewById(R.id.issue_count);
+        TextView pullRequestCount = root.findViewById(R.id.pull_request_count);
+        TextView pullRequestReviewCount = root.findViewById(R.id.pull_request_review_count);
 
-        dashboardViewModel.getOverview().observe(getViewLifecycleOwner(), overview::setText);
+        dashboardViewModel.getCommitCount().observe(getViewLifecycleOwner(), count -> commitCount.setText(String.valueOf(count)));
+        dashboardViewModel.getIssueCount().observe(getViewLifecycleOwner(), count -> issueCount.setText(String.valueOf(count)));
+        dashboardViewModel.getPullRequestCount().observe(getViewLifecycleOwner(), count -> pullRequestCount.setText(String.valueOf(count)));
+        dashboardViewModel.getPullRequestReviewCount().observe(getViewLifecycleOwner(), count -> pullRequestReviewCount.setText(String.valueOf(count)));
         dashboardViewModel.loadData(getActivity());
 
         return root;
