@@ -11,10 +11,8 @@ import de.lukaspanni.opensourcestats.auth.AuthHandler;
 import de.lukaspanni.opensourcestats.client.ClientDataCallback;
 import de.lukaspanni.opensourcestats.client.GHClient;
 import de.lukaspanni.opensourcestats.client.ResponseData;
-import de.lukaspanni.opensourcestats.client.TimeSpan;
 import de.lukaspanni.opensourcestats.client.UserContributionsResponse;
 
-import java.util.Date;
 
 
 public class DashboardViewModel extends ViewModel {
@@ -40,9 +38,7 @@ public class DashboardViewModel extends ViewModel {
             if (client == null) {
                 client = new GHClient(handler);
             }
-            Date start = new Date(System.currentTimeMillis() - (7 * 1000 * 60 * 60 * 24));
-            Date end = new Date();
-            client.loadUserContributionsData(new TimeSpan(start, end), new ClientDataCallback() {
+            client.userContributionsCurrentWeek(new ClientDataCallback() {
                 @Override
                 public void callback(ResponseData data) {
                     UserContributionsResponse responseData = (UserContributionsResponse) data;
