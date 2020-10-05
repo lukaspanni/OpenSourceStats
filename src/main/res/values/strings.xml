@@ -12,4 +12,5 @@
     <string name="issue_text">Issues:</string>
     <string name="pull_request_text">Pull Requests:</string>
     <string name="pull_request_review_text">Pull Request Reviews:</string>
+    <string name="overview_last_week_header">Last Week Overview</string>
 </resources>

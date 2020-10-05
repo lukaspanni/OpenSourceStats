@@ -30,7 +30,6 @@ public class DetailsViewModel extends ViewModel {
     }
 
     public void loadData(Activity activity) {
-        //TODO: move to separate class
         if (handler == null) {
             handler = AuthHandler.getInstance(activity);
         }

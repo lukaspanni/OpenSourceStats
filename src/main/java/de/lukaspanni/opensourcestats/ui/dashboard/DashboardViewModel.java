@@ -3,7 +3,6 @@ package de.lukaspanni.opensourcestats.ui.dashboard;
 
 import android.app.Activity;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -17,35 +16,59 @@ import de.lukaspanni.opensourcestats.client.UserContributionsResponse;
 
 public class DashboardViewModel extends ViewModel {
 
-    private MutableLiveData<Integer> commitCount;
-    private MutableLiveData<Integer> issueCount;
-    private MutableLiveData<Integer> pullRequestCount;
-    private MutableLiveData<Integer> pullRequestReviewCount;
+    private MutableLiveData<Integer> cwCommitCount;
+    private MutableLiveData<Integer> cwIssueCount;
+    private MutableLiveData<Integer> cwPullRequestCount;
+    private MutableLiveData<Integer> cwPullRequestReviewCount;
+    private MutableLiveData<Integer> lwCommitCount;
+    private MutableLiveData<Integer> lwIssueCount;
+    private MutableLiveData<Integer> lwPullRequestCount;
+    private MutableLiveData<Integer> lwPullRequestReviewCount;
     private GHClient client;
     private AuthHandler handler;
 
 
     public DashboardViewModel() {
-        commitCount = new MutableLiveData<>();
-        issueCount= new MutableLiveData<>();
-        pullRequestCount = new MutableLiveData<>();
-        pullRequestReviewCount = new MutableLiveData<>();
+        cwCommitCount = new MutableLiveData<>();
+        cwIssueCount = new MutableLiveData<>();
+        cwPullRequestCount = new MutableLiveData<>();
+        cwPullRequestReviewCount = new MutableLiveData<>();
+        lwCommitCount = new MutableLiveData<>();
+        lwIssueCount = new MutableLiveData<>();
+        lwPullRequestCount = new MutableLiveData<>();
+        lwPullRequestReviewCount = new MutableLiveData<>();
     }
 
-    public MutableLiveData<Integer> getCommitCount() {
-        return commitCount;
+    public MutableLiveData<Integer> getCurrentWeekCommitCount() {
+        return cwCommitCount;
     }
 
-    public MutableLiveData<Integer> getIssueCount() {
-        return issueCount;
+    public MutableLiveData<Integer> getCurrentWeekIssueCount() {
+        return cwIssueCount;
     }
 
-    public MutableLiveData<Integer> getPullRequestCount() {
-        return pullRequestCount;
+    public MutableLiveData<Integer> getCurrentWeekPullRequestCount() {
+        return cwPullRequestCount;
     }
 
-    public MutableLiveData<Integer> getPullRequestReviewCount() {
-        return pullRequestReviewCount;
+    public MutableLiveData<Integer> getCurrentWeekPullRequestReviewCount() {
+        return cwPullRequestReviewCount;
+    }
+
+    public MutableLiveData<Integer> getLastWeekCommitCount() {
+        return lwCommitCount;
+    }
+
+    public MutableLiveData<Integer> getLastWeekIssueCount() {
+        return lwIssueCount;
+    }
+
+    public MutableLiveData<Integer> getLastWeekPullRequestCount() {
+        return lwPullRequestCount;
+    }
+
+    public MutableLiveData<Integer> getLastWeekPullRequestReviewCount() {
+        return lwPullRequestReviewCount;
     }
 
     public void loadData(Activity activity){
@@ -61,10 +84,21 @@ public class DashboardViewModel extends ViewModel {
                 public void callback(ResponseData data) {
                     UserContributionsResponse responseData = (UserContributionsResponse) data;
                     if (data == null) return;
-                    commitCount.postValue(responseData.getCommits());
-                    issueCount.postValue(responseData.getIssues());
-                    pullRequestCount.postValue(responseData.getPullRequests());
-                    pullRequestReviewCount.postValue(responseData.getPullRequestReviews());
+                    cwCommitCount.postValue(responseData.getCommits());
+                    cwIssueCount.postValue(responseData.getIssues());
+                    cwPullRequestCount.postValue(responseData.getPullRequests());
+                    cwPullRequestReviewCount.postValue(responseData.getPullRequestReviews());
+                }
+            });
+            client.userContributionsLastWeek(new ClientDataCallback() {
+                @Override
+                public void callback(ResponseData data) {
+                    UserContributionsResponse responseData = (UserContributionsResponse) data;
+                    if (data == null) return;
+                    lwCommitCount.postValue(responseData.getCommits());
+                    lwIssueCount.postValue(responseData.getIssues());
+                    lwPullRequestCount.postValue(responseData.getPullRequests());
+                    lwPullRequestReviewCount.postValue(responseData.getPullRequestReviews());
                 }
             });
         }
