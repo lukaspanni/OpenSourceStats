@@ -14,6 +14,10 @@ import java.util.Objects;
 
 public class CommitRepositoryList extends RepositoryListFragment {
 
+    public CommitRepositoryList(){
+        super(R.layout.fragment_commit_repository_list);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);

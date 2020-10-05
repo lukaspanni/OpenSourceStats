@@ -12,6 +12,10 @@ import java.util.Objects;
 
 public class PullRequestReviewRepositoryList extends RepositoryListFragment {
 
+    public PullRequestReviewRepositoryList(){
+        super(R.layout.fragment_pull_request_review_repository_list);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);

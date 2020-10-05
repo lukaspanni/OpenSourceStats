@@ -14,6 +14,10 @@ import java.util.Objects;
 
 public class IssueRepositoryList extends RepositoryListFragment {
 
+    public IssueRepositoryList(){
+        super(R.layout.fragment_issue_repository_list);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
