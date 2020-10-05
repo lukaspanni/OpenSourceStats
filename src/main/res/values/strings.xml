@@ -18,4 +18,5 @@
     <string name="to_pull_request_repos_text">Repositories with Pull Requests</string>
     <string name="to_pull_request_review_repos_text">Repositoris with Pull Request Reviews</string>
     <string name="not_implemented">Not Implemented</string>
+    <string name="not_set">-</string>
 </resources>
