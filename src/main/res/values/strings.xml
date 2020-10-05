@@ -13,4 +13,9 @@
     <string name="pull_request_text">Pull Requests:</string>
     <string name="pull_request_review_text">Pull Request Reviews:</string>
     <string name="overview_last_week_header">Last Week Overview</string>
+    <string name="to_commit_repos_text">Repositories with Commits</string>
+    <string name="to_issue_repos_text">Repositories with Issues</string>
+    <string name="to_pull_request_repos_text">Repositories with Pull Requests</string>
+    <string name="to_pull_request_review_repos_text">Repositoris with Pull Request Reviews</string>
+    <string name="not_implemented">Not Implemented</string>
 </resources>

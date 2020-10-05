@@ -1,16 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="de.lukaspanni.opensourcestats.ui.dashboard.DashboardFragment">
+    tools:context="de.lukaspanni.opensourcestats.ui.details.DetailsFragment">
 
-    <ListView
-        android:id="@android:id/list"
+    <Button
+        android:id="@+id/to_commit_repos"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:drawSelectorOnTop="false">
-    </ListView>
+        android:textAlignment="center"
+        android:text="@string/to_commit_repos_text"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/to_issue_repos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAlignment="center"
+        android:text="@string/to_issue_repos_text"
+        app:layout_constraintTop_toBottomOf="@id/to_commit_repos" />
+
+    <Button
+        android:id="@+id/to_pull_request_repos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAlignment="center"
+        android:text="@string/to_pull_request_repos_text"
+        app:layout_constraintTop_toBottomOf="@id/to_issue_repos" />
+
+    <Button
+        android:id="@+id/to_pull_request_review_repos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAlignment="center"
+        android:text="@string/to_pull_request_review_repos_text"
+        app:layout_constraintTop_toBottomOf="@id/to_pull_request_repos" />
+</androidx.constraintlayout.widget.ConstraintLayout>

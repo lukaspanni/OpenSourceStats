@@ -4,30 +4,26 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.ListFragment;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 
 import com.lukaspanni.opensourcestats.R;
 
-import java.util.Objects;
 
-public class DetailsFragment extends ListFragment {
-
-    private DetailsViewModel detailsViewModel;
+public class DetailsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        detailsViewModel =
-                ViewModelProviders.of(this).get(DetailsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_details, container, false);
 
-        detailsViewModel.getRepositories().observe(getViewLifecycleOwner(), strings -> setListAdapter(new ArrayAdapter<>(Objects.requireNonNull(getContext()), R.layout.list_item, R.id.repo_list_item, strings.toArray())));
+        View view = inflater.inflate(R.layout.fragment_details, container, false);
+        view.findViewById(R.id.to_commit_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_commit_repos));
+        view.findViewById(R.id.to_issue_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_issue_repos));
+        view.findViewById(R.id.to_pull_request_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_pullrequest_repos));
+        view.findViewById(R.id.to_pull_request_review_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_pullrequest_review_repos));
 
-        detailsViewModel.loadData(getActivity());
-
-        return root;
+        return view;
     }
 }

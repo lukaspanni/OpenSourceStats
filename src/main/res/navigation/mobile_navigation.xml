@@ -9,7 +9,20 @@
         android:id="@+id/navigation_details"
         android:name="de.lukaspanni.opensourcestats.ui.details.DetailsFragment"
         android:label="@string/title_details"
-        tools:layout="@layout/fragment_details" />
+        tools:layout="@layout/fragment_details" >
+        <action
+            android:id="@+id/action_details_to_commit_repos"
+            app:destination="@id/navigation_commit_repos" />
+        <action
+            android:id="@+id/action_details_to_issue_repos"
+            app:destination="@id/navigation_issue_repos" />
+        <action
+            android:id="@+id/action_details_to_pullrequest_repos"
+            app:destination="@id/navigation_pullrequest_repos" />
+        <action
+            android:id="@+id/action_details_to_pullrequest_review_repos"
+            app:destination="@id/navigation_pullrequest_review_repos" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -22,4 +35,29 @@
         android:name="de.lukaspanni.opensourcestats.ui.progress.ProgressFragment"
         android:label="@string/title_progress"
         tools:layout="@layout/fragment_progress" />
+
+    <fragment
+        android:id="@+id/navigation_commit_repos"
+        android:name="de.lukaspanni.opensourcestats.ui.details.CommitRepositoryList"
+        android:label="@string/to_commit_repos_text"
+        tools:layout="@layout/fragment_commit_repository_list" />
+
+    <fragment
+        android:id="@+id/navigation_issue_repos"
+        android:name="de.lukaspanni.opensourcestats.ui.details.IssueRepositoryList"
+        android:label="@string/to_issue_repos_text"
+        tools:layout="@layout/fragment_issue_repository_list" />
+
+    <fragment
+        android:id="@+id/navigation_pullrequest_repos"
+        android:name="de.lukaspanni.opensourcestats.ui.details.PullRequestRepositoryList"
+        android:label="@string/to_pull_request_repos_text"
+        tools:layout="@layout/fragment_pull_request_repository_list" />
+
+    <fragment
+        android:id="@+id/navigation_pullrequest_review_repos"
+        android:name="de.lukaspanni.opensourcestats.ui.details.PullRequestReviewRepositoryList"
+        android:label="@string/to_pull_request_review_repos_text"
+        tools:layout="@layout/fragment_pull_request_review_repository_list" />
+
 </navigation>
