@@ -15,9 +15,10 @@ import de.lukaspanni.opensourcestats.type.CustomType;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Calendar;
 import java.util.Date;
 
+import de.lukaspanni.opensourcestats.util.DateUtility;
+import de.lukaspanni.opensourcestats.util.TimeSpan;
 import okhttp3.OkHttpClient;
 
 public class GHClient implements Client {
@@ -77,64 +78,30 @@ public class GHClient implements Client {
 
     @Override
     public void userContributionsLastWeek(ClientDataCallback callback) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-        cal.add(Calendar.WEEK_OF_YEAR, -1);
-        Date weekStart = cal.getTime();
-        cal.add(Calendar.DAY_OF_WEEK, 6);
-        Date weekEnd = cal.getTime();
-        loadUserContributionsData(new TimeSpan(weekStart, weekEnd), callback);
+        loadUserContributionsData(DateUtility.getLastWeek(), callback);
     }
 
     @Override
     public void userContributionsCurrentWeek(ClientDataCallback callback) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-        Date weekStart = cal.getTime();
-        cal.add(Calendar.DAY_OF_WEEK, 6);
-        Date weekEnd = cal.getTime();
-        loadUserContributionsData(new TimeSpan(weekStart, weekEnd), callback);
+        loadUserContributionsData(DateUtility.getCurrentWeek(), callback);
     }
 
     @Override
     public void userContributionsWeek(Date dayInWeek, ClientDataCallback callback) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(dayInWeek);
-        cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-        Date weekStart = cal.getTime();
-        cal.add(Calendar.DAY_OF_WEEK, 6);
-        Date weekEnd = cal.getTime();
-        loadUserContributionsData(new TimeSpan(weekStart, weekEnd), callback);
+        loadUserContributionsData(DateUtility.getWeek(dayInWeek), callback);
     }
 
     @Override
     public void userContributionsLastMonth(ClientDataCallback callback) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.add(Calendar.MONTH, -1);
-        Date monthStart = cal.getTime();
-        cal.add(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH)-1);
-        Date monthEnd = cal.getTime();
-        loadUserContributionsData(new TimeSpan(monthStart, monthEnd), callback);    }
+        loadUserContributionsData(DateUtility.getLastMonth(), callback);    }
 
     @Override
     public void userContributionsCurrentMonth(ClientDataCallback callback) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        Date monthStart = cal.getTime();
-        cal.add(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH)-1);
-        Date monthEnd = cal.getTime();
-        loadUserContributionsData(new TimeSpan(monthStart, monthEnd), callback);
+        loadUserContributionsData(DateUtility.getCurrentMonth(), callback);
     }
 
     @Override
     public void userContributionsMonth(Date dayInMonth, ClientDataCallback callback) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(dayInMonth);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        Date monthStart = cal.getTime();
-        cal.add(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH)-1);
-        Date monthEnd = cal.getTime();
-        loadUserContributionsData(new TimeSpan(monthStart, monthEnd), callback);
+        loadUserContributionsData(DateUtility.getMonth(dayInMonth), callback);
     }
 }

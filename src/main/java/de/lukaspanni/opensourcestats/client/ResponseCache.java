@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.lukaspanni.opensourcestats.util.TimeSpan;
+
 public class ResponseCache {
 
     private Map<TimeSpan, CacheEntry> dataStore = new HashMap<>();
