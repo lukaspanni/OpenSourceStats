@@ -47,7 +47,7 @@
                     <TableRow>
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="175dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
                             android:text="@string/commit_text"
@@ -58,7 +58,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
-                            android:gravity="end"
+                            android:gravity="start"
                             android:text="@string/not_set"
                             android:textSize="20sp" />
                     </TableRow>
@@ -66,7 +66,7 @@
                     <TableRow>
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="175dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
                             android:text="@string/issue_text"
@@ -74,10 +74,10 @@
 
                         <TextView
                             android:id="@+id/current_week_issue_count"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
-                            android:gravity="end"
+                            android:gravity="start"
                             android:text="@string/not_set"
                             android:textSize="20sp" />
                     </TableRow>
@@ -85,7 +85,7 @@
                     <TableRow>
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="175dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
                             android:text="@string/pull_request_text"
@@ -96,7 +96,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
-                            android:gravity="end"
+                            android:gravity="start"
                             android:text="@string/not_set"
                             android:textSize="20sp" />
                     </TableRow>
@@ -104,7 +104,7 @@
                     <TableRow>
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="175dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
                             android:text="@string/pull_request_review_text"
@@ -115,7 +115,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
-                            android:gravity="end"
+                            android:gravity="start"
                             android:text="@string/not_set"
                             android:textSize="20sp" />
                     </TableRow>
@@ -158,7 +158,7 @@
                     <TableRow>
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="175dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
                             android:text="@string/commit_text"
@@ -169,7 +169,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
-                            android:gravity="end"
+                            android:gravity="start"
                             android:text="@string/not_set"
                             android:textSize="20sp" />
                     </TableRow>
@@ -177,7 +177,7 @@
                     <TableRow>
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="175dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
                             android:text="@string/issue_text"
@@ -188,7 +188,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
-                            android:gravity="end"
+                            android:gravity="start"
                             android:text="@string/not_set"
                             android:textSize="20sp" />
                     </TableRow>
@@ -196,7 +196,7 @@
                     <TableRow>
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="175dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
                             android:text="@string/pull_request_text"
@@ -207,7 +207,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
-                            android:gravity="end"
+                            android:gravity="start"
                             android:text="@string/not_set"
                             android:textSize="20sp" />
                     </TableRow>
@@ -215,7 +215,7 @@
                     <TableRow>
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="175dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
                             android:text="@string/pull_request_review_text"
@@ -226,7 +226,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
-                            android:gravity="end"
+                            android:gravity="start"
                             android:text="@string/not_set"
                             android:textSize="20sp" />
                     </TableRow>
