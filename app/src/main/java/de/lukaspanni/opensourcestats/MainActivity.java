@@ -21,6 +21,13 @@ public class MainActivity extends AppCompatActivity {
 
     private AuthHandler handler;
 
+    public AuthHandler getAuthHandler(){
+        if(handler == null) {
+            handler = AuthHandler.getInstance(this);
+        }
+        return handler;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

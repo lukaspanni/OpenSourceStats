@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="?attr/actionBarSize"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    tools:context="de.lukaspanni.opensourcestats.ui.details.DetailsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="30dp"
-        tools:context="de.lukaspanni.opensourcestats.ui.details.DetailsFragment">
+        >
 
         <androidx.cardview.widget.CardView
             android:id="@+id/current_card"

@@ -23,8 +23,6 @@ public class ProgressFragment extends Fragment {
         progressViewModel =
                 ViewModelProviders.of(this).get(ProgressViewModel.class);
         View root = inflater.inflate(R.layout.fragment_progress, container, false);
-        final TextView textView = root.findViewById(R.id.text_notifications);
-        progressViewModel.getText().observe(getViewLifecycleOwner(), s -> textView.setText(s));
         return root;
     }
 }

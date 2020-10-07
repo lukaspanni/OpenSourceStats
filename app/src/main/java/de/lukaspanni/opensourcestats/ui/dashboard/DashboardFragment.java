@@ -1,5 +1,6 @@
 package de.lukaspanni.opensourcestats.ui.dashboard;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.lukaspanni.opensourcestats.R;
+
+import de.lukaspanni.opensourcestats.MainActivity;
 
 
 public class DashboardFragment extends Fragment {
@@ -42,7 +45,15 @@ public class DashboardFragment extends Fragment {
         dashboardViewModel.getLastWeekPullRequestCount().observe(getViewLifecycleOwner(), count -> lwPullRequestCount.setText(String.valueOf(count)));
         dashboardViewModel.getLastWeekPullRequestReviewCount().observe(getViewLifecycleOwner(), count -> lwPullRequestReviewCount.setText(String.valueOf(count)));
 
-        dashboardViewModel.loadData(getActivity());
+        //TODO: Extract shared Code
+        //Only allow use from MainActivity because it holds a Client instance
+        Activity parentActivity = getActivity();
+        assert parentActivity != null;
+        if(parentActivity.getClass() == MainActivity.class){
+            dashboardViewModel.loadData(((MainActivity) parentActivity).getAuthHandler());
+        }else{
+            throw new UnsupportedOperationException("Cannot use RepositoryList from other Activity");
+        }
 
         return root;
     }

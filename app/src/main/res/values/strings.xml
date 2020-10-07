@@ -19,4 +19,5 @@
     <string name="to_pull_request_review_repos_text">Repositoris with Pull Request Reviews</string>
     <string name="not_implemented">Not Implemented</string>
     <string name="not_set">-</string>
+    <string name="progress_week_header">Weekly Progress</string>
 </resources>

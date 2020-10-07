@@ -1,7 +1,5 @@
 package de.lukaspanni.opensourcestats.ui.details;
 
-import android.app.Activity;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -9,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.List;
 
 import de.lukaspanni.opensourcestats.auth.AuthHandler;
+import de.lukaspanni.opensourcestats.client.Client;
 import de.lukaspanni.opensourcestats.client.ClientDataCallback;
 import de.lukaspanni.opensourcestats.client.GHClient;
 import de.lukaspanni.opensourcestats.client.ResponseData;
@@ -21,8 +20,7 @@ public class DetailsViewModel extends ViewModel {
     private MutableLiveData<List<String>> issueRepositories;
     private MutableLiveData<List<String>> pullRequestRepositories;
     private MutableLiveData<List<String>> pullRequestReviewRepositories;
-    private GHClient client;
-    private AuthHandler handler;
+    private Client client;
 
     public DetailsViewModel() {
         commitRepositories = new MutableLiveData<>();
@@ -47,10 +45,8 @@ public class DetailsViewModel extends ViewModel {
         return pullRequestReviewRepositories;
     }
 
-    public void loadData(Activity activity) {
-        if (handler == null) {
-            handler = AuthHandler.getInstance(activity);
-        }
+
+    public void loadData(AuthHandler handler) {
         if (handler.checkAuth()) {
             if (client == null) {
                 client = new GHClient(handler);

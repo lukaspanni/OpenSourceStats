@@ -1,8 +1,6 @@
 package de.lukaspanni.opensourcestats.ui.dashboard;
 
 
-import android.app.Activity;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -25,7 +23,6 @@ public class DashboardViewModel extends ViewModel {
     private MutableLiveData<Integer> lwPullRequestCount;
     private MutableLiveData<Integer> lwPullRequestReviewCount;
     private GHClient client;
-    private AuthHandler handler;
 
 
     public DashboardViewModel() {
@@ -71,10 +68,8 @@ public class DashboardViewModel extends ViewModel {
         return lwPullRequestReviewCount;
     }
 
-    public void loadData(Activity activity){
-        if (handler == null) {
-            handler = AuthHandler.getInstance(activity);
-        }
+    //TODO: Extract common interface
+    public void loadData(AuthHandler handler){
         if (handler.checkAuth()) {
             if (client == null) {
                 client = new GHClient(handler);

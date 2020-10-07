@@ -1,5 +1,6 @@
 package de.lukaspanni.opensourcestats.ui.details;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,7 @@ import androidx.annotation.LayoutRes;
 import androidx.fragment.app.ListFragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.lukaspanni.opensourcestats.R;
+import de.lukaspanni.opensourcestats.MainActivity;
 
 
 public class RepositoryListFragment  extends ListFragment {
@@ -26,7 +27,15 @@ public class RepositoryListFragment  extends ListFragment {
         detailsViewModel =
                 ViewModelProviders.of(this).get(DetailsViewModel.class);
         View view = inflater.inflate(this.fragment_layout, container, false);
-        detailsViewModel.loadData(getActivity());
+
+        //Only allow use from MainActivity because it holds a Client instance
+        Activity parentActivity = getActivity();
+        assert parentActivity != null;
+        if(parentActivity.getClass() == MainActivity.class){
+            detailsViewModel.loadData(((MainActivity) parentActivity).getAuthHandler());
+        }else{
+            throw new UnsupportedOperationException("Cannot use RepositoryList from other Activity");
+        }
         return view;
     }
 
