@@ -24,10 +24,10 @@ public class WeekDetails extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_week_details, container, false);
-        view.findViewById(R.id.to_commit_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_commit_repos));
-        view.findViewById(R.id.to_issue_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_issue_repos));
-        view.findViewById(R.id.to_pull_request_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_pullrequest_repos));
-        view.findViewById(R.id.to_pull_request_review_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_pullrequest_review_repos));
+        view.findViewById(R.id.to_commit_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_commit_repos, getArguments()));
+        view.findViewById(R.id.to_issue_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_issue_repos, getArguments()));
+        view.findViewById(R.id.to_pull_request_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_pullrequest_repos, getArguments()));
+        view.findViewById(R.id.to_pull_request_review_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_pullrequest_review_repos, getArguments()));
 
         if (getArguments() != null && getArguments().get("timeSpan") != null) {
             week = getArguments().getParcelable("timeSpan");
