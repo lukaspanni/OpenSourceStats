@@ -11,6 +11,8 @@ import androidx.navigation.Navigation;
 
 import com.lukaspanni.opensourcestats.R;
 
+import de.lukaspanni.opensourcestats.util.DateUtility;
+
 
 public class DetailsFragment extends Fragment {
 
@@ -18,10 +20,17 @@ public class DetailsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_details, container, false);
-        view.findViewById(R.id.to_commit_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_commit_repos));
-        view.findViewById(R.id.to_issue_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_issue_repos));
-        view.findViewById(R.id.to_pull_request_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_pullrequest_repos));
-        view.findViewById(R.id.to_pull_request_review_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_pullrequest_review_repos));
+
+        view.findViewById(R.id.to_current_week_details).setOnClickListener(v -> {
+            Bundle b = new Bundle();
+            b.putParcelable("timeSpan", DateUtility.getCurrentWeek());
+            Navigation.findNavController(view).navigate(R.id.action_details_to_week_details, b);
+        });
+        view.findViewById(R.id.to_last_week_details).setOnClickListener(v -> {
+            Bundle b = new Bundle();
+            b.putParcelable("timeSpan", DateUtility.getLastWeek());
+            Navigation.findNavController(view).navigate(R.id.action_details_to_week_details, b);
+        });
 
         return view;
     }

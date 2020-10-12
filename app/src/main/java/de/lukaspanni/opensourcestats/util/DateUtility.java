@@ -1,5 +1,7 @@
 package de.lukaspanni.opensourcestats.util;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -73,5 +75,10 @@ public class DateUtility {
         cal.add(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH)-1);
         Date monthEnd = cal.getTime();
         return new TimeSpan(monthStart, monthEnd);
+    }
+
+    public static String toTimeSpanString(TimeSpan timeSpan){
+        DateFormat formatter = DateFormat.getDateInstance();
+        return formatter.format(timeSpan.getStart()) +  " - " + formatter.format(timeSpan.getEnd());
     }
 }

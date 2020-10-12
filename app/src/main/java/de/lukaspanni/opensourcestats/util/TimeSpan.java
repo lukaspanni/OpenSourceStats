@@ -8,8 +8,8 @@ import java.util.Date;
 import static de.lukaspanni.opensourcestats.util.DateUtility.zeroDate;
 
 public class TimeSpan implements Parcelable {
-    public Date start;
-    public Date end;
+    private Date start;
+    private Date end;
 
 
     public TimeSpan(Date start, Date end) {
