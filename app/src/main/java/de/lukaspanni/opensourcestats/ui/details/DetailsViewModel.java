@@ -12,6 +12,7 @@ import de.lukaspanni.opensourcestats.client.ClientDataCallback;
 import de.lukaspanni.opensourcestats.client.GHClient;
 import de.lukaspanni.opensourcestats.client.ResponseData;
 import de.lukaspanni.opensourcestats.client.UserContributionsResponse;
+import de.lukaspanni.opensourcestats.util.TimeSpan;
 
 
 public class DetailsViewModel extends ViewModel {
@@ -46,12 +47,13 @@ public class DetailsViewModel extends ViewModel {
     }
 
 
-    public void loadData(AuthHandler handler) {
+    public void loadData(TimeSpan week, AuthHandler handler) {
         if (handler.checkAuth()) {
             if (client == null) {
                 client = new GHClient(handler);
             }
-            client.userContributionsCurrentWeek(new ClientDataCallback() {
+            //TODO: public client-Method to get based on timespan?
+            client.userContributionsWeek(week.getStart(), new ClientDataCallback() {
                 @Override
                 public void callback(ResponseData data) {
                     UserContributionsResponse responseData = (UserContributionsResponse) data;

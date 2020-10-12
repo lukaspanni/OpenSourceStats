@@ -9,19 +9,11 @@
         android:id="@+id/navigation_details"
         android:name="de.lukaspanni.opensourcestats.ui.details.DetailsFragment"
         android:label="@string/title_details"
-        tools:layout="@layout/fragment_details" >
+        tools:layout="@layout/fragment_details">
+
         <action
-            android:id="@+id/action_details_to_commit_repos"
-            app:destination="@id/navigation_commit_repos" />
-        <action
-            android:id="@+id/action_details_to_issue_repos"
-            app:destination="@id/navigation_issue_repos" />
-        <action
-            android:id="@+id/action_details_to_pullrequest_repos"
-            app:destination="@id/navigation_pullrequest_repos" />
-        <action
-            android:id="@+id/action_details_to_pullrequest_review_repos"
-            app:destination="@id/navigation_pullrequest_review_repos" />
+            android:id="@+id/action_details_to_week_details"
+            app:destination="@id/navigation_week_details" />
     </fragment>
 
     <fragment
@@ -35,6 +27,25 @@
         android:name="de.lukaspanni.opensourcestats.ui.progress.ProgressFragment"
         android:label="@string/title_progress"
         tools:layout="@layout/fragment_progress" />
+
+    <fragment
+        android:id="@+id/navigation_week_details"
+        android:name="de.lukaspanni.opensourcestats.ui.details.TimeSpanDetails"
+        tools:layout="@layout/fragment_week_details">
+
+        <action
+            android:id="@+id/action_details_to_commit_repos"
+            app:destination="@id/navigation_commit_repos" />
+        <action
+            android:id="@+id/action_details_to_issue_repos"
+            app:destination="@id/navigation_issue_repos" />
+        <action
+            android:id="@+id/action_details_to_pullrequest_repos"
+            app:destination="@id/navigation_pullrequest_repos" />
+        <action
+            android:id="@+id/action_details_to_pullrequest_review_repos"
+            app:destination="@id/navigation_pullrequest_review_repos" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_commit_repos"
