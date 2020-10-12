@@ -30,7 +30,7 @@
 
     <fragment
         android:id="@+id/navigation_week_details"
-        android:name="de.lukaspanni.opensourcestats.ui.details.WeekDetails"
+        android:name="de.lukaspanni.opensourcestats.ui.details.TimeSpanDetails"
         tools:layout="@layout/fragment_week_details">
 
         <action

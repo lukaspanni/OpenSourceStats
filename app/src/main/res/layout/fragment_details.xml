@@ -1,39 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="30dp"
-    android:layout_marginBottom="?attr/actionBarSize">
+    android:layout_marginBottom="?attr/actionBarSize"
+    android:padding="30dp">
 
-    <Button
-        android:id="@+id/to_current_week_details"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_weight="1"
-        android:background="@color/colorPrimary"
-        android:padding="20dp"
-        android:text="@string/current_week_details"
-        android:textAlignment="center"
-        android:textColor="@color/textWhite"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/to_last_week_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_weight="1"
-        android:background="@color/colorPrimary"
-        android:padding="20dp"
-        android:text="@string/last_week_details"
-        android:textAlignment="center"
-        android:textColor="@color/textWhite"
-        app:layout_constraintTop_toBottomOf="@id/to_current_week_details" />
+        <Button
+            android:id="@+id/to_current_week_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:padding="20dp"
+            android:text="@string/to_current_week_details_text"
+            android:textAlignment="center"
+            android:textColor="@color/textWhite"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/to_last_week_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:padding="20dp"
+            android:text="@string/to_last_week_details_text"
+            android:textAlignment="center"
+            android:textColor="@color/textWhite"
+            app:layout_constraintTop_toBottomOf="@id/to_current_week_details" />
+
+        <Button
+            android:id="@+id/to_current_month_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:padding="20dp"
+            android:text="@string/to_current_month_details_text"
+            android:textAlignment="center"
+            android:textColor="@color/textWhite"
+            app:layout_constraintTop_toBottomOf="@id/to_last_week_details" />
+
+        <Button
+            android:id="@+id/to_last_month_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:padding="20dp"
+            android:text="@string/to_last_month_details_text"
+            android:textAlignment="center"
+            android:textColor="@color/textWhite"
+            app:layout_constraintTop_toBottomOf="@id/to_current_month_details" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

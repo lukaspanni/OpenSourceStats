@@ -16,9 +16,9 @@ import de.lukaspanni.opensourcestats.util.DateUtility;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 
 
-public class WeekDetails extends Fragment {
+public class TimeSpanDetails extends Fragment {
 
-    private TimeSpan week;
+    private TimeSpan timeSpan;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -30,12 +30,12 @@ public class WeekDetails extends Fragment {
         view.findViewById(R.id.to_pull_request_review_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_pullrequest_review_repos, getArguments()));
 
         if (getArguments() != null && getArguments().get("timeSpan") != null) {
-            week = getArguments().getParcelable("timeSpan");
+            timeSpan = getArguments().getParcelable("timeSpan");
         }
 
-        if (week != null) {
+        if (timeSpan != null) {
             TextView header = view.findViewById(R.id.week_header);
-            header.setText(DateUtility.toTimeSpanString(week));
+            header.setText(DateUtility.toTimeSpanString(timeSpan));
         }
 
         return view;

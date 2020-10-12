@@ -32,6 +32,20 @@ public class DetailsFragment extends Fragment {
             Navigation.findNavController(view).navigate(R.id.action_details_to_week_details, b);
         });
 
+        view.findViewById(R.id.to_current_month_details).setOnClickListener(v -> {
+            Bundle b = new Bundle();
+            b.putParcelable("timeSpan", DateUtility.getCurrentMonth());
+            Navigation.findNavController(view).navigate(R.id.action_details_to_week_details, b);
+        });
+
+        view.findViewById(R.id.to_last_month_details).setOnClickListener(v -> {
+            Bundle b = new Bundle();
+            b.putParcelable("timeSpan", DateUtility.getLastMonth());
+            Navigation.findNavController(view).navigate(R.id.action_details_to_week_details, b);
+        });
+
+
+
         return view;
     }
 }
