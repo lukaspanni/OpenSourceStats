@@ -69,6 +69,7 @@ public class OverviewCard extends LinearLayout {
         TextView titleView = findViewById(R.id.overview_title);
         TypedArray arr = getContext().obtainStyledAttributes(attrs, R.styleable.OverviewCard);
         titleView.setText(arr.getText(R.styleable.OverviewCard_android_text).toString());
+        arr.recycle();
     }
 
 
