@@ -12,6 +12,8 @@ import androidx.annotation.Nullable;
 
 import com.lukaspanni.opensourcestats.R;
 
+import de.lukaspanni.opensourcestats.client.UserContributionsResponse;
+
 public class OverviewCard extends LinearLayout {
 
     private TextView commitCountText;
@@ -41,7 +43,7 @@ public class OverviewCard extends LinearLayout {
         applyAttributes(attrs);
     }
 
-    private void init(){
+    private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.card_component, this);
         commitCountText = findViewById(R.id.commit_count);
         issueCountText = findViewById(R.id.issue_count);
@@ -49,21 +51,29 @@ public class OverviewCard extends LinearLayout {
         pullRequestReviewCountText = findViewById(R.id.pull_request_review_count);
     }
 
-    public void setCommitCount(int commitCount){
+    public void setCommitCount(int commitCount) {
         this.commitCountText.setText(String.valueOf(commitCount));
     }
 
-    public void setIssueCount(int issueCount){
+    public void setIssueCount(int issueCount) {
         this.issueCountText.setText(String.valueOf(issueCount));
     }
 
-    public void setPullRequestCount(int pullRequestCount){
+    public void setPullRequestCount(int pullRequestCount) {
         this.pullRequestCountText.setText(String.valueOf(pullRequestCount));
     }
 
-    public void setPullRequestReviewCount(int pullRequestReviewCount){
+    public void setPullRequestReviewCount(int pullRequestReviewCount) {
         this.pullRequestReviewCountText.setText(String.valueOf(pullRequestReviewCount));
     }
+
+    public void setCountAll(UserContributionsResponse responseData) {
+        setCommitCount(responseData.getCommits());
+        setIssueCount(responseData.getIssues());
+        setPullRequestCount(responseData.getPullRequests());
+        setPullRequestReviewCount(responseData.getPullRequestReviews());
+    }
+
 
     private void applyAttributes(AttributeSet attrs) {
         TextView titleView = findViewById(R.id.overview_title);
