@@ -12,6 +12,8 @@ import androidx.annotation.Nullable;
 
 import com.lukaspanni.opensourcestats.R;
 
+import de.lukaspanni.opensourcestats.UserContributionsQuery;
+import de.lukaspanni.opensourcestats.client.ContributionCount;
 import de.lukaspanni.opensourcestats.client.UserContributionsResponse;
 
 public class OverviewCard extends LinearLayout {
@@ -67,11 +69,11 @@ public class OverviewCard extends LinearLayout {
         this.pullRequestReviewCountText.setText(String.valueOf(pullRequestReviewCount));
     }
 
-    public void setCountAll(UserContributionsResponse responseData) {
-        setCommitCount(responseData.getCommits());
-        setIssueCount(responseData.getIssues());
-        setPullRequestCount(responseData.getPullRequests());
-        setPullRequestReviewCount(responseData.getPullRequestReviews());
+    public void setContributions(ContributionCount contributions) {
+        setCommitCount(contributions.getCommitCount());
+        setIssueCount(contributions.getIssueCount());
+        setPullRequestCount(contributions.getPullRequestCount());
+        setPullRequestReviewCount(contributions.getPullRequestReviewCount());
     }
 
 
