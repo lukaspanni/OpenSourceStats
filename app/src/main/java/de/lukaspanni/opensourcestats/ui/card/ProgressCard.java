@@ -17,10 +17,10 @@ public class ProgressCard extends CustomCard {
 
     private ContributionCount currentPeriodContributions;
     private ContributionCount lastPeriodContributions;
-    private TextView commitGainText;
-    private TextView issueGainText;
-    private TextView pullRequestGainText;
-    private TextView pullRequestReviewGainText;
+    private PercentageTextView commitGainText;
+    private PercentageTextView issueGainText;
+    private PercentageTextView pullRequestGainText;
+    private PercentageTextView pullRequestReviewGainText;
 
 
     public ProgressCard(@NonNull Context context) {
@@ -77,10 +77,10 @@ public class ProgressCard extends CustomCard {
         float pullRequestGain = calculateGain(currentPeriodContributions.getPullRequestCount(), lastPeriodContributions.getPullRequestCount());
         float pullRequestReviewGain = calculateGain(currentPeriodContributions.getPullRequestReviewCount(), lastPeriodContributions.getPullRequestReviewCount());
 
-        commitGainText.setText(decimalFormat.format(commitGain));
-        issueGainText.setText(decimalFormat.format(issueGain));
-        pullRequestGainText.setText(decimalFormat.format(pullRequestGain));
-        pullRequestReviewGainText.setText(decimalFormat.format(pullRequestReviewGain));
+        commitGainText.setPercentage(commitGain);
+        issueGainText.setPercentage(issueGain);
+        pullRequestGainText.setPercentage(pullRequestGain);
+        pullRequestReviewGainText.setPercentage(pullRequestReviewGain);
     }
 
     private float calculateGain(float current, float old) {
