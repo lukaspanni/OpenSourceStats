@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -30,15 +29,9 @@ public class DashboardFragment extends Fragment {
         OverviewCard currentWeekCard = root.findViewById(R.id.current_week_card);
         OverviewCard lastWeekCard = root.findViewById(R.id.last_week_card);
 
-        dashboardViewModel.getCurrentWeekCommitCount().observe(getViewLifecycleOwner(), currentWeekCard::setCommitCount);
-        dashboardViewModel.getCurrentWeekIssueCount().observe(getViewLifecycleOwner(), currentWeekCard::setIssueCount);
-        dashboardViewModel.getCurrentWeekPullRequestCount().observe(getViewLifecycleOwner(), currentWeekCard::setPullRequestCount);
-        dashboardViewModel.getCurrentWeekPullRequestReviewCount().observe(getViewLifecycleOwner(), currentWeekCard::setPullRequestReviewCount);
+        dashboardViewModel.getCurrentWeekContributions().observe(getViewLifecycleOwner(), currentWeekCard::setContributions);
 
-        dashboardViewModel.getLastWeekCommitCount().observe(getViewLifecycleOwner(), lastWeekCard::setCommitCount);
-        dashboardViewModel.getLastWeekIssueCount().observe(getViewLifecycleOwner(), lastWeekCard::setIssueCount);
-        dashboardViewModel.getLastWeekPullRequestCount().observe(getViewLifecycleOwner(), lastWeekCard::setPullRequestCount);
-        dashboardViewModel.getLastWeekPullRequestReviewCount().observe(getViewLifecycleOwner(), lastWeekCard::setPullRequestReviewCount);
+        dashboardViewModel.getLastWeekContributions().observe(getViewLifecycleOwner(), lastWeekCard::setContributions);
 
         //TODO: Extract shared Code
         //Only allow use from MainActivity because it holds a Client instance

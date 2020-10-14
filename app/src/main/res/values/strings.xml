@@ -24,4 +24,5 @@
     <string name="to_last_week_details_text">Last Week</string>
     <string name="to_current_month_details_text">Current Month</string>
     <string name="to_last_month_details_text">Last Month</string>
+    <string name="weekly_gain">Weekly Gain</string>
 </resources>

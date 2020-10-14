@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import de.lukaspanni.opensourcestats.auth.AuthHandler;
 import de.lukaspanni.opensourcestats.client.ClientDataCallback;
+import de.lukaspanni.opensourcestats.client.ContributionCount;
 import de.lukaspanni.opensourcestats.client.GHClient;
 import de.lukaspanni.opensourcestats.client.ResponseData;
 import de.lukaspanni.opensourcestats.client.UserContributionsResponse;
@@ -13,34 +14,22 @@ import de.lukaspanni.opensourcestats.client.UserContributionsResponse;
 public class ProgressViewModel extends ViewModel {
 
     // TODO percent-type?
-    private MutableLiveData<Float> weeklyCommitGain;
-    private MutableLiveData<Float> weeklyIssueGain;
-    private MutableLiveData<Float> weeklyPullRequestGain;
-    private MutableLiveData<Float> weeklyPullRequestReviewGain;
+    private MutableLiveData<ContributionCount> currentWeekContributions;
+    private MutableLiveData<ContributionCount> lastWeekContributions;
     private GHClient client;
 
 
-    public MutableLiveData<Float> getWeeklyCommitGain() {
-        return weeklyCommitGain;
+    public MutableLiveData<ContributionCount> getCurrentWeekContributions() {
+        return currentWeekContributions;
     }
 
-    public MutableLiveData<Float> getWeeklyIssueGain() {
-        return weeklyIssueGain;
-    }
-
-    public MutableLiveData<Float> getWeeklyPullRequestGain() {
-        return weeklyPullRequestGain;
-    }
-
-    public MutableLiveData<Float> getWeeklyPullRequestReviewGain() {
-        return weeklyPullRequestReviewGain;
+    public MutableLiveData<ContributionCount> getLastWeekContributions() {
+        return lastWeekContributions;
     }
 
     public ProgressViewModel() {
-        weeklyCommitGain = new MutableLiveData<>();
-        weeklyIssueGain = new MutableLiveData<>();
-        weeklyPullRequestGain = new MutableLiveData<>();
-        weeklyPullRequestReviewGain = new MutableLiveData<>();
+        currentWeekContributions = new MutableLiveData<>();
+        lastWeekContributions = new MutableLiveData<>();
     }
 
     public void loadData(AuthHandler handler) {
@@ -53,24 +42,29 @@ public class ProgressViewModel extends ViewModel {
                 public void callback(ResponseData data) {
                     UserContributionsResponse currentWeekData = (UserContributionsResponse) data;
                     if (data == null) return;
-                    client.userContributionsLastWeek(new ClientDataCallback() {
-                        @Override
-                        public void callback(ResponseData data) {
-                            UserContributionsResponse lastWeekData = (UserContributionsResponse) data;
-                            if (data == null) return;
-                            weeklyCommitGain.postValue(calculateGain(currentWeekData.getCommits(), lastWeekData.getCommits()));
-                            weeklyIssueGain.postValue(calculateGain(currentWeekData.getIssues(), lastWeekData.getIssues()));
-                            weeklyPullRequestGain.postValue(calculateGain(currentWeekData.getPullRequests(), lastWeekData.getPullRequests()));
-                            weeklyPullRequestReviewGain.postValue(calculateGain(currentWeekData.getPullRequestReviews(), lastWeekData.getPullRequestReviews()));
-                        }
-                    });
+                    currentWeekContributions.postValue(new ContributionCount(
+                            currentWeekData.getCommits(),
+                            currentWeekData.getIssues(),
+                            currentWeekData.getPullRequests(),
+                            currentWeekData.getPullRequestReviews()
+                    ));
+                }
+            });
+            client.userContributionsLastWeek(new ClientDataCallback() {
+                @Override
+                public void callback(ResponseData data) {
+                    UserContributionsResponse lastWeekData = (UserContributionsResponse) data;
+                    if (data == null) return;
+                    lastWeekContributions.postValue(new ContributionCount(
+                            lastWeekData.getCommits(),
+                            lastWeekData.getIssues(),
+                            lastWeekData.getPullRequests(),
+                            lastWeekData.getPullRequestReviews()
+                    ));
                 }
             });
         }
     }
 
-    private float calculateGain(float current, float old) {
-        if (old == 0) return 0;
-        return (current / (float) old) - 1;
-    }
+
 }
