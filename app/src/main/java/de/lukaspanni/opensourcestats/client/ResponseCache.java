@@ -48,7 +48,7 @@ public class ResponseCache {
 
     public ResponseData get(Class<? extends ResponseData> type, TimeSpan ts){
         CacheEntry entry = this.dataStore.get(ts);
-        if (entry == null || !type.isInstance(entry) || entry.getAge() + this.maxAge < (new Date()).getTime() / 1000) {
+        if (entry == null || !type.isInstance(entry.getData()) || entry.getAge() + this.maxAge < (new Date()).getTime() / 1000) {
             this.misses++;
             return null;
         }
