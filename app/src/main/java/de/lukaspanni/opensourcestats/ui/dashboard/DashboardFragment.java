@@ -29,9 +29,14 @@ public class DashboardFragment extends Fragment {
         OverviewCard currentWeekCard = root.findViewById(R.id.current_week_card);
         OverviewCard lastWeekCard = root.findViewById(R.id.last_week_card);
 
-        dashboardViewModel.getCurrentWeekContributions().observe(getViewLifecycleOwner(), currentWeekCard::setContributions);
+        OverviewCard currentMonthCard = root.findViewById(R.id.current_month_card);
+        OverviewCard lastMonthCard = root.findViewById(R.id.last_month_card);
 
+        dashboardViewModel.getCurrentWeekContributions().observe(getViewLifecycleOwner(), currentWeekCard::setContributions);
         dashboardViewModel.getLastWeekContributions().observe(getViewLifecycleOwner(), lastWeekCard::setContributions);
+
+        dashboardViewModel.getCurrentMonthContributions().observe(getViewLifecycleOwner(), currentMonthCard::setContributions);
+        dashboardViewModel.getLastMonthContributions().observe(getViewLifecycleOwner(), lastMonthCard::setContributions);
 
         //TODO: Extract shared Code
         //Only allow use from MainActivity because it holds a Client instance

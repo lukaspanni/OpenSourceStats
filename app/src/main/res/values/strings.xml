@@ -25,4 +25,6 @@
     <string name="to_current_month_details_text">Current Month</string>
     <string name="to_last_month_details_text">Last Month</string>
     <string name="weekly_gain">Weekly Gain</string>
+    <string name="overview_current_month_header">Current Month Overview</string>
+    <string name="overview_last_month_header">Last Month Overview</string>
 </resources>
