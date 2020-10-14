@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,11 +15,11 @@ import com.lukaspanni.opensourcestats.R;
 import java.text.DecimalFormat;
 
 import de.lukaspanni.opensourcestats.MainActivity;
+import de.lukaspanni.opensourcestats.ui.card.ProgressCard;
 
 public class ProgressFragment extends Fragment {
 
     private ProgressViewModel progressViewModel;
-    private DecimalFormat decimalFormat;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -28,17 +27,11 @@ public class ProgressFragment extends Fragment {
                 ViewModelProviders.of(this).get(ProgressViewModel.class);
         View root = inflater.inflate(R.layout.fragment_progress, container, false);
 
-        decimalFormat = new DecimalFormat("##.##%");
 
-        TextView weeklyCommitGain = root.findViewById(R.id.progress_week_commits);
-        TextView weeklyIssueGain = root.findViewById(R.id.progress_week_issues);
-        TextView weeklyPullRequestGain = root.findViewById(R.id.progress_week_pull_requests);
-        TextView weeklyPullRequestReviewGain = root.findViewById(R.id.progress_week_pull_request_reviews);
+        ProgressCard progressOverviewCard = root.findViewById(R.id.progress_card);
 
-        progressViewModel.getWeeklyCommitGain().observe(getViewLifecycleOwner(), gain -> weeklyCommitGain.setText(getFormattedPercentString(gain)));
-        progressViewModel.getWeeklyIssueGain().observe(getViewLifecycleOwner(), gain -> weeklyIssueGain.setText(getFormattedPercentString(gain)));
-        progressViewModel.getWeeklyPullRequestGain().observe(getViewLifecycleOwner(), gain -> weeklyPullRequestGain.setText(getFormattedPercentString(gain)));
-        progressViewModel.getWeeklyPullRequestReviewGain().observe(getViewLifecycleOwner(), gain -> weeklyPullRequestReviewGain.setText(getFormattedPercentString(gain)));
+        progressViewModel.getCurrentWeekContributions().observe(getViewLifecycleOwner(), progressOverviewCard::setCurrentPeriodContributions);
+        progressViewModel.getLastWeekContributions().observe(getViewLifecycleOwner(), progressOverviewCard::setLastPeriodContributions);
 
         Activity parentActivity = getActivity();
         assert parentActivity != null;
@@ -51,7 +44,5 @@ public class ProgressFragment extends Fragment {
         return root;
     }
 
-    private String getFormattedPercentString(float absolute){
-        return decimalFormat.format(absolute);
-    }
+
 }
