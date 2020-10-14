@@ -32,7 +32,7 @@ public class GHClient implements Client {
     }
 
     private void loadUserContributionsData(TimeSpan timeSpan, ClientDataCallback clientDataCallback) {
-        ResponseData data = cache.get(timeSpan);
+        ResponseData data = cache.get(UserContributionsResponse.class, timeSpan);
         if (data != null) {
             clientDataCallback.callback(data);
             return;
