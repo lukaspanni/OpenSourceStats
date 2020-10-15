@@ -49,7 +49,7 @@ public class ProgressViewModel extends ViewModel {
                             currentWeekData.getPullRequestReviews()
                     ));
                 }
-            });
+            }, false);
             client.userContributionsLastWeek(new ClientDataCallback() {
                 @Override
                 public void callback(ResponseData data) {
@@ -62,7 +62,7 @@ public class ProgressViewModel extends ViewModel {
                             lastWeekData.getPullRequestReviews()
                     ));
                 }
-            });
+            }, false);
         }
     }
 

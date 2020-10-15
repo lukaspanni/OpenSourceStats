@@ -38,7 +38,7 @@ public class ProgressFragment extends Fragment {
         if(parentActivity.getClass() == MainActivity.class){
             progressViewModel.loadData(((MainActivity) parentActivity).getAuthHandler());
         }else{
-            throw new UnsupportedOperationException("Cannot use RepositoryList from other Activity");
+            throw new UnsupportedOperationException("Cannot use GHClient from other Activity");
         }
 
         return root;

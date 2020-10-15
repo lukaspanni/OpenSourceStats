@@ -41,16 +41,16 @@ public class DashboardViewModel extends ViewModel {
     }
 
     //TODO: Extract common interface
-    public void loadData(AuthHandler handler) {
+    public void loadData(AuthHandler handler, boolean forceReload) {
         if (handler.checkAuth()) {
             if (client == null) {
                 client = new GHClient(handler);
             }
-            client.userContributionsCurrentWeek(data -> dataCallback(currentWeekContributions, (UserContributionsResponse) data));
-            client.userContributionsLastWeek(data -> dataCallback(lastWeekContributions, (UserContributionsResponse) data));
+            client.userContributionsCurrentWeek(data -> dataCallback(currentWeekContributions, (UserContributionsResponse) data), forceReload);
+            client.userContributionsLastWeek(data -> dataCallback(lastWeekContributions, (UserContributionsResponse) data), forceReload);
 
-            client.userContributionsCurrentMonth(data -> dataCallback(currentMonthContributions, (UserContributionsResponse) data));
-            client.userContributionsLastMonth(data -> dataCallback(lastMonthContributions, (UserContributionsResponse) data));
+            client.userContributionsCurrentMonth(data -> dataCallback(currentMonthContributions, (UserContributionsResponse) data), forceReload);
+            client.userContributionsLastMonth(data -> dataCallback(lastMonthContributions, (UserContributionsResponse) data), forceReload);
         }
     }
 

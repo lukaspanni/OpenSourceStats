@@ -2,6 +2,7 @@ package de.lukaspanni.opensourcestats.ui.dashboard;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.lukaspanni.opensourcestats.R;
 
@@ -26,6 +28,12 @@ public class DashboardFragment extends Fragment {
                 ViewModelProviders.of(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
+        SwipeRefreshLayout refresh = root.findViewById(R.id.swiperefresh);
+        refresh.setOnRefreshListener(() -> {
+            loadData(true);
+            refresh.setRefreshing(false);
+        });
+
         OverviewCard currentWeekCard = root.findViewById(R.id.current_week_card);
         OverviewCard lastWeekCard = root.findViewById(R.id.last_week_card);
 
@@ -38,16 +46,19 @@ public class DashboardFragment extends Fragment {
         dashboardViewModel.getCurrentMonthContributions().observe(getViewLifecycleOwner(), currentMonthCard::setContributions);
         dashboardViewModel.getLastMonthContributions().observe(getViewLifecycleOwner(), lastMonthCard::setContributions);
 
-        //TODO: Extract shared Code
+        loadData(false);
+        return root;
+    }
+
+    private void loadData(boolean forceReload) {
         //Only allow use from MainActivity because it holds a Client instance
         Activity parentActivity = getActivity();
         assert parentActivity != null;
-        if(parentActivity.getClass() == MainActivity.class){
-            dashboardViewModel.loadData(((MainActivity) parentActivity).getAuthHandler());
-        }else{
-            throw new UnsupportedOperationException("Cannot use RepositoryList from other Activity");
+        if (parentActivity.getClass() == MainActivity.class) {
+            dashboardViewModel.loadData(((MainActivity) parentActivity).getAuthHandler(), forceReload);
+        } else {
+            throw new UnsupportedOperationException("Cannot use GHClient from other Activity");
         }
 
-        return root;
     }
 }
