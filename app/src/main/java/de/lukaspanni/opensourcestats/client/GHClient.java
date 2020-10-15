@@ -11,6 +11,7 @@ import com.apollographql.apollo.exception.ApolloException;
 import de.lukaspanni.opensourcestats.auth.AuthHandler;
 import de.lukaspanni.opensourcestats.auth.GHAuthInterceptor;
 import de.lukaspanni.opensourcestats.UserContributionsQuery;
+import de.lukaspanni.opensourcestats.client.cache.ResponseCache;
 import de.lukaspanni.opensourcestats.type.CustomType;
 
 import org.jetbrains.annotations.NotNull;
