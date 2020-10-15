@@ -28,7 +28,7 @@ public class DashboardFragment extends Fragment {
                 ViewModelProviders.of(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-        SwipeRefreshLayout refresh = root.findViewById(R.id.swiperefresh);
+        SwipeRefreshLayout refresh = root.findViewById(R.id.dashboard_refresh);
         refresh.setOnRefreshListener(() -> {
             loadData(true);
             refresh.setRefreshing(false);
