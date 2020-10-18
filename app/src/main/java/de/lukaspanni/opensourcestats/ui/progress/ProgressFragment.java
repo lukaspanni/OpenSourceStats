@@ -1,30 +1,25 @@
 package de.lukaspanni.opensourcestats.ui.progress;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.lukaspanni.opensourcestats.R;
 
-import java.text.DecimalFormat;
-
-import de.lukaspanni.opensourcestats.MainActivity;
+import de.lukaspanni.opensourcestats.ui.DataAccessFragment;
 import de.lukaspanni.opensourcestats.ui.card.ProgressCard;
 
-public class ProgressFragment extends Fragment {
+public class ProgressFragment extends DataAccessFragment {
 
-    private ProgressViewModel progressViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        progressViewModel =
+        ProgressViewModel progressViewModel =
                 ViewModelProviders.of(this).get(ProgressViewModel.class);
         View root = inflater.inflate(R.layout.fragment_progress, container, false);
 
@@ -39,20 +34,11 @@ public class ProgressFragment extends Fragment {
         progressViewModel.getCurrentWeekContributions().observe(getViewLifecycleOwner(), progressOverviewCard::setCurrentPeriodContributions);
         progressViewModel.getLastWeekContributions().observe(getViewLifecycleOwner(), progressOverviewCard::setLastPeriodContributions);
 
+        this.viewModel = progressViewModel;
+
         loadData(true);
 
         return root;
     }
-
-    private void loadData(boolean forceReload){
-        Activity parentActivity = getActivity();
-        assert parentActivity != null;
-        if(parentActivity.getClass() == MainActivity.class){
-            progressViewModel.loadData(((MainActivity) parentActivity).getAuthHandler(), forceReload);
-        }else{
-            throw new UnsupportedOperationException("Cannot use GHClient from other Activity");
-        }
-    }
-
 
 }

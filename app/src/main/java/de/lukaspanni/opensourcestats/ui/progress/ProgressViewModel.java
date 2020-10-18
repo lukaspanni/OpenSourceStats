@@ -3,12 +3,15 @@ package de.lukaspanni.opensourcestats.ui.progress;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import org.jetbrains.annotations.NotNull;
+
+import de.lukaspanni.opensourcestats.DataAccessViewModel;
 import de.lukaspanni.opensourcestats.auth.AuthHandler;
 import de.lukaspanni.opensourcestats.client.ContributionCount;
 import de.lukaspanni.opensourcestats.client.GHClient;
 import de.lukaspanni.opensourcestats.client.UserContributionsResponse;
 
-public class ProgressViewModel extends ViewModel {
+public class ProgressViewModel extends ViewModel implements DataAccessViewModel {
 
     private MutableLiveData<ContributionCount> currentWeekContributions;
     private MutableLiveData<ContributionCount> lastWeekContributions;
@@ -28,7 +31,7 @@ public class ProgressViewModel extends ViewModel {
         lastWeekContributions = new MutableLiveData<>();
     }
 
-    public void loadData(AuthHandler handler, boolean forceReload) {
+    public void loadData(@NotNull AuthHandler handler, boolean forceReload) {
         if (handler.checkAuth()) {
             if (client == null) {
                 client = new GHClient(handler);
