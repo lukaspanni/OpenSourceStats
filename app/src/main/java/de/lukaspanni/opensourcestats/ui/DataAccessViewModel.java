@@ -1,4 +1,4 @@
-package de.lukaspanni.opensourcestats;
+package de.lukaspanni.opensourcestats.ui;
 
 import androidx.annotation.NonNull;
 

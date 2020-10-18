@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
-import de.lukaspanni.opensourcestats.DataAccessViewModel;
+import de.lukaspanni.opensourcestats.ui.DataAccessViewModel;
 import de.lukaspanni.opensourcestats.auth.AuthHandler;
 import de.lukaspanni.opensourcestats.client.ContributionCount;
 import de.lukaspanni.opensourcestats.client.GHClient;

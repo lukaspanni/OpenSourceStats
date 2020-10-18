@@ -4,7 +4,6 @@ import android.app.Activity;
 
 import androidx.fragment.app.Fragment;
 
-import de.lukaspanni.opensourcestats.DataAccessViewModel;
 import de.lukaspanni.opensourcestats.MainActivity;
 
 public abstract class DataAccessFragment extends Fragment {
