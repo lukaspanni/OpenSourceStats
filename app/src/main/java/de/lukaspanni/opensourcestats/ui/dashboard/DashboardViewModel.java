@@ -3,13 +3,16 @@ package de.lukaspanni.opensourcestats.ui.dashboard;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import org.jetbrains.annotations.NotNull;
+
+import de.lukaspanni.opensourcestats.DataAccessViewModel;
 import de.lukaspanni.opensourcestats.auth.AuthHandler;
 import de.lukaspanni.opensourcestats.client.ContributionCount;
 import de.lukaspanni.opensourcestats.client.GHClient;
 import de.lukaspanni.opensourcestats.client.UserContributionsResponse;
 
 
-public class DashboardViewModel extends ViewModel {
+public class DashboardViewModel extends ViewModel implements DataAccessViewModel {
     private MutableLiveData<ContributionCount> currentWeekContributions;
     private MutableLiveData<ContributionCount> lastWeekContributions;
     private MutableLiveData<ContributionCount> currentMonthContributions;
@@ -40,8 +43,7 @@ public class DashboardViewModel extends ViewModel {
         return lastMonthContributions;
     }
 
-    //TODO: Extract common interface
-    public void loadData(AuthHandler handler, boolean forceReload) {
+    public void loadData(@NotNull AuthHandler handler, boolean forceReload) {
         if (handler.checkAuth()) {
             if (client == null) {
                 client = new GHClient(handler);
