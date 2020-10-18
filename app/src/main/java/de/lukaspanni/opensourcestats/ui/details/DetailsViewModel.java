@@ -63,7 +63,7 @@ public class DetailsViewModel extends ViewModel {
                     pullRequestRepositories.postValue(responseData.getPullRequestRepositories());
                     pullRequestReviewRepositories.postValue(responseData.getPullRequestReviewRepositories());
                 }
-            });
+            }, false);
         }
     }
 

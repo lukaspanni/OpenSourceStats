@@ -11,6 +11,7 @@ import com.apollographql.apollo.exception.ApolloException;
 import de.lukaspanni.opensourcestats.auth.AuthHandler;
 import de.lukaspanni.opensourcestats.auth.GHAuthInterceptor;
 import de.lukaspanni.opensourcestats.UserContributionsQuery;
+import de.lukaspanni.opensourcestats.client.cache.ResponseCache;
 import de.lukaspanni.opensourcestats.type.CustomType;
 
 import org.jetbrains.annotations.NotNull;
@@ -31,11 +32,13 @@ public class GHClient implements Client {
         this.handler = handler;
     }
 
-    private void loadUserContributionsData(TimeSpan timeSpan, ClientDataCallback clientDataCallback) {
-        ResponseData data = cache.get(UserContributionsResponse.class, timeSpan);
-        if (data != null) {
-            clientDataCallback.callback(data);
-            return;
+    private void loadUserContributionsData(TimeSpan timeSpan, ClientDataCallback clientDataCallback, boolean forceReload) {
+        if (!forceReload) {
+            ResponseData data = cache.get(UserContributionsResponse.class, timeSpan);
+            if (data != null) {
+                clientDataCallback.callback(data);
+                return;
+            }
         }
         handler.getAuthState().performActionWithFreshTokens(handler.getAuthService(), (accessToken, idToken, ex) -> {
             if (ex != null) {
@@ -76,32 +79,37 @@ public class GHClient implements Client {
         });
     }
 
+
     @Override
-    public void userContributionsLastWeek(ClientDataCallback callback) {
-        loadUserContributionsData(DateUtility.getLastWeek(), callback);
+    public void userContributionsLastWeek(ClientDataCallback callback, boolean forceReload) {
+        loadUserContributionsData(DateUtility.getLastWeek(), callback, forceReload);
+    }
+
+
+    @Override
+    public void userContributionsCurrentWeek(ClientDataCallback callback, boolean forceReload) {
+        loadUserContributionsData(DateUtility.getCurrentWeek(), callback, forceReload);
+    }
+
+
+    @Override
+    public void userContributionsWeek(Date dayInWeek, ClientDataCallback callback, boolean forceReload) {
+        loadUserContributionsData(DateUtility.getWeek(dayInWeek), callback, forceReload);
     }
 
     @Override
-    public void userContributionsCurrentWeek(ClientDataCallback callback) {
-        loadUserContributionsData(DateUtility.getCurrentWeek(), callback);
+    public void userContributionsLastMonth(ClientDataCallback callback, boolean forceReload) {
+        loadUserContributionsData(DateUtility.getLastMonth(), callback, forceReload);
     }
 
     @Override
-    public void userContributionsWeek(Date dayInWeek, ClientDataCallback callback) {
-        loadUserContributionsData(DateUtility.getWeek(dayInWeek), callback);
+    public void userContributionsCurrentMonth(ClientDataCallback callback, boolean forceReload) {
+        loadUserContributionsData(DateUtility.getCurrentMonth(), callback, forceReload);
+
     }
 
     @Override
-    public void userContributionsLastMonth(ClientDataCallback callback) {
-        loadUserContributionsData(DateUtility.getLastMonth(), callback);    }
-
-    @Override
-    public void userContributionsCurrentMonth(ClientDataCallback callback) {
-        loadUserContributionsData(DateUtility.getCurrentMonth(), callback);
-    }
-
-    @Override
-    public void userContributionsMonth(Date dayInMonth, ClientDataCallback callback) {
-        loadUserContributionsData(DateUtility.getMonth(dayInMonth), callback);
+    public void userContributionsMonth(Date dayInMonth, ClientDataCallback callback, boolean forceReload) {
+        loadUserContributionsData(DateUtility.getMonth(dayInMonth), callback, forceReload);
     }
 }

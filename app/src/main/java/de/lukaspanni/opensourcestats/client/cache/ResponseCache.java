@@ -1,9 +1,10 @@
-package de.lukaspanni.opensourcestats.client;
+package de.lukaspanni.opensourcestats.client.cache;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.lukaspanni.opensourcestats.client.ResponseData;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 
 public class ResponseCache {
