@@ -5,17 +5,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.ListFragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 
 import de.lukaspanni.opensourcestats.MainActivity;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 
 
-public class RepositoryListFragment  extends ListFragment {
+public abstract class RepositoryListFragment  extends ListFragment {
     protected DetailsViewModel detailsViewModel;
     private int fragment_layout;
 
@@ -46,4 +48,15 @@ public class RepositoryListFragment  extends ListFragment {
         return view;
     }
 
+    @Override
+    public void onListItemClick(@NonNull ListView l, @NonNull View v, int position, long id) {
+        //Currently List-Items are Strings, change if needed
+        String item = (String) l.getItemAtPosition(position);
+        Bundle b = new Bundle();
+        b.putString("TargetRepository", item);
+        Navigation.findNavController(v).navigate(getNavigationAction(), b);
+
+    }
+
+    protected abstract int getNavigationAction();
 }

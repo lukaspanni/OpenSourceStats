@@ -24,4 +24,9 @@ public class CommitRepositoryList extends RepositoryListFragment {
         detailsViewModel.getCommitRepositories().observe(getViewLifecycleOwner(), strings -> setListAdapter(new ArrayAdapter<>(Objects.requireNonNull(getContext()), R.layout.repository_list_item, R.id.repo_list_item, strings.toArray())));
         return v;
     }
+
+    @Override
+    protected int getNavigationAction() {
+        return R.id.action_commit_repos_to_repository_details;
+    }
 }

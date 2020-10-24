@@ -12,7 +12,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.lukaspanni.opensourcestats.R;
 
 import de.lukaspanni.opensourcestats.ui.DataAccessFragment;
-import de.lukaspanni.opensourcestats.ui.card.OverviewCard;
+import de.lukaspanni.opensourcestats.ui.custom_elements.card.OverviewCard;
 
 
 public class DashboardFragment extends DataAccessFragment {

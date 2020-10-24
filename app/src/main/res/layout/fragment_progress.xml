@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:padding="30dp">
 
-            <de.lukaspanni.opensourcestats.ui.card.ProgressCard
+            <de.lukaspanni.opensourcestats.ui.custom_elements.card.ProgressCard
                 android:id="@+id/progress_card"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -27,4 +27,6 @@
     <string name="weekly_gain">Weekly Gain</string>
     <string name="overview_current_month_header">Current Month Overview</string>
     <string name="overview_last_month_header">Last Month Overview</string>
+    <string name="created_at_label">Created At:</string>
+    <string name="repository_access_private"><![CDATA[<private>]]></string>
 </resources>

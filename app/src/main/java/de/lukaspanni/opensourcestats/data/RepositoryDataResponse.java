@@ -9,10 +9,10 @@ import de.lukaspanni.opensourcestats.RepositoryDataQuery;
 public class RepositoryDataResponse extends ResponseData {
 
     private Date createdAt;
+    private String description;
     private String primaryLanguage;
     private Set<String> languages;
     private boolean isPrivate;
-    private String description;
 
     public RepositoryDataResponse(RepositoryDataQuery.Repository repository) {
         super(QueryType.REPOSITORY_DATA_QUERY);
@@ -22,7 +22,7 @@ public class RepositoryDataResponse extends ResponseData {
         }
         this.isPrivate = repository.isPrivate();
         this.description = repository.description();
-        if(repository.languages() != null) {
+        if (repository.languages() != null) {
             this.languages = repository.languages().nodes().stream().map(RepositoryDataQuery.Node::name).collect(Collectors.toSet());
         }
     }

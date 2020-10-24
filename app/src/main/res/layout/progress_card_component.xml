@@ -45,7 +45,7 @@
                         android:text="@string/commit_text"
                         android:textSize="20sp" />
 
-                    <de.lukaspanni.opensourcestats.ui.card.PercentageTextView
+                    <de.lukaspanni.opensourcestats.ui.custom_elements.PercentageTextView
                         android:id="@+id/commit_gain"
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -66,7 +66,7 @@
                         android:text="@string/issue_text"
                         android:textSize="20sp" />
 
-                    <de.lukaspanni.opensourcestats.ui.card.PercentageTextView
+                    <de.lukaspanni.opensourcestats.ui.custom_elements.PercentageTextView
                         android:id="@+id/issue_gain"
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -87,7 +87,7 @@
                         android:text="@string/pull_request_text"
                         android:textSize="20sp" />
 
-                    <de.lukaspanni.opensourcestats.ui.card.PercentageTextView
+                    <de.lukaspanni.opensourcestats.ui.custom_elements.PercentageTextView
                         android:id="@+id/pull_request_gain"
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -108,7 +108,7 @@
                         android:text="@string/pull_request_review_text"
                         android:textSize="20sp" />
 
-                    <de.lukaspanni.opensourcestats.ui.card.PercentageTextView
+                    <de.lukaspanni.opensourcestats.ui.custom_elements.PercentageTextView
                         android:id="@+id/pull_request_review_gain"
                         android:layout_width="0dp"
                         android:layout_weight="1"
