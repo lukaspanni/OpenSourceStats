@@ -4,6 +4,9 @@
     android:layout_height="match_parent"
     tools:context="de.lukaspanni.opensourcestats.ui.details.RepositoryDetailsFragment">
 
-
+    <de.lukaspanni.opensourcestats.ui.custom_elements.card.RepositoryDetailsCard
+        android:id="@+id/repository_details_card"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </FrameLayout>
