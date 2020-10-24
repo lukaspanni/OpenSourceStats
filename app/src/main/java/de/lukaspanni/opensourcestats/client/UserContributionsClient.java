@@ -2,7 +2,7 @@ package de.lukaspanni.opensourcestats.client;
 
 import java.util.Date;
 
-public interface Client {
+public interface UserContributionsClient {
 
     void userContributionsLastWeek(ClientDataCallback callback, boolean forceReload);
 

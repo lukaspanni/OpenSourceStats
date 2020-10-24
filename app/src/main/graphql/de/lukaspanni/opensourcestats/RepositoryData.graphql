@@ -1,0 +1,15 @@
+query RepositoryData($repository:String!, $login:String!){
+  repository(name: $repository, owner: $login) {
+    createdAt
+    primaryLanguage {
+      name
+    }
+    isPrivate
+    description
+    languages(first: 5) {
+      nodes {
+        name
+      }
+    }
+  }
+}

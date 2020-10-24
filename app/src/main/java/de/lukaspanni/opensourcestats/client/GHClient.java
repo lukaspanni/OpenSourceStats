@@ -8,10 +8,14 @@ import com.apollographql.apollo.api.Error;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
 
+import de.lukaspanni.opensourcestats.RepositoryDataQuery;
 import de.lukaspanni.opensourcestats.auth.AuthHandler;
 import de.lukaspanni.opensourcestats.auth.GHAuthInterceptor;
 import de.lukaspanni.opensourcestats.UserContributionsQuery;
 import de.lukaspanni.opensourcestats.client.cache.ResponseCache;
+import de.lukaspanni.opensourcestats.data.RepositoryDataResponse;
+import de.lukaspanni.opensourcestats.data.ResponseData;
+import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
 import de.lukaspanni.opensourcestats.type.CustomType;
 
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +26,8 @@ import de.lukaspanni.opensourcestats.util.DateUtility;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 import okhttp3.OkHttpClient;
 
-public class GHClient implements Client {
+//TODO: Split! -> class to powerful
+public class GHClient implements UserContributionsClient, RepositoryDataClient {
 
     private final String API_ENDPOINT = "https://api.github.com/graphql";
     private AuthHandler handler;
@@ -31,6 +36,34 @@ public class GHClient implements Client {
     public GHClient(AuthHandler handler) {
         this.handler = handler;
     }
+
+    public void repositoryData(String repository, String owner, ClientDataCallback callback) {
+        handler.getAuthState().performActionWithFreshTokens(handler.getAuthService(), (accessToken, idToken, ex) -> {
+            if (ex != null) {
+                return;
+            }
+            ApolloClient graphqlClient = getGraphqlClient(accessToken);
+            graphqlClient.query(new RepositoryDataQuery(repository, owner)).enqueue(
+                    new ApolloCall.Callback<RepositoryDataQuery.Data>() {
+                        @Override
+                        public void onResponse(@NotNull Response<RepositoryDataQuery.Data> response) {
+                            if (response.getData() != null) {
+                                callback.callback(new RepositoryDataResponse(response.getData().repository()));
+                            } else {
+                                for (Error err : response.getErrors()) {
+                                    Log.e("API ERROR", err.getMessage());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NotNull ApolloException e) {
+                            Log.e("ERROR", e.getLocalizedMessage());
+                        }
+                    });
+        });
+    }
+
 
     private void loadUserContributionsData(TimeSpan timeSpan, ClientDataCallback clientDataCallback, boolean forceReload) {
         if (!forceReload) {
@@ -44,16 +77,7 @@ public class GHClient implements Client {
             if (ex != null) {
                 return;
             }
-            OkHttpClient httpClient = (new OkHttpClient.Builder())
-                    .addInterceptor(new GHAuthInterceptor(accessToken))
-                    .build();
-
-            ApolloClient graphqlClient = ApolloClient.builder()
-                    .serverUrl(API_ENDPOINT)
-                    .okHttpClient(httpClient)
-                    .addCustomTypeAdapter(CustomType.DATETIME, new DateCustomTypeAdapter())
-                    .build();
-
+            ApolloClient graphqlClient = getGraphqlClient(accessToken);
             graphqlClient.query(new UserContributionsQuery(timeSpan.getStart(), timeSpan.getEnd())).enqueue(
                     new ApolloCall.Callback<UserContributionsQuery.Data>() {
                         @Override
@@ -77,6 +101,18 @@ public class GHClient implements Client {
                         }
                     });
         });
+    }
+
+    private ApolloClient getGraphqlClient(String accessToken) {
+        OkHttpClient httpClient = (new OkHttpClient.Builder())
+                .addInterceptor(new GHAuthInterceptor(accessToken))
+                .build();
+
+        return ApolloClient.builder()
+                .serverUrl(API_ENDPOINT)
+                .okHttpClient(httpClient)
+                .addCustomTypeAdapter(CustomType.DATETIME, new DateCustomTypeAdapter())
+                .build();
     }
 
 

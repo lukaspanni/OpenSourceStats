@@ -1,4 +1,4 @@
-package de.lukaspanni.opensourcestats.client;
+package de.lukaspanni.opensourcestats.data;
 
 import de.lukaspanni.opensourcestats.UserContributionsQuery;
 
@@ -17,7 +17,7 @@ public class UserContributionsResponse extends ResponseData{
     private List<String> pullRequestRepositories;
     private List<String> pullRequestReviewRepositories;
 
-    public UserContributionsResponse( UserContributionsQuery.Viewer data) {
+    public UserContributionsResponse(UserContributionsQuery.Viewer data) {
         super(QueryType.USER_CONTRIBUTIONS_QUERY);
         this.commits = data.contributionsCollection().totalCommitContributions();
         this.issues = data.contributionsCollection().totalIssueContributions();
