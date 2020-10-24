@@ -1,4 +1,4 @@
-package de.lukaspanni.opensourcestats.ui.card;
+package de.lukaspanni.opensourcestats.ui.custom_elements.card;
 
 import android.content.Context;
 import android.content.res.TypedArray;

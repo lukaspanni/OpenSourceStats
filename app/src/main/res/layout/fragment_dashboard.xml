@@ -18,14 +18,14 @@
             android:layout_height="wrap_content"
             android:padding="30dp">
 
-            <de.lukaspanni.opensourcestats.ui.card.OverviewCard
+            <de.lukaspanni.opensourcestats.ui.custom_elements.card.OverviewCard
                 android:id="@+id/current_week_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/overview_current_week_header"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <de.lukaspanni.opensourcestats.ui.card.OverviewCard
+            <de.lukaspanni.opensourcestats.ui.custom_elements.card.OverviewCard
                 android:id="@+id/last_week_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
                 android:text="@string/overview_last_week_header"
                 app:layout_constraintTop_toBottomOf="@id/current_week_card" />
 
-            <de.lukaspanni.opensourcestats.ui.card.OverviewCard
+            <de.lukaspanni.opensourcestats.ui.custom_elements.card.OverviewCard
                 android:id="@+id/current_month_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
                 android:text="@string/overview_current_month_header"
                 app:layout_constraintTop_toBottomOf="@id/last_week_card" />
 
-            <de.lukaspanni.opensourcestats.ui.card.OverviewCard
+            <de.lukaspanni.opensourcestats.ui.custom_elements.card.OverviewCard
                 android:id="@+id/last_month_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

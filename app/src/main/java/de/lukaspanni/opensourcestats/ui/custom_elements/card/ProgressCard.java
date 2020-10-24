@@ -1,8 +1,7 @@
-package de.lukaspanni.opensourcestats.ui.card;
+package de.lukaspanni.opensourcestats.ui.custom_elements.card;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +11,7 @@ import com.lukaspanni.opensourcestats.R;
 import java.text.DecimalFormat;
 
 import de.lukaspanni.opensourcestats.client.ContributionCount;
+import de.lukaspanni.opensourcestats.ui.custom_elements.PercentageTextView;
 
 public class ProgressCard extends CustomCard {
 

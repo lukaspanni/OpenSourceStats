@@ -1,0 +1,70 @@
+package de.lukaspanni.opensourcestats.ui.details;
+
+import android.app.Activity;
+import android.os.Bundle;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.lukaspanni.opensourcestats.R;
+
+import de.lukaspanni.opensourcestats.MainActivity;
+import de.lukaspanni.opensourcestats.ui.custom_elements.card.RepositoryDetailsCard;
+
+
+public class RepositoryDetailsFragment extends Fragment {
+
+    private String owner;
+    private String repository;
+    private RepositoryDetailsViewModel viewModel;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        viewModel = ViewModelProviders.of(this).get(RepositoryDetailsViewModel.class);
+        View view = inflater.inflate(R.layout.fragment_repository_details, container, false);
+
+        if (getArguments() == null)
+            return view;
+
+
+        RepositoryDetailsCard detailsCard = view.findViewById(R.id.repository_details_card);
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        assert activity != null;
+        ActionBar actionbar = activity.getSupportActionBar();
+
+        viewModel.getRepositoryName().observe(getViewLifecycleOwner(), name -> {
+            detailsCard.setRepositoryName(name);
+            actionbar.setTitle(name);
+        });
+
+        viewModel.getRepositoryDescription().observe(getViewLifecycleOwner(), detailsCard::setRepositoryDescription);
+        viewModel.getRepositoryPrimaryLanguage().observe(getViewLifecycleOwner(), detailsCard::setRepositoryPrimaryLanguage);
+        viewModel.getRepositoryLanguages().observe(getViewLifecycleOwner(), detailsCard::setRepositoryLanguages);
+        viewModel.getRepositoryCreatedAt().observe(getViewLifecycleOwner(), detailsCard::setRepositoryCreatedAt);
+        viewModel.getRepositoryIsPrivate().observe(getViewLifecycleOwner(), detailsCard::setRepositoryAccess);
+
+
+        String repoWithOwner = getArguments().getString("TargetRepository");
+        if (repoWithOwner != null) {
+            String[] split = repoWithOwner.split("/");
+            owner = split[0];
+            repository = split[1];
+
+            if (activity.getClass() == MainActivity.class) {
+                viewModel.loadData(repository, owner, ((MainActivity) activity).getAuthHandler());
+            } else {
+                throw new UnsupportedOperationException("Cannot use GHClient from other Activity");
+            }
+        }
+
+        return view;
+    }
+}

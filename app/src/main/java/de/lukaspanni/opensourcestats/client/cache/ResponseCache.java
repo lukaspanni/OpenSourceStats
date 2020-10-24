@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.lukaspanni.opensourcestats.client.ResponseData;
+import de.lukaspanni.opensourcestats.data.ResponseData;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 
 public class ResponseCache {

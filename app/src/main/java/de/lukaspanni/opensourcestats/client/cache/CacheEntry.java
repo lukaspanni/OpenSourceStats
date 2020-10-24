@@ -2,7 +2,7 @@ package de.lukaspanni.opensourcestats.client.cache;
 
 import java.util.Date;
 
-import de.lukaspanni.opensourcestats.client.ResponseData;
+import de.lukaspanni.opensourcestats.data.ResponseData;
 
 public class CacheEntry {
 

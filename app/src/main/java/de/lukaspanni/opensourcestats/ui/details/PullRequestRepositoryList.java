@@ -23,4 +23,11 @@ public class PullRequestRepositoryList extends RepositoryListFragment {
         detailsViewModel.getPullRequestRepositories().observe(getViewLifecycleOwner(), strings -> setListAdapter(new ArrayAdapter<>(Objects.requireNonNull(getContext()), R.layout.repository_list_item, R.id.repo_list_item, strings.toArray())));
         return v;
     }
+
+    @Override
+    protected int getNavigationAction() {
+        return R.id.action_pullrequest_repos_to_repository_details;
+    }
+
+
 }

@@ -25,5 +25,10 @@ public class IssueRepositoryList extends RepositoryListFragment {
         return v;
     }
 
+    @Override
+    protected int getNavigationAction() {
+        return R.id.action_issue_repos_to_repository_details;
+    }
+
 
 }

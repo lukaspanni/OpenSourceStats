@@ -51,24 +51,45 @@
         android:id="@+id/navigation_commit_repos"
         android:name="de.lukaspanni.opensourcestats.ui.details.CommitRepositoryList"
         android:label="@string/to_commit_repos_text"
-        tools:layout="@layout/fragment_commit_repository_list" />
+        tools:layout="@layout/fragment_commit_repository_list" >
+        <action
+            android:id="@+id/action_commit_repos_to_repository_details"
+            app:destination="@id/repository_details" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_issue_repos"
         android:name="de.lukaspanni.opensourcestats.ui.details.IssueRepositoryList"
         android:label="@string/to_issue_repos_text"
-        tools:layout="@layout/fragment_issue_repository_list" />
+        tools:layout="@layout/fragment_issue_repository_list" >
+        <action
+            android:id="@+id/action_issue_repos_to_repository_details"
+            app:destination="@id/repository_details" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_pullrequest_repos"
         android:name="de.lukaspanni.opensourcestats.ui.details.PullRequestRepositoryList"
         android:label="@string/to_pull_request_repos_text"
-        tools:layout="@layout/fragment_pull_request_repository_list" />
+        tools:layout="@layout/fragment_pull_request_repository_list" >
+        <action
+            android:id="@+id/action_pullrequest_repos_to_repository_details"
+            app:destination="@id/repository_details" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_pullrequest_review_repos"
         android:name="de.lukaspanni.opensourcestats.ui.details.PullRequestReviewRepositoryList"
         android:label="@string/to_pull_request_review_repos_text"
-        tools:layout="@layout/fragment_pull_request_review_repository_list" />
+        tools:layout="@layout/fragment_pull_request_review_repository_list" >
+        <action
+            android:id="@+id/action_pullrequest_review_repos_to_repository_details"
+            app:destination="@id/repository_details" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/repository_details"
+        android:name="de.lukaspanni.opensourcestats.ui.details.RepositoryDetailsFragment"
+        tools:layout="@layout/fragment_repository_details" />
 
 </navigation>

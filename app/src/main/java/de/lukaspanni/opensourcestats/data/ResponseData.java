@@ -1,11 +1,12 @@
-package de.lukaspanni.opensourcestats.client;
+package de.lukaspanni.opensourcestats.data;
 
 
 
 public abstract class ResponseData {
 
     public enum QueryType{
-        USER_CONTRIBUTIONS_QUERY
+        USER_CONTRIBUTIONS_QUERY,
+        REPOSITORY_DATA_QUERY
     }
 
     private QueryType queryType;

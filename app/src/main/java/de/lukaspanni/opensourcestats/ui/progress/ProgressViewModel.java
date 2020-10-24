@@ -9,7 +9,7 @@ import de.lukaspanni.opensourcestats.ui.DataAccessViewModel;
 import de.lukaspanni.opensourcestats.auth.AuthHandler;
 import de.lukaspanni.opensourcestats.client.ContributionCount;
 import de.lukaspanni.opensourcestats.client.GHClient;
-import de.lukaspanni.opensourcestats.client.UserContributionsResponse;
+import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
 
 public class ProgressViewModel extends ViewModel implements DataAccessViewModel {
 

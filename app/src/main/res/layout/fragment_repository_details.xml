@@ -1,0 +1,12 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="de.lukaspanni.opensourcestats.ui.details.RepositoryDetailsFragment">
+
+    <de.lukaspanni.opensourcestats.ui.custom_elements.card.RepositoryDetailsCard
+        android:id="@+id/repository_details_card"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</FrameLayout>

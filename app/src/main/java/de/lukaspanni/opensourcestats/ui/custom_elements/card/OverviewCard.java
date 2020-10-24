@@ -1,4 +1,4 @@
-package de.lukaspanni.opensourcestats.ui.card;
+package de.lukaspanni.opensourcestats.ui.custom_elements.card;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -34,7 +34,7 @@ public class OverviewCard extends CustomCard {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-
+    @Override
     protected void initViews() {
         commitCountText = findViewById(R.id.commit_count);
         issueCountText = findViewById(R.id.issue_count);
