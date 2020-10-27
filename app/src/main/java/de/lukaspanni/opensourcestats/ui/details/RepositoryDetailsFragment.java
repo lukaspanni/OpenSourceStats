@@ -1,19 +1,21 @@
 package de.lukaspanni.opensourcestats.ui.details;
 
-import android.app.Activity;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.lukaspanni.opensourcestats.R;
+
+import java.util.Objects;
 
 import de.lukaspanni.opensourcestats.MainActivity;
 import de.lukaspanni.opensourcestats.ui.custom_elements.card.RepositoryDetailsCard;
@@ -21,9 +23,22 @@ import de.lukaspanni.opensourcestats.ui.custom_elements.card.RepositoryDetailsCa
 
 public class RepositoryDetailsFragment extends Fragment {
 
-    private String owner;
-    private String repository;
     private RepositoryDetailsViewModel viewModel;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Objects.requireNonNull(getActivity()).onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,12 +69,10 @@ public class RepositoryDetailsFragment extends Fragment {
 
         String repoWithOwner = getArguments().getString("TargetRepository");
         if (repoWithOwner != null) {
-            String[] split = repoWithOwner.split("/");
-            owner = split[0];
-            repository = split[1];
+
 
             if (activity.getClass() == MainActivity.class) {
-                viewModel.loadData(repository, owner, ((MainActivity) activity).getAuthHandler());
+                viewModel.loadData(repoWithOwner, ((MainActivity) activity).getAuthHandler());
             } else {
                 throw new UnsupportedOperationException("Cannot use GHClient from other Activity");
             }

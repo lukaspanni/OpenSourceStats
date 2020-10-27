@@ -58,8 +58,11 @@ public class RepositoryDetailsViewModel extends ViewModel {
     }
 
 
-    public void loadData(String repository, String owner, @NonNull AuthHandler handler){
-        this.repositoryName.postValue(repository);
+    public void loadData(String repositoryWithOwner, @NonNull AuthHandler handler){
+        String[] split = repositoryWithOwner.split("/");
+        String owner = split[0];
+        String repository = split[1];
+        this.repositoryName.postValue(repositoryWithOwner);
         if (handler.checkAuth()) {
             if (client == null) {
                 client = new GHClient(handler);
