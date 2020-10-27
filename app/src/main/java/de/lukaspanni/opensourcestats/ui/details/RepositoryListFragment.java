@@ -2,16 +2,21 @@ package de.lukaspanni.opensourcestats.ui.details;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.ListFragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
+
+import java.util.Objects;
 
 import de.lukaspanni.opensourcestats.MainActivity;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
@@ -23,6 +28,21 @@ public abstract class RepositoryListFragment  extends ListFragment {
 
     protected RepositoryListFragment(@LayoutRes int fragment_layout){
        this.fragment_layout = fragment_layout;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Objects.requireNonNull(getActivity()).onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
