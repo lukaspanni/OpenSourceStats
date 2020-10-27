@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
+import de.lukaspanni.opensourcestats.client.UserContributionsClient;
 import de.lukaspanni.opensourcestats.ui.DataAccessViewModel;
 import de.lukaspanni.opensourcestats.auth.AuthHandler;
 import de.lukaspanni.opensourcestats.client.ContributionCount;
@@ -15,7 +16,9 @@ public class ProgressViewModel extends ViewModel implements DataAccessViewModel 
 
     private MutableLiveData<ContributionCount> currentWeekContributions;
     private MutableLiveData<ContributionCount> lastWeekContributions;
-    private GHClient client;
+    private MutableLiveData<ContributionCount> currentMonthContributions;
+    private MutableLiveData<ContributionCount> lastMonthContributions;
+    private UserContributionsClient client;
 
 
     public MutableLiveData<ContributionCount> getCurrentWeekContributions() {
@@ -26,9 +29,19 @@ public class ProgressViewModel extends ViewModel implements DataAccessViewModel 
         return lastWeekContributions;
     }
 
+    public MutableLiveData<ContributionCount> getCurrentMonthContributions() {
+        return currentMonthContributions;
+    }
+
+    public MutableLiveData<ContributionCount> getLastMonthContributions() {
+        return lastMonthContributions;
+    }
+
     public ProgressViewModel() {
         currentWeekContributions = new MutableLiveData<>();
         lastWeekContributions = new MutableLiveData<>();
+        currentMonthContributions = new MutableLiveData<>();
+        lastMonthContributions = new MutableLiveData<>();
     }
 
     public void loadData(@NotNull AuthHandler handler, boolean forceReload) {
@@ -54,6 +67,27 @@ public class ProgressViewModel extends ViewModel implements DataAccessViewModel 
                         lastWeekData.getIssues(),
                         lastWeekData.getPullRequests(),
                         lastWeekData.getPullRequestReviews()
+                ));
+            }, forceReload);
+
+            client.userContributionsCurrentMonth(data -> {
+                UserContributionsResponse currentMonthData = (UserContributionsResponse) data;
+                if (data == null) return;
+                currentMonthContributions.postValue(new ContributionCount(
+                        currentMonthData.getCommits(),
+                        currentMonthData.getIssues(),
+                        currentMonthData.getPullRequests(),
+                        currentMonthData.getPullRequestReviews()
+                ));
+            }, forceReload);
+            client.userContributionsLastMonth(data -> {
+                UserContributionsResponse lastMonthData = (UserContributionsResponse) data;
+                if (data == null) return;
+                lastMonthContributions.postValue(new ContributionCount(
+                        lastMonthData.getCommits(),
+                        lastMonthData.getIssues(),
+                        lastMonthData.getPullRequests(),
+                        lastMonthData.getPullRequestReviews()
                 ));
             }, forceReload);
         }

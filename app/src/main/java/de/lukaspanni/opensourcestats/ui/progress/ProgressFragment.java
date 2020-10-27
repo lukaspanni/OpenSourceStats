@@ -29,10 +29,14 @@ public class ProgressFragment extends DataAccessFragment {
             refresh.setRefreshing(false);
         });
 
-        ProgressCard progressOverviewCard = root.findViewById(R.id.progress_card);
+        ProgressCard weeklyProgressCard = root.findViewById(R.id.progress_card_weekly);
+        ProgressCard monthlyProgressCard = root.findViewById(R.id.progress_card_monthly);
 
-        progressViewModel.getCurrentWeekContributions().observe(getViewLifecycleOwner(), progressOverviewCard::setCurrentPeriodContributions);
-        progressViewModel.getLastWeekContributions().observe(getViewLifecycleOwner(), progressOverviewCard::setLastPeriodContributions);
+        progressViewModel.getCurrentWeekContributions().observe(getViewLifecycleOwner(), weeklyProgressCard::setCurrentPeriodContributions);
+        progressViewModel.getLastWeekContributions().observe(getViewLifecycleOwner(), weeklyProgressCard::setLastPeriodContributions);
+
+        progressViewModel.getCurrentMonthContributions().observe(getViewLifecycleOwner(), monthlyProgressCard::setCurrentPeriodContributions);
+        progressViewModel.getLastMonthContributions().observe(getViewLifecycleOwner(), monthlyProgressCard::setLastPeriodContributions);
 
         this.viewModel = progressViewModel;
 
