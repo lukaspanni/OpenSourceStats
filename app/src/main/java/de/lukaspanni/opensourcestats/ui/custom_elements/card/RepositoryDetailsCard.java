@@ -63,7 +63,7 @@ public class RepositoryDetailsCard extends CustomCard {
     }
 
     public void setRepositoryDescription(String description) {
-        if (description.isEmpty()) {
+        if (description == null || description.isEmpty()) {
             this.repositoryDescription.setText(getContext().getText(R.string.not_set));
         } else {
             this.repositoryDescription.setText(description);
@@ -80,7 +80,7 @@ public class RepositoryDetailsCard extends CustomCard {
     }
 
     public void setRepositoryPrimaryLanguage(String language) {
-        if (language.isEmpty()) {
+        if (language == null || language.isEmpty()) {
             this.repositoryPrimaryLanguage.setText(getContext().getText(R.string.not_set));
         } else {
             this.repositoryPrimaryLanguage.setText(language);
