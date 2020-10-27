@@ -63,7 +63,11 @@ public class RepositoryDetailsCard extends CustomCard {
     }
 
     public void setRepositoryDescription(String description) {
-        this.repositoryDescription.setText(description);
+        if (description.isEmpty()) {
+            this.repositoryDescription.setText(getContext().getText(R.string.not_set));
+        } else {
+            this.repositoryDescription.setText(description);
+        }
     }
 
     public void setRepositoryAccess(boolean isPrivate) {
@@ -76,7 +80,11 @@ public class RepositoryDetailsCard extends CustomCard {
     }
 
     public void setRepositoryPrimaryLanguage(String language) {
-        this.repositoryPrimaryLanguage.setText(language);
+        if (language.isEmpty()) {
+            this.repositoryPrimaryLanguage.setText(getContext().getText(R.string.not_set));
+        } else {
+            this.repositoryPrimaryLanguage.setText(language);
+        }
     }
 
     public void setRepositoryCreatedAt(Date createdAt) {
@@ -86,13 +94,13 @@ public class RepositoryDetailsCard extends CustomCard {
     }
 
     public void setRepositoryLanguages(Set<String> languages) {
-        if(languages.size() > 1) {
+        if (languages.size() > 1) {
             String[] languageArray = languages.toArray(new String[languages.size()]);
             ArrayAdapter<String> languagesAdapter = new ArrayAdapter<>(getContext(), R.layout.language_list_item, R.id.language_list_item, languageArray);
             this.repositoryLanguages.setAdapter(languagesAdapter);
             this.repositoryLanguages.setVisibility(ListView.VISIBLE);
             this.repositoryLanguagesLabel.setVisibility(TextView.VISIBLE);
-        }else{
+        } else {
             this.repositoryLanguages.setVisibility(ListView.GONE);
             this.repositoryLanguagesLabel.setVisibility(TextView.GONE);
         }
