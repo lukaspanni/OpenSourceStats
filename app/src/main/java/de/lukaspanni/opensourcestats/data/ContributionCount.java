@@ -1,13 +1,13 @@
-package de.lukaspanni.opensourcestats.client;
+package de.lukaspanni.opensourcestats.data;
 
-public class ContributionCount {
+public final class ContributionCount {
 
     private final int commitCount;
     private final int issueCount;
     private final int pullRequestCount;
     private final int pullRequestReviewCount;
 
-    public ContributionCount(int commits, int issues, int pullRequests, int pullRequestReviews){
+    public ContributionCount(int commits, int issues, int pullRequests, int pullRequestReviews) {
         this.commitCount = commits;
         this.issueCount = issues;
         this.pullRequestCount = pullRequests;

@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import de.lukaspanni.opensourcestats.ui.DataAccessViewModel;
 import de.lukaspanni.opensourcestats.auth.AuthHandler;
-import de.lukaspanni.opensourcestats.client.ContributionCount;
+import de.lukaspanni.opensourcestats.data.ContributionCount;
 import de.lukaspanni.opensourcestats.client.GHClient;
 import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
 
@@ -58,12 +58,7 @@ public class DashboardViewModel extends ViewModel implements DataAccessViewModel
 
     private void dataCallback(MutableLiveData<ContributionCount> liveData, UserContributionsResponse responseData) {
         if (responseData == null) return;
-        liveData.postValue(new ContributionCount(
-                responseData.getCommits(),
-                responseData.getIssues(),
-                responseData.getPullRequests(),
-                responseData.getPullRequestReviews()
-        ));
+        liveData.postValue(responseData.getContributionCount());
     }
 
 

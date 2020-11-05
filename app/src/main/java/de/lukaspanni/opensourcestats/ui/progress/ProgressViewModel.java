@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import de.lukaspanni.opensourcestats.client.UserContributionsClient;
 import de.lukaspanni.opensourcestats.ui.DataAccessViewModel;
 import de.lukaspanni.opensourcestats.auth.AuthHandler;
-import de.lukaspanni.opensourcestats.client.ContributionCount;
+import de.lukaspanni.opensourcestats.data.ContributionCount;
 import de.lukaspanni.opensourcestats.client.GHClient;
 import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
 
@@ -52,43 +52,23 @@ public class ProgressViewModel extends ViewModel implements DataAccessViewModel 
             client.userContributionsCurrentWeek(data -> {
                 UserContributionsResponse currentWeekData = (UserContributionsResponse) data;
                 if (data == null) return;
-                currentWeekContributions.postValue(new ContributionCount(
-                        currentWeekData.getCommits(),
-                        currentWeekData.getIssues(),
-                        currentWeekData.getPullRequests(),
-                        currentWeekData.getPullRequestReviews()
-                ));
+                currentWeekContributions.postValue(currentWeekData.getContributionCount());
             }, forceReload);
             client.userContributionsLastWeek(data -> {
                 UserContributionsResponse lastWeekData = (UserContributionsResponse) data;
                 if (data == null) return;
-                lastWeekContributions.postValue(new ContributionCount(
-                        lastWeekData.getCommits(),
-                        lastWeekData.getIssues(),
-                        lastWeekData.getPullRequests(),
-                        lastWeekData.getPullRequestReviews()
-                ));
+                lastWeekContributions.postValue(lastWeekData.getContributionCount());
             }, forceReload);
 
             client.userContributionsCurrentMonth(data -> {
                 UserContributionsResponse currentMonthData = (UserContributionsResponse) data;
                 if (data == null) return;
-                currentMonthContributions.postValue(new ContributionCount(
-                        currentMonthData.getCommits(),
-                        currentMonthData.getIssues(),
-                        currentMonthData.getPullRequests(),
-                        currentMonthData.getPullRequestReviews()
-                ));
+                currentMonthContributions.postValue(currentMonthData.getContributionCount());
             }, forceReload);
             client.userContributionsLastMonth(data -> {
                 UserContributionsResponse lastMonthData = (UserContributionsResponse) data;
                 if (data == null) return;
-                lastMonthContributions.postValue(new ContributionCount(
-                        lastMonthData.getCommits(),
-                        lastMonthData.getIssues(),
-                        lastMonthData.getPullRequests(),
-                        lastMonthData.getPullRequestReviews()
-                ));
+                lastMonthContributions.postValue(lastMonthData.getContributionCount());
             }, forceReload);
         }
     }

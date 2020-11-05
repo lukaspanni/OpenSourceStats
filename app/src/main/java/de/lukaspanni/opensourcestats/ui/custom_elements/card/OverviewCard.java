@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 
 import com.lukaspanni.opensourcestats.R;
 
-import de.lukaspanni.opensourcestats.client.ContributionCount;
+import de.lukaspanni.opensourcestats.data.ContributionCount;
 
 public class OverviewCard extends CustomCard {
 
