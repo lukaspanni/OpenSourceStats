@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 
 import de.lukaspanni.opensourcestats.RepositoryDataQuery;
 
+/**
+ * ResponseData  for RepositoryData-Requests
+ */
 public class RepositoryDataResponse extends ResponseData {
 
     private Date createdAt;

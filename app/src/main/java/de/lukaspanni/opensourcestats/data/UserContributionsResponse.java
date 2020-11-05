@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * ResponseData for UserContributions-Requests, aggregate of ContributionCount and ContributionRepositories
+ */
 public class UserContributionsResponse extends ResponseData {
 
     private ContributionCount contributionCount;

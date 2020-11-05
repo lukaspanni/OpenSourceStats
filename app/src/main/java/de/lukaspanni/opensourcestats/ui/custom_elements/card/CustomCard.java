@@ -12,6 +12,9 @@ import androidx.annotation.Nullable;
 
 import com.lukaspanni.opensourcestats.R;
 
+/**
+ * Abstract Base Class for custom card views
+ */
 public abstract class CustomCard extends LinearLayout {
 
     public CustomCard(@NonNull Context context) {

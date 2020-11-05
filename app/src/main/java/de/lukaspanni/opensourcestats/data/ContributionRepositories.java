@@ -5,6 +5,9 @@ import java.util.stream.Collectors;
 
 import de.lukaspanni.opensourcestats.UserContributionsQuery;
 
+/**
+ * ContributionRepositories ValueObject, bundles commit, issue, pullrequest and pullrequestreview repositories
+ */
 public final class ContributionRepositories  {
 
     private final List<String> commitRepositories;

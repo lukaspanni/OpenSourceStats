@@ -1,5 +1,8 @@
 package de.lukaspanni.opensourcestats.data;
 
+/**
+ * ContributionCount ValueObject, bundles commit, issue, pullrequest and pullrequestreview count
+ */
 public final class ContributionCount {
 
     private final int commitCount;
@@ -8,10 +11,10 @@ public final class ContributionCount {
     private final int pullRequestReviewCount;
 
     public ContributionCount(int commits, int issues, int pullRequests, int pullRequestReviews) {
-        this.commitCount = commits;
-        this.issueCount = issues;
-        this.pullRequestCount = pullRequests;
-        this.pullRequestReviewCount = pullRequestReviews;
+        this.commitCount = Math.max(commits, 0);
+        this.issueCount = Math.max(issues, 0);
+        this.pullRequestCount = Math.max(pullRequests, 0);
+        this.pullRequestReviewCount = Math.max(pullRequestReviews, 0);
     }
 
     public int getCommitCount() {
@@ -29,4 +32,6 @@ public final class ContributionCount {
     public int getPullRequestReviewCount() {
         return pullRequestReviewCount;
     }
+
+    //TODO: compute progress to given ContributionCount-Object
 }

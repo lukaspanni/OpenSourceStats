@@ -18,6 +18,9 @@ import org.json.JSONException;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * AuthHandler, needed to authenticate via OAuth
+ */
 public class AuthHandler {
 
     private static AuthHandler instance;
@@ -44,6 +47,7 @@ public class AuthHandler {
 
     private AuthHandler(Activity activity) {
         this.activity = activity;
+        //Not Optimal
         CLIENT_ID = activity.getString(R.string.client_id);
     }
 

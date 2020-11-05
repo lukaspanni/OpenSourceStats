@@ -16,7 +16,7 @@ import com.lukaspanni.opensourcestats.R;
 
 import java.util.Objects;
 
-import de.lukaspanni.opensourcestats.util.DateUtility;
+import de.lukaspanni.opensourcestats.util.TimeSpanFactory;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 
 
@@ -54,7 +54,7 @@ public class TimeSpanDetails extends Fragment {
 
         if (timeSpan != null) {
             TextView header = view.findViewById(R.id.week_header);
-            header.setText(DateUtility.toTimeSpanString(timeSpan));
+            header.setText(TimeSpanFactory.toTimeSpanString(timeSpan));
         }
 
         return view;

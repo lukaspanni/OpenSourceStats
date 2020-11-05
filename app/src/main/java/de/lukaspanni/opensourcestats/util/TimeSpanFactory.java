@@ -6,18 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 //TODO: Write Tests
-public class DateUtility {
-
-    public static Date zeroDate(Date date){
-        Calendar calender = Calendar.getInstance();
-        calender.setTime(date);
-        calender.set(Calendar.HOUR_OF_DAY, 0);
-        calender.set(Calendar.MINUTE, 0);
-        calender.set(Calendar.SECOND, 0);
-        calender.set(Calendar.MILLISECOND, 0);
-
-        return calender.getTime();
-    }
+public class TimeSpanFactory {
 
     public static TimeSpan getCurrentWeek(){
         Calendar calendar = Calendar.getInstance();

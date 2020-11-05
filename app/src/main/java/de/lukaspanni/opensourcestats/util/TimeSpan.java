@@ -3,14 +3,31 @@ package de.lukaspanni.opensourcestats.util;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Calendar;
 import java.util.Date;
 
-import static de.lukaspanni.opensourcestats.util.DateUtility.zeroDate;
+/**
+ * TimeSpan ValueObject, represents a time span with specified start and end date
+ */
+public final class TimeSpan implements Parcelable {
+    private final Date start;
+    private final Date end;
 
-public class TimeSpan implements Parcelable {
-    private Date start;
-    private Date end;
+    /**
+     * Set Hour, Minute, Second and Millisecond to zero for better comparability
+     * @param date input date
+     * @return date with h,m,s,ms set to zero
+     */
+    private Date zeroDate(Date date){
+        Calendar calender = Calendar.getInstance();
+        calender.setTime(date);
+        calender.set(Calendar.HOUR_OF_DAY, 0);
+        calender.set(Calendar.MINUTE, 0);
+        calender.set(Calendar.SECOND, 0);
+        calender.set(Calendar.MILLISECOND, 0);
 
+        return calender.getTime();
+    }
 
     public TimeSpan(Date start, Date end) {
         this.start = zeroDate(start);

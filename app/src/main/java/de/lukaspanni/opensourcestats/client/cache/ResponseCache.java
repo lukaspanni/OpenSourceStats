@@ -7,6 +7,9 @@ import java.util.Map;
 import de.lukaspanni.opensourcestats.data.ResponseData;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 
+/**
+ * ResponseCache, used to cache server-responses
+ */
 public class ResponseCache {
 
     private Map<TimeSpan, CacheEntry> dataStore = new HashMap<>();
@@ -47,6 +50,7 @@ public class ResponseCache {
         return entry.getData();
     }
 
+    //Typed-Get, will be obsolete after resolving issues #27 & #28
     public ResponseData get(Class<? extends ResponseData> type, TimeSpan ts){
         CacheEntry entry = this.dataStore.get(ts);
         if (entry == null || !type.isInstance(entry.getData()) || entry.getAge() + this.maxAge < (new Date()).getTime() / 1000) {
@@ -56,6 +60,8 @@ public class ResponseCache {
         this.hits++;
         return entry.getData();
     }
+
+    //Functions for Statistics & Debugging
 
     public int getHits() {
         return this.hits;

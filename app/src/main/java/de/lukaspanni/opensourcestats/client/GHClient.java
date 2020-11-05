@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 
-import de.lukaspanni.opensourcestats.util.DateUtility;
+import de.lukaspanni.opensourcestats.util.TimeSpanFactory;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 import okhttp3.OkHttpClient;
 
@@ -118,34 +118,34 @@ public class GHClient implements UserContributionsClient, RepositoryDataClient {
 
     @Override
     public void userContributionsLastWeek(ClientDataCallback callback, boolean forceReload) {
-        loadUserContributionsData(DateUtility.getLastWeek(), callback, forceReload);
+        loadUserContributionsData(TimeSpanFactory.getLastWeek(), callback, forceReload);
     }
 
 
     @Override
     public void userContributionsCurrentWeek(ClientDataCallback callback, boolean forceReload) {
-        loadUserContributionsData(DateUtility.getCurrentWeek(), callback, forceReload);
+        loadUserContributionsData(TimeSpanFactory.getCurrentWeek(), callback, forceReload);
     }
 
 
     @Override
     public void userContributionsWeek(Date dayInWeek, ClientDataCallback callback, boolean forceReload) {
-        loadUserContributionsData(DateUtility.getWeek(dayInWeek), callback, forceReload);
+        loadUserContributionsData(TimeSpanFactory.getWeek(dayInWeek), callback, forceReload);
     }
 
     @Override
     public void userContributionsLastMonth(ClientDataCallback callback, boolean forceReload) {
-        loadUserContributionsData(DateUtility.getLastMonth(), callback, forceReload);
+        loadUserContributionsData(TimeSpanFactory.getLastMonth(), callback, forceReload);
     }
 
     @Override
     public void userContributionsCurrentMonth(ClientDataCallback callback, boolean forceReload) {
-        loadUserContributionsData(DateUtility.getCurrentMonth(), callback, forceReload);
+        loadUserContributionsData(TimeSpanFactory.getCurrentMonth(), callback, forceReload);
 
     }
 
     @Override
     public void userContributionsMonth(Date dayInMonth, ClientDataCallback callback, boolean forceReload) {
-        loadUserContributionsData(DateUtility.getMonth(dayInMonth), callback, forceReload);
+        loadUserContributionsData(TimeSpanFactory.getMonth(dayInMonth), callback, forceReload);
     }
 }
