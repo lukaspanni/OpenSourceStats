@@ -10,6 +10,7 @@ import de.lukaspanni.opensourcestats.auth.AuthHandler;
 import de.lukaspanni.opensourcestats.client.UserContributionsClient;
 import de.lukaspanni.opensourcestats.client.ClientDataCallback;
 import de.lukaspanni.opensourcestats.client.GHClient;
+import de.lukaspanni.opensourcestats.data.ContributionRepositories;
 import de.lukaspanni.opensourcestats.data.ResponseData;
 import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
@@ -58,10 +59,11 @@ public class DetailsViewModel extends ViewModel {
                 public void callback(ResponseData data) {
                     UserContributionsResponse responseData = (UserContributionsResponse) data;
                     if (data == null) return;
-                    commitRepositories.postValue(responseData.getCommitRepositories());
-                    issueRepositories.postValue(responseData.getIssueRepositories());
-                    pullRequestRepositories.postValue(responseData.getPullRequestRepositories());
-                    pullRequestReviewRepositories.postValue(responseData.getPullRequestReviewRepositories());
+                    ContributionRepositories repositories = responseData.getContributionRepositories();
+                    commitRepositories.postValue(repositories.getCommitRepositories());
+                    issueRepositories.postValue(repositories.getIssueRepositories());
+                    pullRequestRepositories.postValue(repositories.getPullRequestRepositories());
+                    pullRequestReviewRepositories.postValue(repositories.getPullRequestReviewRepositories());
                 }
             }, false);
         }
