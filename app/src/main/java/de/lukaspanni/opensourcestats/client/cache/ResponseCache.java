@@ -28,6 +28,7 @@ public class ResponseCache {
         if(instance == null){
             instance = new ResponseCache(maxAge);
         }
+        instance.maxAge = maxAge;
         return instance;
     }
 
