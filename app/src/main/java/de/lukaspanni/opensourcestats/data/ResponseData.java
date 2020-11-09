@@ -8,7 +8,8 @@ public abstract class ResponseData {
 
     public enum QueryType{
         USER_CONTRIBUTIONS_QUERY,
-        REPOSITORY_DATA_QUERY
+        REPOSITORY_DATA_QUERY,
+        NONE
     }
 
     private QueryType queryType;
