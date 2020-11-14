@@ -12,7 +12,7 @@ import de.lukaspanni.opensourcestats.RepositoryDataQuery;
 import de.lukaspanni.opensourcestats.auth.AuthHandler;
 import de.lukaspanni.opensourcestats.auth.GHAuthInterceptor;
 import de.lukaspanni.opensourcestats.UserContributionsQuery;
-import de.lukaspanni.opensourcestats.client.cache.ResponseCache;
+import de.lukaspanni.opensourcestats.repository.cache.ResponseCache;
 import de.lukaspanni.opensourcestats.data.RepositoryDataResponse;
 import de.lukaspanni.opensourcestats.data.ResponseData;
 import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
@@ -31,7 +31,7 @@ public class GHClient implements UserContributionsClient, RepositoryDataClient {
 
     private final String API_ENDPOINT = "https://api.github.com/graphql";
     private AuthHandler handler;
-    private ResponseCache cache = ResponseCache.getInstance();
+    private ResponseCache<TimeSpan, UserContributionsResponse> cache = new ResponseCache<>();
 
     public GHClient(AuthHandler handler) {
         this.handler = handler;
@@ -67,7 +67,7 @@ public class GHClient implements UserContributionsClient, RepositoryDataClient {
 
     private void loadUserContributionsData(TimeSpan timeSpan, ClientDataCallback clientDataCallback, boolean forceReload) {
         if (!forceReload) {
-            ResponseData data = cache.get(UserContributionsResponse.class, timeSpan);
+            ResponseData data = cache.get(timeSpan);
             if (data != null) {
                 clientDataCallback.callback(data);
                 return;

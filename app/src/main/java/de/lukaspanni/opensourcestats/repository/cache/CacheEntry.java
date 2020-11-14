@@ -1,4 +1,4 @@
-package de.lukaspanni.opensourcestats.client.cache;
+package de.lukaspanni.opensourcestats.repository.cache;
 
 import java.util.Date;
 
@@ -7,12 +7,12 @@ import de.lukaspanni.opensourcestats.data.ResponseData;
 /**
  * CacheEntry for @see {@link ResponseCache}
  */
-public final class CacheEntry {
+public final class CacheEntry<T extends ResponseData> {
 
-    private final ResponseData data;
+    private final T data;
     private final Date age;
 
-    public ResponseData getData() {
+    public T getData() {
         return data;
     }
 
@@ -20,11 +20,11 @@ public final class CacheEntry {
         return age.getTime() / 1000;
     }
 
-    public CacheEntry(ResponseData data) {
+    public CacheEntry(T data) {
         this(data, new Date());
     }
 
-    private CacheEntry(ResponseData data, Date age) {
+    private CacheEntry(T data, Date age) {
         this.data = data;
         this.age = age;
     }

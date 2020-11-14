@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.Objects;
 
-import de.lukaspanni.opensourcestats.client.cache.ResponseCache;
+import de.lukaspanni.opensourcestats.repository.cache.ResponseCache;
 import de.lukaspanni.opensourcestats.data.ResponseData;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 
@@ -16,7 +16,7 @@ public class ResponseCacheUnitTest {
 
     @Test
     public void cache_get_returnsCorrectEntry() {
-        ResponseCache testCache = ResponseCache.getInstance();
+        ResponseCache<TimeSpan, FakeResponseData> testCache = new ResponseCache<>();
         FakeResponseData testResponseDataCorrect = new FakeResponseData(42);
         FakeResponseData testResponseDataWrong = new FakeResponseData(51);
         TimeSpan correctTimeSpan = new TimeSpan(new Date(2020, 11, 9), new Date(2020, 11, 10));
@@ -30,7 +30,7 @@ public class ResponseCacheUnitTest {
 
     @Test
     public void cache_put_replaceCorrect() {
-        ResponseCache testCache = ResponseCache.getInstance();
+        ResponseCache<TimeSpan, FakeResponseData> testCache = new ResponseCache<>();
         FakeResponseData testResponseDataOld = new FakeResponseData(42);
         FakeResponseData testResponseDataReplace = new FakeResponseData(51);
         TimeSpan dataTimeSpan = new TimeSpan(new Date(2020, 11, 9), new Date(2020, 11, 10));
@@ -43,7 +43,7 @@ public class ResponseCacheUnitTest {
 
     @Test
     public void cache_HitCount_isCorrect() {
-        ResponseCache testCache = ResponseCache.getInstance();
+        ResponseCache<TimeSpan, FakeResponseData> testCache = new ResponseCache<>();
         FakeResponseData testResponseData = new FakeResponseData(42);
         TimeSpan dataTimeSpan = new TimeSpan(new Date(2020, 11, 9), new Date(2020, 11, 10));
         testCache.put(dataTimeSpan, testResponseData);
@@ -59,7 +59,7 @@ public class ResponseCacheUnitTest {
 
     @Test
     public void cache_MissCount_isCorrect() {
-        ResponseCache testCache = ResponseCache.getInstance();
+        ResponseCache<TimeSpan, FakeResponseData> testCache = new ResponseCache<>();
         TimeSpan dataTimeSpan = new TimeSpan(new Date(2020, 11, 9), new Date(2020, 11, 10));
 
         assertEquals(0, testCache.getMisses());
@@ -71,13 +71,6 @@ public class ResponseCacheUnitTest {
         assertEquals(2, testCache.getMisses());
     }
 
-    @Test
-    public void cache_same_instance(){
-        int maxAge = 100;
-        ResponseCache testCache = ResponseCache.getInstance(maxAge);
-        ResponseCache secondCache = ResponseCache.getInstance(maxAge);
-        assertEquals(testCache, secondCache);
-    }
 
 
     private class FakeResponseData extends ResponseData {
