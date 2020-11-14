@@ -72,14 +72,13 @@ public class ResponseCacheUnitTest {
     }
 
     @Test
-    public void cache_overMaxAge_miss(){
-        ResponseCache testCache = ResponseCache.getInstance(-1);    //negative MaxAge should not be possible -> update cache
-        FakeResponseData testResponseData = new FakeResponseData(42);
-        TimeSpan dataTimeSpan = new TimeSpan(new Date(2020, 11, 9), new Date(2020, 11, 10));
-        testCache.put(dataTimeSpan, testResponseData);
-
-        assertNull(testCache.get(dataTimeSpan));
+    public void cache_same_instance(){
+        int maxAge = 100;
+        ResponseCache testCache = ResponseCache.getInstance(maxAge);
+        ResponseCache secondCache = ResponseCache.getInstance(maxAge);
+        assertEquals(testCache, secondCache);
     }
+
 
     private class FakeResponseData extends ResponseData {
 
