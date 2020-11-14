@@ -1,5 +1,7 @@
 package de.lukaspanni.opensourcestats.data;
 
+import java.util.Objects;
+
 /**
  * ContributionCount ValueObject, bundles commit, issue, pullrequest and pullrequestreview count
  */
@@ -31,6 +33,22 @@ public final class ContributionCount {
 
     public int getPullRequestReviewCount() {
         return pullRequestReviewCount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ContributionCount that = (ContributionCount) o;
+        return getCommitCount() == that.getCommitCount() &&
+                getIssueCount() == that.getIssueCount() &&
+                getPullRequestCount() == that.getPullRequestCount() &&
+                getPullRequestReviewCount() == that.getPullRequestReviewCount();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCommitCount(), getIssueCount(), getPullRequestCount(), getPullRequestReviewCount());
     }
 
     //TODO: compute progress to given ContributionCount-Object

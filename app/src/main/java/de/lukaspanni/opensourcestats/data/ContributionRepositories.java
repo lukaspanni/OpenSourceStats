@@ -1,9 +1,8 @@
 package de.lukaspanni.opensourcestats.data;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import de.lukaspanni.opensourcestats.UserContributionsQuery;
 
 /**
  * ContributionRepositories ValueObject, bundles commit, issue, pullrequest and pullrequestreview repositories
@@ -16,10 +15,10 @@ public final class ContributionRepositories  {
     private final List<String> pullRequestReviewRepositories;
 
     public ContributionRepositories(List<String> commitRepositories, List<String> issueRepositories, List<String> pullRequestRepositories, List<String> pullRequestReviewRepositories) {
-        this.commitRepositories = commitRepositories;
-        this.issueRepositories = issueRepositories;
-        this.pullRequestRepositories = pullRequestRepositories;
-        this.pullRequestReviewRepositories = pullRequestReviewRepositories;
+        this.commitRepositories = (commitRepositories != null) ? commitRepositories : new ArrayList<>();
+        this.issueRepositories = (issueRepositories != null) ? issueRepositories : new ArrayList<>();
+        this.pullRequestRepositories = (pullRequestRepositories != null) ? pullRequestRepositories : new ArrayList<>();
+        this.pullRequestReviewRepositories = (pullRequestReviewRepositories != null) ? pullRequestReviewRepositories : new ArrayList<>();
     }
 
     public List<String> getCommitRepositories() {

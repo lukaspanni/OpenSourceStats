@@ -24,7 +24,7 @@ public final class CacheEntry {
         this(data, new Date());
     }
 
-    public CacheEntry(ResponseData data, Date age) {
+    private CacheEntry(ResponseData data, Date age) {
         this.data = data;
         this.age = age;
     }
