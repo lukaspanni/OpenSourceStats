@@ -22,12 +22,12 @@ import de.lukaspanni.opensourcestats.MainActivity;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 
 
-public abstract class RepositoryListFragment  extends ListFragment {
+public abstract class RepositoryListFragment extends ListFragment {
     protected DetailsViewModel detailsViewModel;
     private int fragment_layout;
 
-    protected RepositoryListFragment(@LayoutRes int fragment_layout){
-       this.fragment_layout = fragment_layout;
+    protected RepositoryListFragment(@LayoutRes int fragment_layout) {
+        this.fragment_layout = fragment_layout;
     }
 
     @Override
@@ -57,14 +57,8 @@ public abstract class RepositoryListFragment  extends ListFragment {
             timeSpan = getArguments().getParcelable("timeSpan");
         }
 
-        //Only allow use from MainActivity because it holds a Client instance
-        Activity parentActivity = getActivity();
-        assert parentActivity != null;
-        if(parentActivity.getClass() == MainActivity.class){
-            detailsViewModel.loadData(timeSpan, ((MainActivity) parentActivity).getAuthHandler());
-        }else{
-            throw new UnsupportedOperationException("Cannot use RepositoryList from other Activity");
-        }
+        assert timeSpan != null;
+        detailsViewModel.loadData(timeSpan);
         return view;
     }
 
