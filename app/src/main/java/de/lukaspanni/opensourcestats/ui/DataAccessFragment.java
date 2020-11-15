@@ -14,14 +14,6 @@ public abstract class DataAccessFragment extends Fragment {
     protected DataAccessViewModel viewModel;
 
     protected void loadData(boolean forceReload) {
-        //Only allow use from MainActivity because it holds a Client instance
-        Activity parentActivity = getActivity();
-        assert parentActivity != null;
-        if (parentActivity.getClass() == MainActivity.class) {
-            viewModel.loadData(((MainActivity) parentActivity).getAuthHandler(), forceReload);
-        } else {
-            throw new UnsupportedOperationException("Cannot use GHClient from other Activity");
-        }
-
+        viewModel.loadData(forceReload);
     }
 }

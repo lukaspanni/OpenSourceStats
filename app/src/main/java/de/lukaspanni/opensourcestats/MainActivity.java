@@ -13,6 +13,9 @@ import com.lukaspanni.opensourcestats.R;
 
 import de.lukaspanni.opensourcestats.auth.AuthActivity;
 import de.lukaspanni.opensourcestats.auth.AuthHandler;
+import de.lukaspanni.opensourcestats.client.GHClient;
+import de.lukaspanni.opensourcestats.repository.RepositoryDataRepository;
+import de.lukaspanni.opensourcestats.repository.UserContributionsRepository;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -31,6 +34,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Add Repositories
+        OpenSourceStatsApplication app = (OpenSourceStatsApplication) getApplication();
+        GHClient client = new GHClient(getAuthHandler());
+        app.setUserContributionsRepository(new UserContributionsRepository(client));
+        app.setRepositoryDataRepository(new RepositoryDataRepository(client));
+
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -41,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-        //TODO: start with AuthActivity -> less activity switches
         handler = AuthHandler.getInstance(this);
         if (!handler.checkAuth() && getIntent().getAction() != null) {
             Intent authIntent = new Intent(this, AuthActivity.class);

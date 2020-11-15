@@ -12,38 +12,34 @@ import de.lukaspanni.opensourcestats.RepositoryDataQuery;
 import de.lukaspanni.opensourcestats.auth.AuthHandler;
 import de.lukaspanni.opensourcestats.auth.GHAuthInterceptor;
 import de.lukaspanni.opensourcestats.UserContributionsQuery;
-import de.lukaspanni.opensourcestats.client.cache.ResponseCache;
 import de.lukaspanni.opensourcestats.data.RepositoryDataResponse;
-import de.lukaspanni.opensourcestats.data.ResponseData;
 import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
 import de.lukaspanni.opensourcestats.type.CustomType;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Date;
 
-import de.lukaspanni.opensourcestats.util.TimeSpanFactory;
+import de.lukaspanni.opensourcestats.util.RepositoryName;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 import okhttp3.OkHttpClient;
 
-//TODO: Split! -> class to powerful
-public class GHClient implements UserContributionsClient, RepositoryDataClient {
+public class GHClient implements RepositoryDataClient, UserContributionsClient {
 
     private final String API_ENDPOINT = "https://api.github.com/graphql";
     private AuthHandler handler;
-    private ResponseCache cache = ResponseCache.getInstance();
 
     public GHClient(AuthHandler handler) {
         this.handler = handler;
     }
 
-    public void repositoryData(String repository, String owner, ClientDataCallback callback) {
+    @Override
+    public void repositoryData(RepositoryName repository, ClientDataCallback callback) {
         handler.getAuthState().performActionWithFreshTokens(handler.getAuthService(), (accessToken, idToken, ex) -> {
             if (ex != null) {
                 return;
             }
             ApolloClient graphqlClient = getGraphqlClient(accessToken);
-            graphqlClient.query(new RepositoryDataQuery(repository, owner)).enqueue(
+            graphqlClient.query(new RepositoryDataQuery(repository.getName(), repository.getOwner())).enqueue(
                     new ApolloCall.Callback<RepositoryDataQuery.Data>() {
                         @Override
                         public void onResponse(@NotNull Response<RepositoryDataQuery.Data> response) {
@@ -65,14 +61,8 @@ public class GHClient implements UserContributionsClient, RepositoryDataClient {
     }
 
 
-    private void loadUserContributionsData(TimeSpan timeSpan, ClientDataCallback clientDataCallback, boolean forceReload) {
-        if (!forceReload) {
-            ResponseData data = cache.get(UserContributionsResponse.class, timeSpan);
-            if (data != null) {
-                clientDataCallback.callback(data);
-                return;
-            }
-        }
+    @Override
+    public void loadUserContributionsData(TimeSpan timeSpan, ClientDataCallback clientDataCallback) {
         handler.getAuthState().performActionWithFreshTokens(handler.getAuthService(), (accessToken, idToken, ex) -> {
             if (ex != null) {
                 return;
@@ -84,7 +74,6 @@ public class GHClient implements UserContributionsClient, RepositoryDataClient {
                         public void onResponse(@NotNull Response<UserContributionsQuery.Data> response) {
                             if (response.getData() != null) {
                                 UserContributionsResponse data = new UserContributionsResponse(response.getData().viewer());
-                                cache.put(timeSpan, data);
                                 if (clientDataCallback != null) {
                                     clientDataCallback.callback(data);
                                 }
@@ -113,39 +102,5 @@ public class GHClient implements UserContributionsClient, RepositoryDataClient {
                 .okHttpClient(httpClient)
                 .addCustomTypeAdapter(CustomType.DATETIME, new DateCustomTypeAdapter())
                 .build();
-    }
-
-
-    @Override
-    public void userContributionsLastWeek(ClientDataCallback callback, boolean forceReload) {
-        loadUserContributionsData(TimeSpanFactory.getLastWeek(), callback, forceReload);
-    }
-
-
-    @Override
-    public void userContributionsCurrentWeek(ClientDataCallback callback, boolean forceReload) {
-        loadUserContributionsData(TimeSpanFactory.getCurrentWeek(), callback, forceReload);
-    }
-
-
-    @Override
-    public void userContributionsWeek(Date dayInWeek, ClientDataCallback callback, boolean forceReload) {
-        loadUserContributionsData(TimeSpanFactory.getWeek(dayInWeek), callback, forceReload);
-    }
-
-    @Override
-    public void userContributionsLastMonth(ClientDataCallback callback, boolean forceReload) {
-        loadUserContributionsData(TimeSpanFactory.getLastMonth(), callback, forceReload);
-    }
-
-    @Override
-    public void userContributionsCurrentMonth(ClientDataCallback callback, boolean forceReload) {
-        loadUserContributionsData(TimeSpanFactory.getCurrentMonth(), callback, forceReload);
-
-    }
-
-    @Override
-    public void userContributionsMonth(Date dayInMonth, ClientDataCallback callback, boolean forceReload) {
-        loadUserContributionsData(TimeSpanFactory.getMonth(dayInMonth), callback, forceReload);
     }
 }

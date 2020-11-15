@@ -6,10 +6,13 @@ import android.os.Parcelable;
 import java.util.Calendar;
 import java.util.Date;
 
+import de.lukaspanni.opensourcestats.repository.cache.CacheKey;
+
+
 /**
  * TimeSpan ValueObject, represents a time span with specified start and end date
  */
-public final class TimeSpan implements Parcelable {
+public final class TimeSpan implements Parcelable, CacheKey {
     private final Date start;
     private final Date end;
 
@@ -85,5 +88,8 @@ public final class TimeSpan implements Parcelable {
         dest.writeLongArray(new long[] {this.start.getTime(), this.end.getTime()});
     }
 
-
+    @Override
+    public long getKey() {
+        return hashCode();
+    }
 }

@@ -1,18 +1,20 @@
 package de.lukaspanni.opensourcestats.ui.details;
 
-import androidx.annotation.NonNull;
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import java.util.Date;
 import java.util.Set;
 
-import de.lukaspanni.opensourcestats.auth.AuthHandler;
-import de.lukaspanni.opensourcestats.client.GHClient;
-import de.lukaspanni.opensourcestats.client.RepositoryDataClient;
-import de.lukaspanni.opensourcestats.data.RepositoryDataResponse;
+import de.lukaspanni.opensourcestats.OpenSourceStatsApplication;
 
-public class RepositoryDetailsViewModel extends ViewModel {
+import de.lukaspanni.opensourcestats.data.RepositoryDataResponse;
+import de.lukaspanni.opensourcestats.repository.RepositoryDataRepository;
+import de.lukaspanni.opensourcestats.util.RepositoryName;
+
+public class RepositoryDetailsViewModel extends AndroidViewModel {
 
     private MutableLiveData<Date> repositoryCreatedAt;
     private MutableLiveData<String> repositoryName;
@@ -20,10 +22,10 @@ public class RepositoryDetailsViewModel extends ViewModel {
     private MutableLiveData<String> repositoryPrimaryLanguage;
     private MutableLiveData<Set<String>> repositoryLanguages;
     private MutableLiveData<Boolean> repositoryIsPrivate;
-    private RepositoryDataClient client;
 
 
-    public RepositoryDetailsViewModel(){
+    public RepositoryDetailsViewModel(Application app) {
+        super(app);
         repositoryCreatedAt = new MutableLiveData<>();
         repositoryName = new MutableLiveData<>();
         repositoryDescription = new MutableLiveData<>();
@@ -58,26 +60,20 @@ public class RepositoryDetailsViewModel extends ViewModel {
     }
 
 
-    public void loadData(String repositoryWithOwner, @NonNull AuthHandler handler){
-        String[] split = repositoryWithOwner.split("/");
-        String owner = split[0];
-        String repository = split[1];
+    public void loadData(String repositoryWithOwner, boolean forceReload) {
         this.repositoryName.postValue(repositoryWithOwner);
-        if (handler.checkAuth()) {
-            if (client == null) {
-                client = new GHClient(handler);
-            }
-            client.repositoryData(repository, owner, response -> {
-                RepositoryDataResponse repositoryData = (RepositoryDataResponse) response;
-                this.repositoryCreatedAt.postValue(repositoryData.getCreatedAt());
-                this.repositoryDescription.postValue(repositoryData.getDescription());
-                this.repositoryPrimaryLanguage.postValue(repositoryData.getPrimaryLanguage());
-                this.repositoryLanguages.postValue(repositoryData.getLanguages());
-                this.repositoryIsPrivate.postValue(repositoryData.isPrivate());
-            });
-        }
-    }
+        OpenSourceStatsApplication app = (OpenSourceStatsApplication) getApplication();
+        RepositoryDataRepository repository = app.getRepositoryDataRepository();
+        repository.repositorySummary(new RepositoryName(repositoryWithOwner), response -> {
+            RepositoryDataResponse repositoryData = (RepositoryDataResponse) response;
+            this.repositoryCreatedAt.postValue(repositoryData.getCreatedAt());
+            this.repositoryDescription.postValue(repositoryData.getDescription());
+            this.repositoryPrimaryLanguage.postValue(repositoryData.getPrimaryLanguage());
+            this.repositoryLanguages.postValue(repositoryData.getLanguages());
+            this.repositoryIsPrivate.postValue(repositoryData.isPrivate());
+        }, forceReload);
 
+    }
 
 
 }

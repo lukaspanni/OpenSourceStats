@@ -40,7 +40,7 @@ public class ProgressFragment extends DataAccessFragment {
 
         this.viewModel = progressViewModel;
 
-        loadData(true);
+        loadData(false);
 
         return root;
     }

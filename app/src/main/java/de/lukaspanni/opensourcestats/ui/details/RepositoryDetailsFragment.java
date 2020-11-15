@@ -72,7 +72,7 @@ public class RepositoryDetailsFragment extends Fragment {
 
 
             if (activity.getClass() == MainActivity.class) {
-                viewModel.loadData(repoWithOwner, ((MainActivity) activity).getAuthHandler());
+                viewModel.loadData(repoWithOwner, false);
             } else {
                 throw new UnsupportedOperationException("Cannot use GHClient from other Activity");
             }

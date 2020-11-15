@@ -1,18 +1,7 @@
 package de.lukaspanni.opensourcestats.client;
 
-import java.util.Date;
+import de.lukaspanni.opensourcestats.util.TimeSpan;
 
 public interface UserContributionsClient {
-
-    void userContributionsLastWeek(ClientDataCallback callback, boolean forceReload);
-
-    void userContributionsCurrentWeek(ClientDataCallback callback, boolean forceReload);
-
-    void userContributionsWeek(Date dayInWeek, ClientDataCallback callback, boolean forceReload);
-
-    void userContributionsLastMonth(ClientDataCallback callback, boolean forceReload);
-
-    void userContributionsCurrentMonth(ClientDataCallback callback, boolean forceReload);
-
-    void userContributionsMonth(Date dayInMonth, ClientDataCallback callback, boolean forceReload);
+    void loadUserContributionsData(TimeSpan timeSpan, ClientDataCallback clientDataCallback);
 }
