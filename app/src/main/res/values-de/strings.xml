@@ -1,4 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">OpenSourceStats</string>
+    <string name="title_details">Details</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_progress">Fortschritt</string>
+    <string name="title_activity_auth">Authentifizierung</string>
+    <string name="button">Authentifizieren</string>
+    <string name="auth_success_text">Authentifizierung erfolgreich</string>
+    <string name="auth_failed_text">Authentifizierung fehlgeschlagen</string>
+    <string name="overview_current_week_header">Überblick Aktuelle Woche</string>
+    <string name="overview_last_week_header">Überblick Letzte Woche</string>
+    <string name="to_commit_repos_text">Repositories mit Commits</string>
+    <string name="to_issue_repos_text">Repositories mit Issues</string>
+    <string name="to_pull_request_repos_text">Repositories mit Pull Requests</string>
+    <string name="to_pull_request_review_repos_text">Repositories mit Pull Request Reviews</string>
+    <string name="not_implemented">Nicht implementiert</string>
+    <string name="progress_week_header">Wöchentlicher Fortschritt</string>
+    <string name="to_current_week_details_text">Aktuelle Woche</string>
+    <string name="to_last_week_details_text">Letzte Woche</string>
+    <string name="to_current_month_details_text">Aktueller Monat</string>
+    <string name="to_last_month_details_text">Letzte Woche</string>
+    <string name="weekly_gain">Wöchentlicher Zuwachs</string>
+    <string name="monthly_gain">Monatlicher Zuwachs</string>
+    <string name="overview_current_month_header">Überblick Aktueller Monat</string>
+    <string name="overview_last_month_header">Überblick Letzter Monat</string>
+    <string name="created_at_label">Erstelldatum:</string>
+    <string name="repository_primary_language_label">Haupt-Sprache:</string>
+    <string name="repository_languages_label">Sprachen:</string>
+    <string name="repository_access_private"><![CDATA[<privat>]]></string>
 </resources>
