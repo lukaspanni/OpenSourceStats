@@ -26,12 +26,10 @@ import de.lukaspanni.opensourcestats.util.TimeSpanFactory;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 import okhttp3.OkHttpClient;
 
-//TODO: Split! -> class to powerful
-public class GHClient implements UserContributionsClient, RepositoryDataClient {
+public class GHClient implements RepositoryDataClient {
 
     private final String API_ENDPOINT = "https://api.github.com/graphql";
     private AuthHandler handler;
-    private ResponseCache<TimeSpan, UserContributionsResponse> cache = new ResponseCache<>();
 
     public GHClient(AuthHandler handler) {
         this.handler = handler;
@@ -65,14 +63,7 @@ public class GHClient implements UserContributionsClient, RepositoryDataClient {
     }
 
 
-    private void loadUserContributionsData(TimeSpan timeSpan, ClientDataCallback clientDataCallback, boolean forceReload) {
-        if (!forceReload) {
-            ResponseData data = cache.get(timeSpan);
-            if (data != null) {
-                clientDataCallback.callback(data);
-                return;
-            }
-        }
+    public void loadUserContributionsData(TimeSpan timeSpan, ClientDataCallback clientDataCallback) {
         handler.getAuthState().performActionWithFreshTokens(handler.getAuthService(), (accessToken, idToken, ex) -> {
             if (ex != null) {
                 return;
@@ -84,7 +75,6 @@ public class GHClient implements UserContributionsClient, RepositoryDataClient {
                         public void onResponse(@NotNull Response<UserContributionsQuery.Data> response) {
                             if (response.getData() != null) {
                                 UserContributionsResponse data = new UserContributionsResponse(response.getData().viewer());
-                                cache.put(timeSpan, data);
                                 if (clientDataCallback != null) {
                                     clientDataCallback.callback(data);
                                 }
@@ -113,39 +103,5 @@ public class GHClient implements UserContributionsClient, RepositoryDataClient {
                 .okHttpClient(httpClient)
                 .addCustomTypeAdapter(CustomType.DATETIME, new DateCustomTypeAdapter())
                 .build();
-    }
-
-
-    @Override
-    public void userContributionsLastWeek(ClientDataCallback callback, boolean forceReload) {
-        loadUserContributionsData(TimeSpanFactory.getLastWeek(), callback, forceReload);
-    }
-
-
-    @Override
-    public void userContributionsCurrentWeek(ClientDataCallback callback, boolean forceReload) {
-        loadUserContributionsData(TimeSpanFactory.getCurrentWeek(), callback, forceReload);
-    }
-
-
-    @Override
-    public void userContributionsWeek(Date dayInWeek, ClientDataCallback callback, boolean forceReload) {
-        loadUserContributionsData(TimeSpanFactory.getWeek(dayInWeek), callback, forceReload);
-    }
-
-    @Override
-    public void userContributionsLastMonth(ClientDataCallback callback, boolean forceReload) {
-        loadUserContributionsData(TimeSpanFactory.getLastMonth(), callback, forceReload);
-    }
-
-    @Override
-    public void userContributionsCurrentMonth(ClientDataCallback callback, boolean forceReload) {
-        loadUserContributionsData(TimeSpanFactory.getCurrentMonth(), callback, forceReload);
-
-    }
-
-    @Override
-    public void userContributionsMonth(Date dayInMonth, ClientDataCallback callback, boolean forceReload) {
-        loadUserContributionsData(TimeSpanFactory.getMonth(dayInMonth), callback, forceReload);
     }
 }

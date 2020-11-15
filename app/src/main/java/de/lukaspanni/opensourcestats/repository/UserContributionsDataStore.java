@@ -1,8 +1,10 @@
-package de.lukaspanni.opensourcestats.client;
+package de.lukaspanni.opensourcestats.repository;
 
 import java.util.Date;
 
-public interface UserContributionsClient {
+import de.lukaspanni.opensourcestats.client.ClientDataCallback;
+
+public interface UserContributionsDataStore {
 
     void userContributionsLastWeek(ClientDataCallback callback, boolean forceReload);
 

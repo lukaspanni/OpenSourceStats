@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.List;
 
 import de.lukaspanni.opensourcestats.auth.AuthHandler;
-import de.lukaspanni.opensourcestats.client.UserContributionsClient;
+import de.lukaspanni.opensourcestats.repository.UserContributionsDataStore;
 import de.lukaspanni.opensourcestats.client.ClientDataCallback;
 import de.lukaspanni.opensourcestats.client.GHClient;
 import de.lukaspanni.opensourcestats.data.ContributionRepositories;
@@ -22,7 +22,7 @@ public class DetailsViewModel extends ViewModel {
     private MutableLiveData<List<String>> issueRepositories;
     private MutableLiveData<List<String>> pullRequestRepositories;
     private MutableLiveData<List<String>> pullRequestReviewRepositories;
-    private UserContributionsClient client;
+    private UserContributionsDataStore client;
 
     public DetailsViewModel() {
         commitRepositories = new MutableLiveData<>();

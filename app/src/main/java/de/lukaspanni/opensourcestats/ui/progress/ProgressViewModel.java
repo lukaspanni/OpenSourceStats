@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
-import de.lukaspanni.opensourcestats.client.UserContributionsClient;
+import de.lukaspanni.opensourcestats.repository.UserContributionsDataStore;
 import de.lukaspanni.opensourcestats.ui.DataAccessViewModel;
 import de.lukaspanni.opensourcestats.auth.AuthHandler;
 import de.lukaspanni.opensourcestats.data.ContributionCount;
@@ -18,7 +18,7 @@ public class ProgressViewModel extends ViewModel implements DataAccessViewModel 
     private MutableLiveData<ContributionCount> lastWeekContributions;
     private MutableLiveData<ContributionCount> currentMonthContributions;
     private MutableLiveData<ContributionCount> lastMonthContributions;
-    private UserContributionsClient client;
+    private UserContributionsDataStore client;
 
 
     public MutableLiveData<ContributionCount> getCurrentWeekContributions() {

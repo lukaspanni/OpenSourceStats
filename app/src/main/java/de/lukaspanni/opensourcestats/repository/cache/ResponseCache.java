@@ -31,7 +31,7 @@ public class ResponseCache<K extends CacheKey, T extends ResponseData> {
         this.dataStore.put(key.getKey(), new CacheEntry<T>(data));
     }
 
-    public ResponseData get(K key) {
+    public T get(K key) {
         CacheEntry<T> entry = this.dataStore.get(key.getKey());
         if (entry == null || entry.getAge() + this.maxAge < (new Date()).getTime() / 1000) {
             this.misses++;
