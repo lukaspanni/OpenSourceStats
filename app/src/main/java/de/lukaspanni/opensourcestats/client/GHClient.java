@@ -19,6 +19,7 @@ import de.lukaspanni.opensourcestats.type.CustomType;
 import org.jetbrains.annotations.NotNull;
 
 
+import de.lukaspanni.opensourcestats.util.RepositoryName;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 import okhttp3.OkHttpClient;
 
@@ -31,13 +32,14 @@ public class GHClient implements RepositoryDataClient, UserContributionsClient {
         this.handler = handler;
     }
 
-    public void repositoryData(String repository, String owner, ClientDataCallback callback) {
+    @Override
+    public void repositoryData(RepositoryName repository, ClientDataCallback callback) {
         handler.getAuthState().performActionWithFreshTokens(handler.getAuthService(), (accessToken, idToken, ex) -> {
             if (ex != null) {
                 return;
             }
             ApolloClient graphqlClient = getGraphqlClient(accessToken);
-            graphqlClient.query(new RepositoryDataQuery(repository, owner)).enqueue(
+            graphqlClient.query(new RepositoryDataQuery(repository.getName(), repository.getOwner())).enqueue(
                     new ApolloCall.Callback<RepositoryDataQuery.Data>() {
                         @Override
                         public void onResponse(@NotNull Response<RepositoryDataQuery.Data> response) {

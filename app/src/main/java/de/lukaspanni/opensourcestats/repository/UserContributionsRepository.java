@@ -35,8 +35,8 @@ public class UserContributionsRepository extends Repository implements UserContr
             }
         }
         //Wrap callback to add response to local cache
-        callback = new ClientDataCallbackDecorator(callback, responseData -> cache.put(timeSpan, (UserContributionsResponse) responseData));
-        client.loadUserContributionsData(timeSpan, callback);
+        ClientDataCallback decoratedCallback = new ClientDataCallbackDecorator(callback, responseData -> cache.put(timeSpan, (UserContributionsResponse) responseData));
+        client.loadUserContributionsData(timeSpan, decoratedCallback);
     }
 
 
