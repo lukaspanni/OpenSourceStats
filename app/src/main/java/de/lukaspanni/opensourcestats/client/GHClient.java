@@ -12,21 +12,17 @@ import de.lukaspanni.opensourcestats.RepositoryDataQuery;
 import de.lukaspanni.opensourcestats.auth.AuthHandler;
 import de.lukaspanni.opensourcestats.auth.GHAuthInterceptor;
 import de.lukaspanni.opensourcestats.UserContributionsQuery;
-import de.lukaspanni.opensourcestats.repository.cache.ResponseCache;
 import de.lukaspanni.opensourcestats.data.RepositoryDataResponse;
-import de.lukaspanni.opensourcestats.data.ResponseData;
 import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
 import de.lukaspanni.opensourcestats.type.CustomType;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Date;
 
-import de.lukaspanni.opensourcestats.util.TimeSpanFactory;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 import okhttp3.OkHttpClient;
 
-public class GHClient implements RepositoryDataClient {
+public class GHClient implements RepositoryDataClient, UserContributionsClient {
 
     private final String API_ENDPOINT = "https://api.github.com/graphql";
     private AuthHandler handler;
@@ -63,6 +59,7 @@ public class GHClient implements RepositoryDataClient {
     }
 
 
+    @Override
     public void loadUserContributionsData(TimeSpan timeSpan, ClientDataCallback clientDataCallback) {
         handler.getAuthState().performActionWithFreshTokens(handler.getAuthService(), (accessToken, idToken, ex) -> {
             if (ex != null) {

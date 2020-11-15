@@ -4,16 +4,12 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import org.jetbrains.annotations.NotNull;
 
 import de.lukaspanni.opensourcestats.OpenSourceStatsApplication;
 import de.lukaspanni.opensourcestats.repository.UserContributionsDataStore;
 import de.lukaspanni.opensourcestats.ui.DataAccessViewModel;
-import de.lukaspanni.opensourcestats.auth.AuthHandler;
 import de.lukaspanni.opensourcestats.data.ContributionCount;
-import de.lukaspanni.opensourcestats.client.GHClient;
 import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
 
 public class ProgressViewModel extends AndroidViewModel implements DataAccessViewModel {

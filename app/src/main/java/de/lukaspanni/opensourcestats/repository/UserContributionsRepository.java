@@ -4,7 +4,7 @@ import java.util.Date;
 
 import de.lukaspanni.opensourcestats.client.ClientDataCallback;
 import de.lukaspanni.opensourcestats.client.ClientDataCallbackDecorator;
-import de.lukaspanni.opensourcestats.client.GHClient;
+import de.lukaspanni.opensourcestats.client.UserContributionsClient;
 import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
 import de.lukaspanni.opensourcestats.repository.cache.ResponseCache;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
@@ -13,16 +13,15 @@ import de.lukaspanni.opensourcestats.util.TimeSpanFactory;
 public class UserContributionsRepository extends Repository implements UserContributionsDataStore {
 
     private ResponseCache<TimeSpan, UserContributionsResponse> cache;
-    //TODO: Extract client interface
-    private GHClient client;
+    private UserContributionsClient client;
 
-    public UserContributionsRepository(GHClient client)
+    public UserContributionsRepository(UserContributionsClient client)
     {
         this.client = client;
         this.cache = new ResponseCache<>();
     }
 
-    public UserContributionsRepository(GHClient client, int maxAge) {
+    public UserContributionsRepository(UserContributionsClient client, int maxAge) {
         this.client = client;
         this.cache = new ResponseCache<>(maxAge);
     }
