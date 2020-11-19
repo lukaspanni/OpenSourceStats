@@ -15,9 +15,10 @@ jobs:
         uses: xu-cheng/latex-action@v2
         with:
           root_file: |
-            dhbw_doc/legacy_code.tex
-            dhbw_doc/ddd.tex
-            dhbw_doc/unit_testing.tex
+            dhbw_doc/sources/legacy_code.tex
+            dhbw_doc/sources/ddd.tex
+            dhbw_doc/sources/unit-testing.tex
+            dhbw_doc/sources/refactoring.tex
       - name: Move files
         run: mv *.pdf dhbw_doc/
       - uses: EndBug/add-and-commit@v5 
