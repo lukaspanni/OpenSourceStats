@@ -1,0 +1,29 @@
+name: Build-LaTeX
+
+on:
+  push:
+    branches: [ documentation ]
+
+jobs:
+  build-tex:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: |
+            dhbw_doc/legacy_code.tex
+            dhbw_doc/ddd.tex
+            dhbw_doc/unit_testing.tex
+      - name: Move files
+        run: mv *.pdf dhbw_doc/
+      - uses: EndBug/add-and-commit@v5 
+        with:
+          add: '*.pdf'
+          message: 'Build LaTeX'
+        env:
+          # This is necessary in order to push a commit to the repo
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this line unchanged
