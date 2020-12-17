@@ -50,6 +50,4 @@ public final class ContributionCount {
     public int hashCode() {
         return Objects.hash(getCommitCount(), getIssueCount(), getPullRequestCount(), getPullRequestReviewCount());
     }
-
-    //TODO: compute progress to given ContributionCount-Object
 }

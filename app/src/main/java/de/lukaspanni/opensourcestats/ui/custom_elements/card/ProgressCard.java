@@ -11,16 +11,18 @@ import com.lukaspanni.opensourcestats.R;
 import java.text.DecimalFormat;
 
 import de.lukaspanni.opensourcestats.data.ContributionCount;
+import de.lukaspanni.opensourcestats.data.ContributionCountChange;
 import de.lukaspanni.opensourcestats.ui.custom_elements.PercentageTextView;
 
 public class ProgressCard extends CustomCard {
 
     private ContributionCount currentPeriodContributions;
     private ContributionCount lastPeriodContributions;
-    private PercentageTextView commitGainText;
-    private PercentageTextView issueGainText;
-    private PercentageTextView pullRequestGainText;
-    private PercentageTextView pullRequestReviewGainText;
+    private PercentageTextView commitCountChangeText;
+    private PercentageTextView issueCountChangeText;
+    private PercentageTextView pullRequestCountChangeText;
+    private PercentageTextView pullRequestReviewCountChangeText;
+    private ContributionCountChange change;
 
 
     public ProgressCard(@NonNull Context context) {
@@ -47,16 +49,16 @@ public class ProgressCard extends CustomCard {
 
     @Override
     protected void initViews() {
-        commitGainText = findViewById(R.id.commit_gain);
-        issueGainText = findViewById(R.id.issue_gain);
-        pullRequestGainText = findViewById(R.id.pull_request_gain);
-        pullRequestReviewGainText = findViewById(R.id.pull_request_review_gain);
+        commitCountChangeText = findViewById(R.id.commit_change);
+        issueCountChangeText = findViewById(R.id.issue_change);
+        pullRequestCountChangeText = findViewById(R.id.pull_request_change);
+        pullRequestReviewCountChangeText = findViewById(R.id.pull_request_review_change);
     }
 
     public void setCurrentPeriodContributions(ContributionCount currentPeriodContributions) {
         this.currentPeriodContributions = currentPeriodContributions;
         if (this.lastPeriodContributions != null) {
-            updateGain();
+            updateChange();
         }
 
     }
@@ -64,29 +66,21 @@ public class ProgressCard extends CustomCard {
     public void setLastPeriodContributions(ContributionCount lastPeriodContributions) {
         this.lastPeriodContributions = lastPeriodContributions;
         if (this.currentPeriodContributions != null) {
-            updateGain();
+            updateChange();
         }
     }
 
 
-    private void updateGain() {
-        DecimalFormat decimalFormat = new DecimalFormat("##.##%");
-
-        float commitGain = calculateGain(currentPeriodContributions.getCommitCount(), lastPeriodContributions.getCommitCount());
-        float issueGain = calculateGain(currentPeriodContributions.getIssueCount(), lastPeriodContributions.getIssueCount());
-        float pullRequestGain = calculateGain(currentPeriodContributions.getPullRequestCount(), lastPeriodContributions.getPullRequestCount());
-        float pullRequestReviewGain = calculateGain(currentPeriodContributions.getPullRequestReviewCount(), lastPeriodContributions.getPullRequestReviewCount());
-
-        commitGainText.setPercentage(commitGain);
-        issueGainText.setPercentage(issueGain);
-        pullRequestGainText.setPercentage(pullRequestGain);
-        pullRequestReviewGainText.setPercentage(pullRequestReviewGain);
+    private void updateChange() {
+        this.change = new ContributionCountChange(currentPeriodContributions, lastPeriodContributions);
+        updateViewPercentages();
     }
 
-    private float calculateGain(float current, float old) {
-        if (old == 0) return 0;
-        return (current / (float) old) - 1;
+    private void updateViewPercentages() {
+        commitCountChangeText.setPercentage(change.getCommitCountChange());
+        issueCountChangeText.setPercentage(change.getIssueCountChange());
+        pullRequestCountChangeText.setPercentage(change.getPullRequestCountChange());
+        pullRequestReviewCountChangeText.setPercentage(change.getPullRequestReviewCountChange());
     }
-
 
 }
