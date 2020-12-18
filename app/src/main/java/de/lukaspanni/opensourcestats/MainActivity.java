@@ -1,5 +1,6 @@
 package de.lukaspanni.opensourcestats;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,6 +14,7 @@ import com.lukaspanni.opensourcestats.R;
 
 import de.lukaspanni.opensourcestats.auth.AuthActivity;
 import de.lukaspanni.opensourcestats.auth.AuthHandler;
+import de.lukaspanni.opensourcestats.auth.AuthHandlerActivity;
 import de.lukaspanni.opensourcestats.client.GHClient;
 import de.lukaspanni.opensourcestats.repository.RepositoryDataRepository;
 import de.lukaspanni.opensourcestats.repository.UserContributionsRepository;
@@ -20,7 +22,7 @@ import de.lukaspanni.opensourcestats.repository.UserContributionsRepository;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AuthHandlerActivity {
 
     private AuthHandler handler;
 
@@ -58,4 +60,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public String getClientId() {
+        return getString(R.string.client_id);
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
+    }
 }
