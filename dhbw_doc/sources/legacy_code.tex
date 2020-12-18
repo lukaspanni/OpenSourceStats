@@ -1,9 +1,12 @@
-\documentclass{article}
+\documentclass[12pt]{article}
 \usepackage[ngerman]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \usepackage{inconsolata}
 \usepackage{color}
+\usepackage{enumitem}
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm]{geometry}
+\usepackage[onehalfspacing]{setspace}
 
 \definecolor{pblue}{rgb}{0.13,0.13,1}
 \definecolor{pgreen}{rgb}{0,0.5,0}
@@ -30,6 +33,18 @@
 \author{Lukas Panni \\ TINF18B5}
 \begin{document}
 \maketitle
+
+\newpage
+
+\section{Abhängigkeiten brechen}
+
+\subsection[ExtractInterface bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/1e47e7b2d42c04429a433a6ac3dbea781409d36d} {1e47e7b2d42c04429a433a6ac3dbea781409d36d}]{\texorpdfstring{ExtractInterface bei\\ Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/1e47e7b2d42c04429a433a6ac3dbea781409d36d} {1e47e7b2d42c04429a433a6ac3dbea781409d36d}}{ExtractInterface bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/1e47e7b2d42c04429a433a6ac3dbea781409d36d} {1e47e7b2d42c04429a433a6ac3dbea781409d36d}}}
+
+
+Löst die Abhängigkeit von AuthHandler zu Activity indem das Interface AuthHandlerActivity eingeführt wird.
+Vorteile: AuthHandler nutzt die Methoden des Interfaces, wodurch die Testbarkeit erhöht wird. Ohne dieses Interface ist AuthHandler praktisch nicht testbar, da kein AuthHandler Objekt erstellt werden kann, ohne dass eine Activity übergeben wird. Da vor dieser Änderung finale Methoden der Klasse Activity verwendet wurden, war auch ein Mock der Activity nicht möglich.
+Problem: Abhängigkeit ist nicht vollkommen gelöst (AuthHandlerActivity hat die Methode getActivity), da die Third-Party-Klasse AuthorizationService eine Context-Instanz benötigt, und an mehreren Stellen noch Methoden der Klasse Activity und ihrer Basisklassen verwendet werden. Diese Abhängigkeiten können in einem späteren Schritt eventuell noch beseitigt werden.
+
 
 
 
