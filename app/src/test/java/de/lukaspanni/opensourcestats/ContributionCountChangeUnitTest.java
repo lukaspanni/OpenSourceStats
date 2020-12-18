@@ -6,7 +6,6 @@ import de.lukaspanni.opensourcestats.data.ContributionCount;
 import de.lukaspanni.opensourcestats.data.ContributionCountChange;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 
 public class ContributionCountChangeUnitTest {
