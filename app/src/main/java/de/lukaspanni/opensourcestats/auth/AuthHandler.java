@@ -35,10 +35,16 @@ public class AuthHandler {
     public final static int REQUEST_CODE = 42;
 
 
-    public static AuthHandler getInstance(AuthHandlerActivity activity){
-        if(instance != null){
-            instance.authHandlerActivity = activity;
+    public static AuthHandler getInstance(AuthHandlerActivity activity) {
+        if (instance != null) {
+            if (instance.authHandlerActivity != activity) {
+                instance.authHandlerActivity = activity;
+                instance.authState = null;
+                instance.authService.dispose();
+                instance.authService = null;
+            }
             return instance;
+
         }
         instance = new AuthHandler(activity);
         return instance;
@@ -50,20 +56,19 @@ public class AuthHandler {
         CLIENT_ID = activity.getClientId();
     }
 
-    public boolean checkAuth(){
+    public boolean checkAuth() {
         authState = getAuthState();
         return authState.isAuthorized();
     }
 
-    public AuthState getAuthState(){
-        if(authState != null){
-            return authState;
-        }
-        return readAuthState();
+    public AuthState getAuthState() {
+        if (authState == null)
+            authState = readAuthState();
+        return authState;
     }
 
-    public AuthorizationService getAuthService(){
-        if(authService != null){
+    public AuthorizationService getAuthService() {
+        if (authService != null) {
             return authService;
         }
         authService = new AuthorizationService(authHandlerActivity.getActivity());
@@ -84,15 +89,16 @@ public class AuthHandler {
         authHandlerActivity.getActivity().startActivityForResult(authIntent, REQUEST_CODE);
     }
 
-    public void writeAuthState(){
+    public void writeAuthState() {
         SharedPreferences authPreferences = authHandlerActivity.getActivity().getSharedPreferences("auth", MODE_PRIVATE);
         authPreferences.edit().putString("authState", authState.jsonSerializeString()).apply();
     }
 
-    private AuthState readAuthState(){
+    //Bad Testability because of AuthState.jsonDeserialize (uses URI.parse internally)
+    private AuthState readAuthState() {
         SharedPreferences authPreferences = authHandlerActivity.getActivity().getSharedPreferences("auth", MODE_PRIVATE);
         String stateString = authPreferences.getString("authState", null);
-        if(stateString != null) {
+        if (stateString != null) {
             try {
                 return AuthState.jsonDeserialize(stateString);
             } catch (JSONException e) {
@@ -102,4 +108,10 @@ public class AuthHandler {
         return new AuthState();
     }
 
+    @Override
+    protected void finalize() throws Throwable {
+        if(this.authService != null){
+            authService.dispose();
+        }
+    }
 }
