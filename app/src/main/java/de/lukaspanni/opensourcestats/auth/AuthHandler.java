@@ -40,7 +40,8 @@ public class AuthHandler {
             if (instance.authHandlerActivity != activity) {
                 instance.authHandlerActivity = activity;
                 instance.authState = null;
-                instance.authService.dispose();
+                if(instance.authService != null)
+                    instance.authService.dispose();
                 instance.authService = null;
             }
             return instance;
