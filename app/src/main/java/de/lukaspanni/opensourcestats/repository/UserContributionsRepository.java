@@ -26,7 +26,7 @@ public class UserContributionsRepository extends Repository implements UserContr
         this.cache = new ResponseCache<>(maxAge);
     }
 
-    private void getData(TimeSpan timeSpan, ClientDataCallback callback, boolean forceReload) {
+    public void userContributionsTimeSpan(TimeSpan timeSpan, ClientDataCallback callback, boolean forceReload) {
         if (!forceReload) {
             UserContributionsResponse data = cache.get(timeSpan);
             if (data != null) {
@@ -42,31 +42,22 @@ public class UserContributionsRepository extends Repository implements UserContr
 
     @Override
     public void userContributionsLastWeek(ClientDataCallback callback, boolean forceReload) {
-        getData(TimeSpanFactory.getLastWeek(), callback, forceReload);
+        userContributionsTimeSpan(TimeSpanFactory.getLastWeek(), callback, forceReload);
     }
 
     @Override
     public void userContributionsCurrentWeek(ClientDataCallback callback, boolean forceReload) {
-        getData(TimeSpanFactory.getCurrentWeek(), callback, forceReload);
-    }
-
-    @Override
-    public void userContributionsWeek(Date dayInWeek, ClientDataCallback callback, boolean forceReload) {
-        getData(TimeSpanFactory.getWeek(dayInWeek), callback, forceReload);
+        userContributionsTimeSpan(TimeSpanFactory.getCurrentWeek(), callback, forceReload);
     }
 
     @Override
     public void userContributionsLastMonth(ClientDataCallback callback, boolean forceReload) {
-        getData(TimeSpanFactory.getLastMonth(), callback, forceReload);
+        userContributionsTimeSpan(TimeSpanFactory.getLastMonth(), callback, forceReload);
     }
 
     @Override
     public void userContributionsCurrentMonth(ClientDataCallback callback, boolean forceReload) {
-        getData(TimeSpanFactory.getCurrentMonth(), callback, forceReload);
+        userContributionsTimeSpan(TimeSpanFactory.getCurrentMonth(), callback, forceReload);
     }
 
-    @Override
-    public void userContributionsMonth(Date dayInMonth, ClientDataCallback callback, boolean forceReload) {
-        getData(TimeSpanFactory.getMonth(dayInMonth), callback, forceReload);
-    }
 }
