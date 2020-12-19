@@ -2,6 +2,7 @@ package de.lukaspanni.opensourcestats.auth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +19,7 @@ import net.openid.appauth.ClientAuthentication;
 import net.openid.appauth.ClientSecretPost;
 import net.openid.appauth.TokenRequest;
 
-public class AuthActivity extends AppCompatActivity {
+public class AuthActivity extends AppCompatActivity implements AuthHandlerActivity {
 
     private AuthHandler handler;
 
@@ -63,5 +64,15 @@ public class AuthActivity extends AppCompatActivity {
                 Log.e("AUTH",  ex.getLocalizedMessage());
             }
         }
+    }
+
+    @Override
+    public String getClientId() {
+        return getString(R.string.client_id);
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
     }
 }

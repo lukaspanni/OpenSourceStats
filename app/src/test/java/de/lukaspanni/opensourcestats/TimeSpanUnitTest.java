@@ -1,11 +1,14 @@
 package de.lukaspanni.opensourcestats;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.Date;
 
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 
@@ -22,20 +25,36 @@ public class TimeSpanUnitTest {
         TimeSpan testTimeSpan = new TimeSpan(start, end);
         Date testTimeSpanStart = testTimeSpan.getStart();
         Date testTimeSpanEnd = testTimeSpan.getEnd();
-        assertEquals(testYear, testTimeSpanStart.getYear());
-        assertEquals(testMonth, testTimeSpanStart.getMonth());
-        assertEquals(testDateStart, testTimeSpanStart.getDate());
-        assertEquals(0, testTimeSpanStart.getHours());
-        assertEquals(0, testTimeSpanStart.getMinutes());
-        assertEquals(0, testTimeSpanStart.getSeconds());
+        assertThat(testTimeSpanStart.getYear(), is(testYear));
+        assertThat(testTimeSpanStart.getMonth(), is(testMonth));
+        assertThat(testTimeSpanStart.getDate(), is(testDateStart));
+        assertThat(testTimeSpanStart.getHours(), is(0));
+        assertThat(testTimeSpanStart.getMinutes(), is(0));
+        assertThat(testTimeSpanStart.getSeconds(), is(0));
         //Milliseconds are ignored!
-        assertEquals(testYear, testTimeSpanEnd.getYear());
-        assertEquals(testMonth, testTimeSpanEnd.getMonth());
-        assertEquals(testDateEnd, testTimeSpanEnd.getDate());
-        assertEquals(0, testTimeSpanEnd.getHours());
-        assertEquals(0, testTimeSpanEnd.getMinutes());
-        assertEquals(0, testTimeSpanEnd.getSeconds());
+        assertThat(testTimeSpanEnd.getYear(), is(testYear));
+        assertThat(testTimeSpanEnd.getMonth(), is(testMonth));
+        assertThat(testTimeSpanEnd.getDate(), is(testDateEnd));
+        assertThat(testTimeSpanEnd.getHours(), is(0));
+        assertThat(testTimeSpanEnd.getMinutes(), is(0));
+        assertThat(testTimeSpanEnd.getSeconds(), is(0));
         //again: Milliseconds ignored!
+    }
+
+    @Rule
+    public final ExpectedException expectedException = ExpectedException.none();
+
+    @Test
+    public void test_end_smaller_start_exception(){
+        int testYear = 20;
+        int testMonth = 11;
+        int testDateStart = 9;
+        int testDateEnd = 8;
+        Date start = new Date(testYear, testMonth, testDateStart, 16,5,15);
+        Date end = new Date(testYear,testMonth,testDateEnd,16,5,15);
+
+        expectedException.expect(IllegalArgumentException.class);
+        TimeSpan testTimeSpan = new TimeSpan(start, end);
     }
 
 }
