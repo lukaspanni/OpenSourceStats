@@ -7,6 +7,8 @@ import java.util.List;
 
 import de.lukaspanni.opensourcestats.data.ContributionRepositories;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.*;
 
 
@@ -17,9 +19,10 @@ public class ContributionRepositoriesUnitTest {
         List<String> commitRepositories = new ArrayList<>();
         List<String> issueRepositories = new ArrayList<>();
         ContributionRepositories testRepositoriesObject = new ContributionRepositories(commitRepositories, issueRepositories, null, null);
-        assertEquals(commitRepositories, testRepositoriesObject.getCommitRepositories());
-        assertEquals(issueRepositories, testRepositoriesObject.getIssueRepositories());
-        assertNotNull(testRepositoriesObject.getPullRequestRepositories());
-        assertNotNull(testRepositoriesObject.getPullRequestReviewRepositories());
+
+        assertThat(testRepositoriesObject.getCommitRepositories(), is(commitRepositories));
+        assertThat(testRepositoriesObject.getIssueRepositories(), is(issueRepositories));
+        assertThat(testRepositoriesObject.getPullRequestRepositories(), is(notNullValue()));
+        assertThat(testRepositoriesObject.getPullRequestReviewRepositories(), is(notNullValue()));
     }
 }

@@ -3,12 +3,15 @@ package de.lukaspanni.opensourcestats;
 import org.junit.Test;
 
 import java.util.Date;
-import java.util.Objects;
 
+import de.lukaspanni.opensourcestats.mock.FakeResponseData;
 import de.lukaspanni.opensourcestats.repository.cache.ResponseCache;
 import de.lukaspanni.opensourcestats.data.ResponseData;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.*;
 
 
@@ -25,7 +28,7 @@ public class ResponseCacheUnitTest {
         testCache.put(wrongTimeSpan, testResponseDataWrong);
 
         ResponseData cachedData = testCache.get(correctTimeSpan);
-        assertEquals(testResponseDataCorrect, cachedData);
+        assertThat(cachedData, is(testResponseDataCorrect));
     }
 
     @Test
@@ -38,7 +41,7 @@ public class ResponseCacheUnitTest {
         testCache.put(dataTimeSpan, testResponseDataReplace);
 
         ResponseData cachedData = testCache.get(dataTimeSpan);
-        assertEquals(testResponseDataReplace, cachedData);
+        assertThat(cachedData, is(testResponseDataReplace));
     }
 
     @Test
@@ -48,13 +51,13 @@ public class ResponseCacheUnitTest {
         TimeSpan dataTimeSpan = new TimeSpan(new Date(2020, 11, 9), new Date(2020, 11, 10));
         testCache.put(dataTimeSpan, testResponseData);
 
-        assertEquals(0, testCache.getHits());
+        assertThat(testCache.getHits(), is(0));
         ResponseData cachedData = testCache.get(dataTimeSpan);
-        assertNotNull(cachedData);
-        assertEquals(1, testCache.getHits());
+        assertThat(cachedData, is(notNullValue()));
+        assertThat(testCache.getHits(), is(1));
         cachedData = testCache.get(dataTimeSpan);
-        assertNotNull(cachedData);
-        assertEquals(2, testCache.getHits());
+        assertThat(cachedData, is(notNullValue()));
+        assertThat(testCache.getHits(), is(2));
     }
 
     @Test
@@ -62,41 +65,14 @@ public class ResponseCacheUnitTest {
         ResponseCache<TimeSpan, FakeResponseData> testCache = new ResponseCache<>();
         TimeSpan dataTimeSpan = new TimeSpan(new Date(2020, 11, 9), new Date(2020, 11, 10));
 
-        assertEquals(0, testCache.getMisses());
+        assertThat(testCache.getMisses(), is(0));
         ResponseData cachedData = testCache.get(dataTimeSpan);
-        assertNull(cachedData);
-        assertEquals(1, testCache.getMisses());
+        assertThat(cachedData, is(nullValue()));
+        assertThat(testCache.getMisses(), is(1));
         cachedData = testCache.get(dataTimeSpan);
-        assertNull(cachedData);
-        assertEquals(2, testCache.getMisses());
+        assertThat(cachedData, is(nullValue()));
+        assertThat(testCache.getMisses(), is(2));
     }
 
 
-
-    private class FakeResponseData extends ResponseData {
-
-        private int data;
-
-        public FakeResponseData(int data) {
-            super(QueryType.NONE);
-            this.data = data;
-        }
-
-        public int getData() {
-            return data;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            FakeResponseData that = (FakeResponseData) o;
-            return getData() == that.getData();
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(getData());
-        }
-    }
 }

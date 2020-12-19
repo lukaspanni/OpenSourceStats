@@ -9,6 +9,7 @@ import java.util.Set;
 import de.lukaspanni.opensourcestats.data.RepositoryDataResponse;
 import de.lukaspanni.opensourcestats.mock.RepositoryFake;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class RepositoryDataResponseUnitTest {
@@ -22,7 +23,8 @@ public class RepositoryDataResponseUnitTest {
         RepositoryFake repositoryFake = RepositoryFake.create(new Date(), "Java", false, "Sample Description", languages);
         RepositoryDataResponse testDataResponse = new RepositoryDataResponse(repositoryFake);
         Set<String> repoLanguages = testDataResponse.getLanguages();
-        assertEquals(languages, repoLanguages);
+
+        assertThat(repoLanguages, is(languages));
     }
 
 }
