@@ -3,6 +3,7 @@ package de.lukaspanni.opensourcestats.repository;
 import java.util.Date;
 
 import de.lukaspanni.opensourcestats.client.ClientDataCallback;
+import de.lukaspanni.opensourcestats.util.TimeSpan;
 
 public interface UserContributionsDataStore {
 
@@ -10,11 +11,9 @@ public interface UserContributionsDataStore {
 
     void userContributionsCurrentWeek(ClientDataCallback callback, boolean forceReload);
 
-    void userContributionsWeek(Date dayInWeek, ClientDataCallback callback, boolean forceReload);
-
     void userContributionsLastMonth(ClientDataCallback callback, boolean forceReload);
 
     void userContributionsCurrentMonth(ClientDataCallback callback, boolean forceReload);
 
-    void userContributionsMonth(Date dayInMonth, ClientDataCallback callback, boolean forceReload);
+    void userContributionsTimeSpan(TimeSpan timeSpan, ClientDataCallback callback, boolean forceReload);
 }
