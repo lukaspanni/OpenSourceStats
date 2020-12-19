@@ -31,7 +31,7 @@
     <fragment
         android:id="@+id/navigation_week_details"
         android:name="de.lukaspanni.opensourcestats.ui.details.TimeSpanDetails"
-        tools:layout="@layout/fragment_week_details">
+        tools:layout="@layout/fragment_time_span_details">
 
         <action
             android:id="@+id/action_details_to_commit_repos"
