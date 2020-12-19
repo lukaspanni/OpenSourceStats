@@ -35,6 +35,13 @@ public final class TimeSpan implements Parcelable, CacheKey {
     public TimeSpan(Date start, Date end) {
         this.start = zeroDate(start);
         this.end = zeroDate(end);
+        if(!isZeroDateSmaller(start, end)){
+            throw new IllegalArgumentException("Start Date has to be smaller than end Date");
+        }
+    }
+
+    private boolean isZeroDateSmaller(Date start, Date end) {
+        return start.compareTo(end) < 0;
     }
 
 
