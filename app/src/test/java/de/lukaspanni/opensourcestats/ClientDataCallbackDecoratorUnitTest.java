@@ -5,10 +5,10 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.HashSet;
 
-import de.lukaspanni.opensourcestats.client.ClientDataCallback;
 import de.lukaspanni.opensourcestats.client.ClientDataCallbackDecorator;
 import de.lukaspanni.opensourcestats.data.RepositoryDataResponse;
 import de.lukaspanni.opensourcestats.data.ResponseData;
+import de.lukaspanni.opensourcestats.mock.MockClientCallback;
 import de.lukaspanni.opensourcestats.mock.RepositoryFake;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -32,23 +32,4 @@ public class ClientDataCallbackDecoratorUnitTest {
         assertThat(additionalCallback.getCallResponseData(), is(equalTo(testDataResponse)));
     }
 
-    private class MockClientCallback implements ClientDataCallback {
-
-        private boolean callbackCalled = false;
-        private ResponseData callResponseData = null;
-
-        public boolean isCallbackCalled() {
-            return callbackCalled;
-        }
-
-        public ResponseData getCallResponseData() {
-            return callResponseData;
-        }
-
-        @Override
-        public void callback(ResponseData response) {
-            callbackCalled = true;
-            callResponseData = response;
-        }
-    }
 }
