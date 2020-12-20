@@ -23,10 +23,10 @@ public class UserContributionsResponse extends ResponseData {
                 data.contributionsCollection().totalPullRequestReviewContributions()
         );
         contributionRepositories = new ContributionRepositories(
-                data.contributionsCollection().commitContributionsByRepository().stream().map(repo -> repo.repository().nameWithOwner()).collect(Collectors.toList()),
-                data.contributionsCollection().issueContributionsByRepository().stream().map(repo -> repo.repository().nameWithOwner()).collect(Collectors.toList()),
-                data.contributionsCollection().pullRequestContributionsByRepository().stream().map(repo -> repo.repository().nameWithOwner()).collect(Collectors.toList()),
-                data.contributionsCollection().pullRequestReviewContributionsByRepository().stream().map(repo -> repo.repository().nameWithOwner()).collect(Collectors.toList()))
+                data.contributionsCollection().commitContributionsByRepository().stream().map(repo -> repo.repository().nameWithOwner()).collect(Collectors.toSet()),
+                data.contributionsCollection().issueContributionsByRepository().stream().map(repo -> repo.repository().nameWithOwner()).collect(Collectors.toSet()),
+                data.contributionsCollection().pullRequestContributionsByRepository().stream().map(repo -> repo.repository().nameWithOwner()).collect(Collectors.toSet()),
+                data.contributionsCollection().pullRequestReviewContributionsByRepository().stream().map(repo -> repo.repository().nameWithOwner()).collect(Collectors.toSet()))
         ;
     }
 

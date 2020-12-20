@@ -2,22 +2,22 @@ package de.lukaspanni.opensourcestats;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import de.lukaspanni.opensourcestats.data.ContributionRepositories;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 
 public class ContributionRepositoriesUnitTest {
 
     @Test
     public void constructor_null_handling() {
-        List<String> commitRepositories = new ArrayList<>();
-        List<String> issueRepositories = new ArrayList<>();
+        Set<String> commitRepositories = new HashSet<>();
+        Set<String> issueRepositories = new HashSet<>();
         ContributionRepositories testRepositoriesObject = new ContributionRepositories(commitRepositories, issueRepositories, null, null);
 
         assertThat(testRepositoriesObject.getCommitRepositories(), is(commitRepositories));

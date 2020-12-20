@@ -2,9 +2,10 @@ package de.lukaspanni.opensourcestats;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import de.lukaspanni.opensourcestats.data.ContributionCount;
 import de.lukaspanni.opensourcestats.data.ContributionType;
@@ -20,10 +21,10 @@ public class UserContributionsResponseUnitTest {
 
     @Test
     public void constructor_repositories_correct() {
-        List<String> commitRepositories = new ArrayList<>();
-        List<String> issueRepositories = new ArrayList<>();
-        List<String> pullRequestRepositories = new ArrayList<>();
-        List<String> pullRequestReviewRepositories = new ArrayList<>();
+        Set<String> commitRepositories = new HashSet<>();
+        Set<String> issueRepositories = new HashSet<>();
+        Set<String> pullRequestRepositories = new HashSet<>();
+        Set<String> pullRequestReviewRepositories = new HashSet<>();
         commitRepositories.add("repoOwner1/testCommitRepository1");
         commitRepositories.add("repoOwner1/testCommitRepository2");
         issueRepositories.add("repoOwner2/testIssueRepository1");
@@ -31,7 +32,7 @@ public class UserContributionsResponseUnitTest {
         pullRequestRepositories.add("repoOwner3/testPRRepo");
         pullRequestReviewRepositories.add("repoOwner1/testPRRRepo");
 
-        HashMap<ContributionType, List<String>> contributionRepositories = new HashMap<>();
+        HashMap<ContributionType, Set<String>> contributionRepositories = new HashMap<>();
         contributionRepositories.put(ContributionType.COMMIT, commitRepositories);
         contributionRepositories.put(ContributionType.ISSUE, issueRepositories);
         contributionRepositories.put(ContributionType.PULL_REQUEST, pullRequestRepositories);

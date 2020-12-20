@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.lukaspanni.opensourcestats.OpenSourceStatsApplication;
@@ -55,10 +56,11 @@ public class DetailsViewModel extends AndroidViewModel {
             UserContributionsResponse responseData = (UserContributionsResponse) data;
             if (data == null) return;
             ContributionRepositories repositories = responseData.getContributionRepositories();
-            commitRepositories.postValue(repositories.getCommitRepositories());
-            issueRepositories.postValue(repositories.getIssueRepositories());
-            pullRequestRepositories.postValue(repositories.getPullRequestRepositories());
-            pullRequestReviewRepositories.postValue(repositories.getPullRequestReviewRepositories());
+            //TODO: Update internal fields to sets
+            commitRepositories.postValue(new ArrayList<>(repositories.getCommitRepositories()));
+            issueRepositories.postValue(new ArrayList<>(repositories.getIssueRepositories()));
+            pullRequestRepositories.postValue(new ArrayList<>(repositories.getPullRequestRepositories()));
+            pullRequestReviewRepositories.postValue(new ArrayList<>(repositories.getPullRequestReviewRepositories()));
         }, false);
 
     }
