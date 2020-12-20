@@ -1,39 +1,39 @@
 package de.lukaspanni.opensourcestats.data;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
  * ContributionRepositories ValueObject, bundles commit, issue, pullrequest and pullrequestreview repositories
  */
-public final class ContributionRepositories  {
+public final class ContributionRepositories {
 
-    private final List<String> commitRepositories;
-    private final List<String> issueRepositories;
-    private final List<String> pullRequestRepositories;
-    private final List<String> pullRequestReviewRepositories;
+    private final Set<String> commitRepositories;
+    private final Set<String> issueRepositories;
+    private final Set<String> pullRequestRepositories;
+    private final Set<String> pullRequestReviewRepositories;
 
-    public ContributionRepositories(List<String> commitRepositories, List<String> issueRepositories, List<String> pullRequestRepositories, List<String> pullRequestReviewRepositories) {
-        this.commitRepositories = (commitRepositories != null) ? commitRepositories : new ArrayList<>();
-        this.issueRepositories = (issueRepositories != null) ? issueRepositories : new ArrayList<>();
-        this.pullRequestRepositories = (pullRequestRepositories != null) ? pullRequestRepositories : new ArrayList<>();
-        this.pullRequestReviewRepositories = (pullRequestReviewRepositories != null) ? pullRequestReviewRepositories : new ArrayList<>();
+    public ContributionRepositories(Set<String> commitRepositories, Set<String> issueRepositories, Set<String> pullRequestRepositories, Set<String> pullRequestReviewRepositories) {
+        this.commitRepositories = (commitRepositories != null) ? commitRepositories : new HashSet<>();
+        this.issueRepositories = (issueRepositories != null) ? issueRepositories : new HashSet<>();
+        this.pullRequestRepositories = (pullRequestRepositories != null) ? pullRequestRepositories : new HashSet<>();
+        this.pullRequestReviewRepositories = (pullRequestReviewRepositories != null) ? pullRequestReviewRepositories : new HashSet<>();
     }
 
-    public List<String> getCommitRepositories() {
+    public Set<String> getCommitRepositories() {
         return this.commitRepositories;
     }
 
-    public List<String> getIssueRepositories() {
+    public Set<String> getIssueRepositories() {
         return this.issueRepositories;
     }
 
-    public List<String> getPullRequestRepositories() {
+    public Set<String> getPullRequestRepositories() {
         return this.pullRequestRepositories;
     }
 
-    public List<String> getPullRequestReviewRepositories() {
+    public Set<String> getPullRequestReviewRepositories() {
         return this.pullRequestReviewRepositories;
     }
 

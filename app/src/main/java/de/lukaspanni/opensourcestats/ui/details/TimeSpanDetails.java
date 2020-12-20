@@ -14,10 +14,12 @@ import androidx.navigation.Navigation;
 
 import com.lukaspanni.opensourcestats.R;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
-import de.lukaspanni.opensourcestats.util.TimeSpanFactory;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
+import de.lukaspanni.opensourcestats.util.TimeSpanFactory;
 
 
 public class TimeSpanDetails extends Fragment {
@@ -42,22 +44,27 @@ public class TimeSpanDetails extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_week_details, container, false);
-        view.findViewById(R.id.to_commit_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_commit_repos, getArguments()));
-        view.findViewById(R.id.to_issue_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_issue_repos, getArguments()));
-        view.findViewById(R.id.to_pull_request_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_pullrequest_repos, getArguments()));
-        view.findViewById(R.id.to_pull_request_review_repos).setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_details_to_pullrequest_review_repos, getArguments()));
+        View view = inflater.inflate(R.layout.fragment_time_span_details, container, false);
+        view.findViewById(R.id.to_commit_repos).setOnClickListener(getClickListener(view, R.id.action_details_to_commit_repos));
+        view.findViewById(R.id.to_issue_repos).setOnClickListener(getClickListener(view, R.id.action_details_to_issue_repos));
+        view.findViewById(R.id.to_pull_request_repos).setOnClickListener(getClickListener(view, R.id.action_details_to_pullrequest_repos));
+        view.findViewById(R.id.to_pull_request_review_repos).setOnClickListener(getClickListener(view, R.id.action_details_to_pullrequest_review_repos));
 
         if (getArguments() != null && getArguments().get("timeSpan") != null) {
             timeSpan = getArguments().getParcelable("timeSpan");
         }
 
         if (timeSpan != null) {
-            TextView header = view.findViewById(R.id.week_header);
+            TextView header = view.findViewById(R.id.time_span_header);
             header.setText(TimeSpanFactory.toTimeSpanString(timeSpan));
         }
 
         return view;
+    }
+
+    @NotNull
+    private View.OnClickListener getClickListener(View view, int resource) {
+        return v -> Navigation.findNavController(view).navigate(resource, getArguments());
     }
 
 }
