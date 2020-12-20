@@ -9,6 +9,7 @@ import java.util.List;
  */
 public final class ContributionRepositories  {
 
+    //TODO: Change to return Sets -> every entry should be unique
     private final List<String> commitRepositories;
     private final List<String> issueRepositories;
     private final List<String> pullRequestRepositories;
