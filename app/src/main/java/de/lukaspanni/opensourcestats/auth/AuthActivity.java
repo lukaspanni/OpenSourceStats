@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -74,5 +75,10 @@ public class AuthActivity extends AppCompatActivity implements AuthHandlerActivi
     @Override
     public Activity getActivity() {
         return this;
+    }
+
+    @Override
+    public SharedPreferences getAuthPreferences() {
+        return getSharedPreferences("auth", MODE_PRIVATE);
     }
 }

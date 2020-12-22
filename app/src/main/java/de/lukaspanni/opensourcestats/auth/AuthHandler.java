@@ -91,13 +91,13 @@ public class AuthHandler {
     }
 
     public void writeAuthState() {
-        SharedPreferences authPreferences = authHandlerActivity.getActivity().getSharedPreferences("auth", MODE_PRIVATE);
+        SharedPreferences authPreferences = authHandlerActivity.getAuthPreferences();
         authPreferences.edit().putString("authState", authState.jsonSerializeString()).apply();
     }
 
     //Bad Testability because of AuthState.jsonDeserialize (uses URI.parse internally)
     private AuthState readAuthState() {
-        SharedPreferences authPreferences = authHandlerActivity.getActivity().getSharedPreferences("auth", MODE_PRIVATE);
+        SharedPreferences authPreferences = authHandlerActivity.getAuthPreferences();
         String stateString = authPreferences.getString("authState", null);
         if (stateString != null) {
             try {

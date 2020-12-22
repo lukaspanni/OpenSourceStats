@@ -9,7 +9,6 @@ import de.lukaspanni.opensourcestats.auth.AuthHandler;
 import de.lukaspanni.opensourcestats.mock.MockAuthHandlerActivity;
 import de.lukaspanni.opensourcestats.mock.MockEditor;
 import de.lukaspanni.opensourcestats.mock.SharedPreferencesMock;
-import de.lukaspanni.opensourcestats.mock.SharedPreferencesMockActivity;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -26,9 +25,7 @@ public class AuthHandlerUnitTest {
         SharedPreferencesMock sharedPreferences = new SharedPreferencesMock();
         sharedPreferences.setGetStringReturnValue(str);
         sharedPreferences.setMockEditor(mockEditor);
-        SharedPreferencesMockActivity mockActivity = new SharedPreferencesMockActivity();
-        mockActivity.setSharedPreferences(sharedPreferences);
-        return AuthHandler.getInstance(new MockAuthHandlerActivity(mockActivity));
+        return AuthHandler.getInstance(new MockAuthHandlerActivity(sharedPreferences));
     }
 
     @Test
