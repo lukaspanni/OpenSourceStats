@@ -36,14 +36,41 @@
 
 \newpage
 
+\tableofcontents
+
+\newpage
+
 \section{Abhängigkeiten brechen}
 
-\subsection[ExtractInterface bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/1e47e7b2d42c04429a433a6ac3dbea781409d36d} {1e47e7b2d42c04429a433a6ac3dbea781409d36d}]{\texorpdfstring{ExtractInterface bei\\ Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/1e47e7b2d42c04429a433a6ac3dbea781409d36d} {1e47e7b2d42c04429a433a6ac3dbea781409d36d}}{ExtractInterface bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/1e47e7b2d42c04429a433a6ac3dbea781409d36d} {1e47e7b2d42c04429a433a6ac3dbea781409d36d}}}
+Im folgenden sollen einige Beispiele aufgeführt werden, bei denen Abhängigkeiten mithilfe der in der Vorlesung behandelten Techniken beseitigt werden.
+Ohne diese Abhängigkeiten sind Tests leichter zu entwickeln, sodass weitere Änderungen, zum Beispiel zur Verbesserung des Designs, später einfacher und komfortabler möglich sind.
+Das Ziel beim Brechen der Abhängigkeiten ist es, die Testbarkeit der betroffenen Klassen beziehungsweise Methoden zu erhöhen.
 
+\newpage
 
-Löst die Abhängigkeit von AuthHandler zu Activity indem das Interface AuthHandlerActivity eingeführt wird.
-Vorteile: AuthHandler nutzt die Methoden des Interfaces, wodurch die Testbarkeit erhöht wird. Ohne dieses Interface ist AuthHandler praktisch nicht testbar, da kein AuthHandler Objekt erstellt werden kann, ohne dass eine Activity übergeben wird. Da vor dieser Änderung finale Methoden der Klasse Activity verwendet wurden, war auch ein Mock der Activity nicht möglich.
-Problem: Abhängigkeit ist nicht vollkommen gelöst (AuthHandlerActivity hat die Methode getActivity), da die Third-Party-Klasse AuthorizationService eine Context-Instanz benötigt, und an mehreren Stellen noch Methoden der Klasse Activity und ihrer Basisklassen verwendet werden. Diese Abhängigkeiten können in einem späteren Schritt eventuell noch beseitigt werden.
+\subsection{ExtractInterface bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/1e47e7b2d42c04429a433a6ac3dbea781409d36d} {1e47e7b}}
+
+\subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/0daf8862a81a976e3d6341f5b5461bc8d3c64b4f}{Ausgangszustand}}
+
+Die Klasse \textit{AuthHandler} ist stark abhängig von der Android-Klasse \textit{Activity} und kann auch nicht erstellt werden ohne eine Instanz dieser Klasse der \textit{getInstance}-Methode zu übergeben.
+Die Testbarkeit ist schlecht, da eine Android-\textit{Activity}-Instanz nicht ohne weiteres im Test-Kontext erstellt werden kann.
+Auch ein Fake-Objekt ist schwer zu erstellen, da eine finale Methode genutzt wird, in Ableitungen von \textit{Activity} nicht überschrieben werden kann.
+Da die Klasse \textit{AuthHandler} für die OAuth-Authentifizierung verantwortlich ist und damit wichtig für das Gesamtsystem, ist es wichtig, Tests für diese Klasse zu ermöglichen.
+
+\subsubsection*{Gewählte Technik}
+
+Die \textit{getInstance}-Methode benötigt eine Instanz der Klasse \textit{Activity}, die im Test-Kontext nicht leicht erstellbar ist und für die auch Fake-Objekte nur schwer erstellt werden können. Da allerdings nur wenige Methoden der \textit{Activity}-Klasse verwendet werden, und eine Änderung der \textit{AuthHandler} Klasse nur vergleichsweise wenige Änderungen erfordert, kann in diesem Fall \textbf{ExtractInterface} angewendet werden.
+So wird die Abhängigkeit von \textit{AuthHandler} zu \textit{Activity} gelöst, indem das Interface \textit{AuthHandlerActivity} eingeführt und der Parameter von \textit{getInstance} angepasst wird, sodass eine Instanz vom Typ des Interfaces verwendet wird. Dabei werden auch kleinere Anpassungen an Methodenaufrufen vorgenommen, sodass Methoden des Interfaces aufgerufen werden.
+\textbf{ExtractInterface} ist durch IDE-Unterstützung vergleichsweise einfach und ohne große Fehleranfälligkeit durchzuführen. Außerdem wird die Abstraktion durch diese Technik verbessert.
+
+\subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/1e47e7b2d42c04429a433a6ac3dbea781409d36d}{Endzustand}}
+
+\textit{AuthHandler} nutzt nach dieser Änderung nur noch die Methoden des Interfaces, wodurch die Testbarkeit erhöht wird.
+Allerdings gibt es hier das Problem, dass \textit{AuthHandler} die Third-Party-Klasse \textit{AuthorizationService} verwendet, die auf eine \textit{Activity}-Instanz angewiesen ist.
+Deshalb gibt es im neu eingeführten Interface eine Methode, die eine \textit{Activity} zurückgibt. Die Abhängigkeit konnte also in diesem Fall nicht komplett aufgelöst werden.
+Trotzdem wurde die Testbarkeit erhöht und die Abstraktion verbessert. Diese Änderung stellt damit eine gute Basis für weitere Refactorings und Änderungen dar, wie zum Beispiel in Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/cbc53183a878d6507a02daebd55c9c7dfcae9c0f}{cbc5318}.
+
+\newpage
 
 
 
