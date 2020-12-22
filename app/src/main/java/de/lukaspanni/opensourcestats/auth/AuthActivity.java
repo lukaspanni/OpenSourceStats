@@ -29,9 +29,7 @@ public class AuthActivity extends AppCompatActivity implements AuthHandlerActivi
         handler = AuthHandler.getInstance(this);
         setContentView(R.layout.activity_auth);
         Button auth_button = (Button) findViewById(R.id.auth_button);
-        auth_button.setOnClickListener(v -> {
-            handler.authenticate();
-        });
+        auth_button.setOnClickListener(v -> handler.authenticate());
     }
 
     @Override

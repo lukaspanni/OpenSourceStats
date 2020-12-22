@@ -1,7 +1,5 @@
 package de.lukaspanni.opensourcestats.repository;
 
-import java.util.Date;
-
 import de.lukaspanni.opensourcestats.client.ClientDataCallback;
 import de.lukaspanni.opensourcestats.client.ClientDataCallbackDecorator;
 import de.lukaspanni.opensourcestats.client.UserContributionsClient;

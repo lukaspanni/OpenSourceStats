@@ -2,7 +2,6 @@ package de.lukaspanni.opensourcestats.ui.custom_elements.card;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -95,7 +94,7 @@ public class RepositoryDetailsCard extends CustomCard {
 
     public void setRepositoryLanguages(Set<String> languages) {
         if (languages.size() > 1) {
-            String[] languageArray = languages.toArray(new String[languages.size()]);
+            String[] languageArray = languages.toArray(new String[0]);
             ArrayAdapter<String> languagesAdapter = new ArrayAdapter<>(getContext(), R.layout.language_list_item, R.id.language_list_item, languageArray);
             this.repositoryLanguages.setAdapter(languagesAdapter);
             this.repositoryLanguages.setVisibility(ListView.VISIBLE);

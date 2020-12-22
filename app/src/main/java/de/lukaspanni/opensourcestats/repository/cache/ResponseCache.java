@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.lukaspanni.opensourcestats.data.ResponseData;
-import de.lukaspanni.opensourcestats.util.TimeSpan;
 
 /**
  * ResponseCache, used to cache server-responses
@@ -28,7 +27,7 @@ public class ResponseCache<K extends CacheKey, T extends ResponseData> {
     }
 
     public void put(K key, T data) {
-        this.dataStore.put(key.getKey(), new CacheEntry<T>(data));
+        this.dataStore.put(key.getKey(), new CacheEntry<>(data));
     }
 
     public T get(K key) {
