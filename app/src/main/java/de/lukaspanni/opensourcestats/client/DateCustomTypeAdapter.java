@@ -12,7 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-class DateCustomTypeAdapter implements CustomTypeAdapter<Date> {
+public class DateCustomTypeAdapter implements CustomTypeAdapter<Date> {
     private final DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     @NotNull

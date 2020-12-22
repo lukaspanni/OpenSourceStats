@@ -32,4 +32,6 @@
     <string name="repository_access_private"><![CDATA[<private>]]></string>
     <string name="repository_primary_language_label">Primary Language:</string>
     <string name="repository_languages_label">Languages:</string>
+    <string name="no_repos_found_item">No Repositories found for this View</string>
+    <string name="no_additional_information">No additional information available</string>
 </resources>

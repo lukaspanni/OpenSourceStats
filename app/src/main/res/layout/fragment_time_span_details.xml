@@ -14,7 +14,7 @@
         tools:context="de.lukaspanni.opensourcestats.ui.details.DetailsFragment">
 
         <TextView
-            android:id="@+id/week_header"
+            android:id="@+id/time_span_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
@@ -35,7 +35,7 @@
             android:text="@string/to_commit_repos_text"
             android:textAlignment="center"
             android:textColor="@color/textWhite"
-            app:layout_constraintTop_toBottomOf="@id/week_header" />
+            app:layout_constraintTop_toBottomOf="@id/time_span_header" />
 
         <Button
             android:id="@+id/to_issue_repos"

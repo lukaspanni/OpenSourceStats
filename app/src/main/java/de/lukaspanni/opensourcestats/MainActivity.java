@@ -2,6 +2,7 @@ package de.lukaspanni.opensourcestats;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -68,5 +69,11 @@ public class MainActivity extends AppCompatActivity implements AuthHandlerActivi
     @Override
     public Activity getActivity() {
         return this;
+    }
+
+    @Override
+    public SharedPreferences getAuthPreferences() {
+        //TODO: "auth" -> Constant
+        return getSharedPreferences("auth", MODE_PRIVATE);
     }
 }
