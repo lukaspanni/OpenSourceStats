@@ -35,7 +35,7 @@ public class TimeSpanDetails extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            Objects.requireNonNull(getActivity()).onBackPressed();
+            requireActivity().onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
