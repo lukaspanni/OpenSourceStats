@@ -7,6 +7,8 @@
 \usepackage{enumitem}
 \usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm]{geometry}
 \usepackage[onehalfspacing]{setspace}
+\usepackage{graphicx}
+\graphicspath{ {./img/} }
 
 \definecolor{pblue}{rgb}{0.13,0.13,1}
 \definecolor{pgreen}{rgb}{0,0.5,0}
@@ -53,38 +55,61 @@ Um Duplicated Code zu reduzieren muss der doppelte Code ausgelagert werden und k
 
 \begin{itemize}
 	\item{TimeSpanDetails: Click-Listener-Code wird vier mal in gleicher Form (bis auf eine Variable) verwendet. Gelöst mit {\hyperref[sec:ExtractMethod_TimeSpanDetails]{ExtractMethod}} bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/0c0b357dee742575d8465ae26e64152bfecbf5ab} {0c0b357}}
-		
+	
+	\item{\textit{UserContributionRepository.userContributionsTimeSpan} und \textit{RepositoryDataRepository.repositorySummary} sind, bis auf die verwendeten Datentypen sehr ähnlich. 
+Da beide Klassen von der gleichen Basisklasse erben wäre die Auslagerung einer Methode, in die Basisklasse eine denkbare Lösung.
+\newline
+Ein erster Schritt zur Verringerung des doppelten Codes ist durch das Refactoring {\hyperref[sec:ExtractMethod_Repository]{ExtractMethod}} bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/3b1eb5bf6750c3ccaeb05962ec8a8ae743adbf2c} {3b1eb5b} bereits umgesetzt.} 		
 \end{itemize}
+Ansonsten konnten keine weiteren duplizierten Code-Teile gefunden werden.
 
-\subsection{Long Method}
+\subsection{Long Method \& Large Class}
 
 Der Code Smell \textit{Long Method} zeichnet sich durch sehr lange Methoden aus, wobei die Länge, ab der eine Methode als zu lang betrachtet wird, von Projekt zu Projekt variabel sein kann.
 Lange Methoden erschweren das Verständnis des Codes, was wiederum die Wartbarkeit und auch die Erweiterbarkeit einschränkt. 
 Als Lösung kann die Lange Methode in mehrere kürzere Methoden aufgeteilt werden.
-
-\subsection{Large Class}
-
+\newline
+\newline
 Ähnlich wie Long Method beschreibt \textit{Large Class}, Klassen, die vergleichsweise viele Code-Zeilen beinhalten.
 Dies kommt häufig vor, wenn mehrere Verantwortlichkeiten in einer Klasse untergebracht werden. Auch hier kann die Verständlichkeit des Codes erschwert werden.
 Das Aufteilen der Klasse in mehrere Klassen, ist eine sinnvolle Lösung für diesen Code Smell.
+\newline
+\newline
+Um sowohl lange Methoden als auch große Klassen zu finden wurde das Code-Statistik Plugin \href{https://plugins.jetbrains.com/plugin/4509-statistic}{\textit{Statistic}} für Android Studio verwendet.
+Als Obergrenze für die Länge von Klassen werden 200 Zeilen und für Methoden 50 Zeilen Code festgelegt. Es konnte festgestellt werden, dass keine Klasse mehr als 100 Code-Zeilen enthält und keine Methode die 50 erlaubten Zeilen erreicht.
 
 \subsection{Shotgun Surgery}
 
 \textit{Shotgun Surgery} beschreibt, dass für vergleichsweise kleine Funktionale Änderungen Anpassungen an vielen Stellen notwendig sind und deutet auf schlechte Struktur und eine Verflechtung von Verantwortlichkeiten hin.
 Durch eine Umstrukturierung des Codes, sodass jede Klasse nur eine Verantwortlichkeit hat, kann dies behoben werden.
+\newline
+\newline
+Dieser Code-Smell ist vergleichsweise schwer zu entdecken, wenn man danach sucht. Stattdessen kann dieser Code-Smell bei Anpassungen des Codes entdeckt werden.
+Bisher wurde dieser Code-Smell bei keiner Änderung entdeckt.
 
 \subsection{Switch Statements}
 
 Die Verwendung von \textit{Switch Statements} fördert Fehler durch die unintuitive Syntax und verleitet oft dazu das gleiche Switch-Statement an mehreren Stellen einzusetzen.
 Durch das übermäßige Verwenden von Switch Statements wird die Wartbarkeit und auch die Erweiterbarkeit des Codes eingeschränkt.
 Switch Statements können in Objektorientiertem Code häufig durch die Verwendung von Polymorphie reduziert werden.
+\newline
+\newline
+Im gesamten Code konnten keine Switch-Statements entdeckt werden. Außerdem wurde auch das Alternativkonstrukt (lange if-else Verkettungen) nicht entdeckt.
 
 \subsection{Code Comments}
 
 \textit{Code Comments} die beschreiben, was der Code an dieser Stelle tut, deuten häufig darauf hin, dass der Code an dieser Stelle unverständlich geschrieben ist.
+\newline
+\newline
+Durch die Suche nach Kommentaren und eine Beurteilung der Kommentare in Bezug auf diesen Code-Smell ergab den folgenden Kommentar in den Klassen \textit{UserContributionsRepository} und \textit{RepositoryDataRepository}, der beschreibt, was der Code an dieser Stelle tut, was auf unverständlichen Code hindeutet.
+\begin{lstlisting}
+//Wrap callback to add response to cache
+ClientDataCallback decoratedCallback = new ClientDataCallbackDecorator(callback, response ->  cache.put(repository, response));
+\end{lstlisting}
+Der Code an dieser Stelle ist ohne den Kommentar schwer verständlich. Um die Verständlichkeit des Codes zu erhöhen wurde das Refactoring {\hyperref[sec:ExtractMethod_Repository]{ExtractMethod}} bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/3b1eb5bf6750c3ccaeb05962ec8a8ae743adbf2c} {3b1eb5b} angewendet und die extrahierte Methode in die Basisklasse verschoben.
+
 
 \newpage
-
 \section{Refactorings}
 \label{sec:Refactorings}
 
@@ -98,7 +123,7 @@ Dadurch soll es unter anderem einfacher werden Fehler zu finden und zu beheben s
 In der Klasse \textit{TimeSpanDetails} wurde sehr ähnlicher Code für einen Click-Listener an vier unterschiedlichen Stellen verwendet. Durch die Auslagerung in die Methode \textit{getClickListener}  kann der Duplicated Code vermieden werden. Durch die Einführung des Parameters \textit{resource} kann die extrahierte Methode flexibel an allen Stellen wiederverwendet werden. Dadurch wird außerdem die Lesbarkeit des Codes erhöht.
 Auch eventuelle spätere Änderungen am Verhalten der Methode müssen so nur an einer Stelle durchgeführt werden.
 \newline
-\textbf{Vorher:} 
+\textbf{Code Vorher:} 
 \begin{lstlisting}[breaklines=false]
 [...]
 view.findViewById(R.id.to_commit_repos)
@@ -109,7 +134,7 @@ view.findViewById(R.id.to_issue_repos)
     .navigate(R.id.action_2, getArguments()));
 [...]
 \end{lstlisting}
-\textbf{Nacher:} 
+\textbf{Code Nacher:} 
 \begin{lstlisting}[breaklines=false]
 [...]
 view.findViewById(R.id.to_commit_repos)
@@ -119,8 +144,39 @@ view.findViewById(R.id.to_issue_repos)
 [...]
 \end{lstlisting}
 
+\newpage
+\subsection{ExtractMethod bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/3b1eb5bf6750c3ccaeb05962ec8a8ae743adbf2c} {3b1eb5b}}
+\label{sec:ExtractMethod_Repository}
 
+In den Klassen \textit{UserContributionsRepository} und \textit{RepositoryDataRepository} wurde doppelter und zusätzlich schlecht verständlicher Code verwendet. Um die Verständlichkeit des Codes zu erhöhen wurde eine Methode extrahiert und so benannt, dass die Funktion leicht verständlich ist. Die extrahierte Methode wurde in die Basisklasse verschoben, da diese Methode in allen Ableitungen der Basisklasse verwendet wird. Diese Änderung ist vergleichsweise klein erhöht jedoch die subjektive Verständlichkeit enorm.
+\newline
+\newline
+\textbf{Code Vorher:}
+\begin{lstlisting}
+ClientDataCallback decoratedCallback = new ClientDataCallbackDecorator(callback, response ->  cache.put(repository, (RepositoryDataResponse) response));
+\end{lstlisting}
+\textbf{Code Nacher:} 
+\begin{lstlisting}
+ClientDataCallback decoratedCallback = new ClientDataCallbackDecorator(callback, getAddToCacheCallback(repository));
+\end{lstlisting}
 
+\newpage
+\subsubsection{UML Vorher}
+Abbildung \ref{fig:ExtractMethod_Refactoring_Before} zeigt das UML-Klassendiagramm vor dem Refactoring
+\begin{figure}[h]
+  \includegraphics{refactoring_extract_method_repository_before.png}
+  \centering
+  \caption{UML vor Refactoring}
+  \label{fig:ExtractMethod_Refactoring_Before}
+\end{figure}
 
+\newpage
+\subsubsection{UML Nacher}
+Im Folgenden Das UML nach dem Refactoring
+\begin{figure}[h]
+  \includegraphics{refactoring_extract_method_repository_after.png}
+  \caption{UML nach Refactoring}
+  \label{fig:ExtractMethod_Refactoring_After}
+\end{figure}
 
 \end{document}
