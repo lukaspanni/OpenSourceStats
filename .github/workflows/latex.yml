@@ -14,12 +14,14 @@ jobs:
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v2
         with:
-          working_directory: dhbw_doc
+          working_directory: dhbw_doc/sources
           root_file: |
-            sources/legacy_code.tex
-            sources/ddd.tex
-            sources/unit-testing.tex
-            sources/refactoring.tex
+            legacy_code.tex
+            ddd.tex
+            unit-testing.tex
+            refactoring.tex
+      - name: Move PDFs
+        run: mv dhbw_doc/sources/*.pdf dhbw_doc/
       - uses: EndBug/add-and-commit@v5 
         with:
           add: '*.pdf'
