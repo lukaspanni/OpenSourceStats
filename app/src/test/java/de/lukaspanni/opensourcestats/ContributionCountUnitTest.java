@@ -37,4 +37,15 @@ public class ContributionCountUnitTest {
         assertThat(testContributionCount.getPullRequestReviewCount(), is(not(-2)));
         assertThat(testContributionCount.getPullRequestReviewCount(), is(0));
     }
+
+    @Test
+    public void object_equals(){
+        int commits = 10;
+        int issues = 5;
+        int pullRequests = 3;
+        int pullRequestReviews = 6;
+        ContributionCount testObject1 = new ContributionCount(commits, issues, pullRequests, pullRequestReviews);
+        ContributionCount testObject2 = new ContributionCount(commits, issues, pullRequests, pullRequestReviews);
+        assertThat(testObject2.equals(testObject1), is(true));
+    }
 }
