@@ -4,6 +4,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.sql.Time;
 import java.util.Date;
 
 import de.lukaspanni.opensourcestats.util.TimeSpan;
@@ -39,6 +40,19 @@ public class TimeSpanUnitTest {
         assertThat(testTimeSpanEnd.getMinutes(), is(0));
         assertThat(testTimeSpanEnd.getSeconds(), is(0));
         //again: Milliseconds ignored!
+    }
+
+    @Test
+    public void object_equals(){
+        int testYear = 20;
+        int testMonth = 11;
+        int testDateStart = 9;
+        int testDateEnd = 12;
+        Date start = new Date(testYear, testMonth, testDateStart, 16,5,15);
+        Date end = new Date(testYear,testMonth,testDateEnd,16,5,15);
+        TimeSpan testTimeSpan = new TimeSpan(start, end);
+        TimeSpan testTimeSpan2 = new TimeSpan(start, end);
+        assertThat(testTimeSpan2.equals(testTimeSpan), is(true));
     }
 
     @Rule
