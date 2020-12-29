@@ -1,6 +1,7 @@
 package de.lukaspanni.opensourcestats.repository;
 
-import java.util.Date;
+import org.jetbrains.annotations.NotNull;
+
 
 import de.lukaspanni.opensourcestats.client.ClientDataCallback;
 import de.lukaspanni.opensourcestats.client.ClientDataCallbackDecorator;
@@ -10,7 +11,7 @@ import de.lukaspanni.opensourcestats.repository.cache.ResponseCache;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 import de.lukaspanni.opensourcestats.util.TimeSpanFactory;
 
-public class UserContributionsRepository extends Repository implements UserContributionsDataStore {
+public class UserContributionsRepository extends Repository<TimeSpan> implements UserContributionsDataStore {
 
     private ResponseCache<TimeSpan, UserContributionsResponse> cache;
     private UserContributionsClient client;
@@ -34,9 +35,14 @@ public class UserContributionsRepository extends Repository implements UserContr
                 return;
             }
         }
-        //Wrap callback to add response to local cache
-        ClientDataCallback decoratedCallback = new ClientDataCallbackDecorator(callback, responseData -> cache.put(timeSpan, (UserContributionsResponse) responseData));
+        ClientDataCallback decoratedCallback = new ClientDataCallbackDecorator(callback, getAddToCacheCallback(timeSpan));
         client.loadUserContributionsData(timeSpan, decoratedCallback);
+    }
+
+    @NotNull
+    @Override
+    protected ClientDataCallback getAddToCacheCallback(TimeSpan timeSpan) {
+        return responseData -> cache.put(timeSpan, (UserContributionsResponse) responseData);
     }
 
 
