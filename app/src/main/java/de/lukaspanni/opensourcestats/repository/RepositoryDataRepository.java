@@ -17,14 +17,17 @@ public class RepositoryDataRepository extends Repository<RepositoryName>{
     private ResponseCache<RepositoryName, RepositoryDataResponse> cache;
     private RepositoryDataClient client;
 
-    public RepositoryDataRepository(RepositoryDataClient client) {
-        this.cache = new ResponseCache<>();
+    public RepositoryDataRepository(ResponseCache<RepositoryName, RepositoryDataResponse> cache, RepositoryDataClient client){
+        this.cache = cache;
         this.client = client;
     }
 
+    public RepositoryDataRepository(RepositoryDataClient client) {
+        this(new ResponseCache<>(), client);
+    }
+
     public RepositoryDataRepository(RepositoryDataClient client, int maxAge) {
-        this.cache = new ResponseCache<>(maxAge);
-        this.client = client;
+        this(new ResponseCache<>(maxAge), client);
     }
 
     public void repositorySummary(RepositoryName repository, ClientDataCallback callback, boolean forceReload){

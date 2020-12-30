@@ -16,15 +16,17 @@ public class UserContributionsRepository extends Repository<TimeSpan> implements
     private ResponseCache<TimeSpan, UserContributionsResponse> cache;
     private UserContributionsClient client;
 
-    public UserContributionsRepository(UserContributionsClient client)
-    {
+    public UserContributionsRepository(ResponseCache<TimeSpan, UserContributionsResponse> cache, UserContributionsClient client){
+        this.cache = cache;
         this.client = client;
-        this.cache = new ResponseCache<>();
+    }
+
+    public UserContributionsRepository(UserContributionsClient client) {
+        this(new ResponseCache<>(), client);
     }
 
     public UserContributionsRepository(UserContributionsClient client, int maxAge) {
-        this.client = client;
-        this.cache = new ResponseCache<>(maxAge);
+        this(new ResponseCache<>(maxAge), client);
     }
 
     public void userContributionsTimeSpan(TimeSpan timeSpan, ClientDataCallback callback, boolean forceReload) {
