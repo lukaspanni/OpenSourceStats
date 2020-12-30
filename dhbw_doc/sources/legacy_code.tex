@@ -50,7 +50,7 @@ Das Ziel beim Brechen der Abhängigkeiten ist es, die Testbarkeit der betroffene
 
 \subsection{ExtractInterface bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/1e47e7b2d42c04429a433a6ac3dbea781409d36d} {1e47e7b}}
 
-\subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/0daf8862a81a976e3d6341f5b5461bc8d3c64b4f}{Ausgangszustand}}
+\subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/0daf8862a81a976e3d6341f5b5461bc8d3c64b4f/app/src/main/java/de/lukaspanni/opensourcestats/auth/}{Ausgangszustand}}
 
 Die Klasse \textit{AuthHandler} ist stark abhängig von der Android-Klasse \textit{Activity} und kann auch nicht erstellt werden ohne eine Instanz dieser Klasse der \textit{getInstance}-Methode zu übergeben.
 Die Testbarkeit ist schlecht, da eine Android-\textit{Activity}-Instanz nicht ohne weiteres im Test-Kontext erstellt werden kann.
@@ -63,7 +63,7 @@ Die \textit{getInstance}-Methode benötigt eine Instanz der Klasse \textit{Activ
 So wird die Abhängigkeit von \textit{AuthHandler} zu \textit{Activity} gelöst, indem das Interface \textit{AuthHandlerActivity} eingeführt und der Parameter von \textit{getInstance} angepasst wird, sodass eine Instanz vom Typ des Interfaces verwendet wird. Dabei werden auch kleinere Anpassungen an Methodenaufrufen vorgenommen, sodass Methoden des Interfaces aufgerufen werden.
 \textbf{ExtractInterface} ist durch IDE-Unterstützung vergleichsweise einfach und ohne große Fehleranfälligkeit durchzuführen. Außerdem wird die Abstraktion durch diese Technik verbessert.
 
-\subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/1e47e7b2d42c04429a433a6ac3dbea781409d36d}{Endzustand}}
+\subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/1e47e7b2d42c04429a433a6ac3dbea781409d36d/app/src/main/java/de/lukaspanni/opensourcestats/auth/}{Endzustand}}
 
 \textit{AuthHandler} nutzt nach dieser Änderung nur noch die Methoden des Interfaces, wodurch die Testbarkeit erhöht wird.
 Allerdings gibt es hier das Problem, dass \textit{AuthHandler} die Third-Party-Klasse \textit{AuthorizationService} verwendet, die auf eine \textit{Activity}-Instanz angewiesen ist.
@@ -72,8 +72,20 @@ Trotzdem wurde die Testbarkeit erhöht und die Abstraktion verbessert. Diese Än
 
 \newpage
 
+\subsection{Parametrize Constructor bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/d098b93ffd042cb095af679254ed01584417763e} {d098b93}}
 
+\subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/3b1eb5bf6750c3ccaeb05962ec8a8ae743adbf2c/app/src/main/java/de/lukaspanni/opensourcestats/repository}{Ausgangszustand}}
 
+Die Klassen \textit{RepositoryDataRepository} und \textit{UserContributionsRepository} haben eine Abhängigkeit zur Klasse \textit{ResponseCache} und erzeugen im Konstruktor eine Instanz dieser Klasse und speichern diese in einer Instanzvariablen.
+Für den Test der Klassen ist es hilfreich, diese Instanzvariable durch eine eigene Cache-Implementierung zu nutzen.
+In diesem Fall lässt sich die Abhängigkeit mit Hilfe von \textbf{Parametrize Constructor} brechen.
+\newline
+Dazu wird ein neuer Konstruktor erzeugt, der einen zusätzlichen Parameter vom Typ der zu überschreibenden Instanzvariable entgegennimmt. In diesem Beispiel eine Instanz von \textit{ResponseCache}. Die existierenden Konstruktoren rufen den neuen Konstruktor mit dem ursprünglichen Wert der Variable auf.
+Dabei bleibt die alte Funktionalität erhalten und es müssen keine Anpassungen an anderen Stellen erfolgen.
+
+\subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/d098b93ffd042cb095af679254ed01584417763e/app/src/main/java/de/lukaspanni/opensourcestats/repository}{Endzustand}}
+
+Durch das Brechen der Abhängigkeit ist es nun möglich, beim Erstellen einer Instanz vom Typ \textit{RepositoryDataRepository} oder \textit{UserContributionsRepository} ein \textit{ResponseCache}-Objekt zu übergeben. Dadurch kann zum Beispiel beim Test ein Fake-Objekt übergeben werden.
 
 
 \end{document}
