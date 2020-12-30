@@ -51,6 +51,15 @@ Für dieses Projekt wird \textit{JUnit} als Framework für die Erstellung und Au
 Bei der Implementierung der Tests wurde darauf geachtet die ATRIP-Regeln (\textit{Automatic, Thorough, Repeatable, Independent, Professional}) möglichst zu beachten.
 \newline
 Teile des Codes in diesem Projekt werden für Android-Spezifische UI-Aufgaben benötigt und können nur schlecht getestet werden. Das führt auch dazu, dass die Code-Coverage über das gesamte Projekt vergleichsweise klein sein kann. Stattdessen sollte hier zur Beurteilung der Testabdeckung nur die Code-Coverage der anderen Klassen betrachtet werden.
+\newline
+Allgemein wird darauf verzichtet triviale Funktionen, wie zum Beispiel Getter zu testen.
+Tests dieser Funktionen würden bei großem Aufwand nur einen minimalen Mehrwert bringen, da keine echte Funktionalität getestet wird.
+Stattdessen sollen sich die Tests auf relevante Funktionalität des Systems fokussieren. Das bedeutet auch, dass vor allem die Klassen getestet werden sollen, die häufig verwendet werden.
+\newline
+Zum Beispiel werden in diesem System oft Konvertierungen von API-Datentypen zu Datentypen der Anwendung durchgeführt.
+Diese Konvertierungen werden meist in den Konstruktoren der jeweiligen Anwendungsdatentypen durchgeführt.
+Deshalb werden diese ausführlich getestet, wobei auch dabei auf Tests trivialer Funktionalität verzichtet wird.
+
 
 
 \newpage
