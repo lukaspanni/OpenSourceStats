@@ -15,9 +15,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lukaspanni.opensourcestats.R;
 
 import de.lukaspanni.opensourcestats.auth.AuthActivity;
-import de.lukaspanni.opensourcestats.auth.AuthHandler;
 import de.lukaspanni.opensourcestats.auth.AuthHandlerActivity;
-import de.lukaspanni.opensourcestats.client.GHClient;
+import de.lukaspanni.opensourcestats.auth.AuthenticationHandler;
+import de.lukaspanni.opensourcestats.client.GithubOAuthClient;
 import de.lukaspanni.opensourcestats.repository.RepositoryDataRepository;
 import de.lukaspanni.opensourcestats.repository.UserContributionsRepository;
 
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements AuthHandlerActivi
 
     private OpenSourceStatsApplication app;
 
-    public AuthHandler getAuthHandler() {
+    public AuthenticationHandler getAuthHandler() {
         return app.getAuthHandler(this);
     }
 
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements AuthHandlerActivi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         app = (OpenSourceStatsApplication) getApplication();
-        GHClient client = new GHClient(getAuthHandler());
+        GithubOAuthClient client = new GithubOAuthClient(getAuthHandler());
         // Add Repositories
         app.setUserContributionsRepository(new UserContributionsRepository(client));
         app.setRepositoryDataRepository(new RepositoryDataRepository(client));

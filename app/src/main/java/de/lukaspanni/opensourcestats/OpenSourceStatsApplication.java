@@ -2,14 +2,14 @@ package de.lukaspanni.opensourcestats;
 
 import android.app.Application;
 
-import de.lukaspanni.opensourcestats.auth.AuthHandler;
+import de.lukaspanni.opensourcestats.auth.GithubOAuthHandler;
 import de.lukaspanni.opensourcestats.auth.AuthHandlerActivity;
 import de.lukaspanni.opensourcestats.repository.RepositoryDataRepository;
 import de.lukaspanni.opensourcestats.repository.UserContributionsRepository;
 
 public class OpenSourceStatsApplication extends Application {
 
-    private AuthHandler authHandler;
+    private GithubOAuthHandler authHandler;
     private UserContributionsRepository userContributionsRepository;
     private RepositoryDataRepository repositoryDataRepository;
 
@@ -31,12 +31,12 @@ public class OpenSourceStatsApplication extends Application {
             this.repositoryDataRepository = repositoryDataRepository;
     }
 
-    public AuthHandler getAuthHandler(AuthHandlerActivity authHandlerActivity) {
+    public GithubOAuthHandler getAuthHandler(AuthHandlerActivity authHandlerActivity) {
         if(authHandler != null){
             authHandler.setAuthHandlerActivity(authHandlerActivity);
             return authHandler;
         }
-        authHandler = new AuthHandler(authHandlerActivity);
+        authHandler = new GithubOAuthHandler(authHandlerActivity);
         return authHandler;
     }
 

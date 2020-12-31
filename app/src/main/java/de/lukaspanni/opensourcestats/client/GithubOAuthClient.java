@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import de.lukaspanni.opensourcestats.RepositoryDataQuery;
 import de.lukaspanni.opensourcestats.UserContributionsQuery;
-import de.lukaspanni.opensourcestats.auth.AuthHandler;
+import de.lukaspanni.opensourcestats.auth.AuthenticationHandler;
 import de.lukaspanni.opensourcestats.auth.GHAuthInterceptor;
 import de.lukaspanni.opensourcestats.data.RepositoryDataResponse;
 import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
@@ -21,12 +21,12 @@ import de.lukaspanni.opensourcestats.util.RepositoryName;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 import okhttp3.OkHttpClient;
 
-public class GHClient implements RepositoryDataClient, UserContributionsClient {
+public class GithubOAuthClient implements RepositoryDataClient, UserContributionsClient {
 
     private final String API_ENDPOINT = "https://api.github.com/graphql";
-    private AuthHandler handler;
+    private AuthenticationHandler handler;
 
-    public GHClient(AuthHandler handler) {
+    public GithubOAuthClient(AuthenticationHandler handler) {
         this.handler = handler;
     }
 

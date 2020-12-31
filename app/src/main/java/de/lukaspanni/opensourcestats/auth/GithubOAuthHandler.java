@@ -18,21 +18,54 @@ import org.json.JSONException;
 /**
  * AuthHandler, needed to authenticate via OAuth
  */
-public class AuthHandler {
+public class GithubOAuthHandler implements AuthenticationHandler {
 
 
-    private AuthHandlerActivity authHandlerActivity;
-    private AuthState authState;
-    private AuthorizationService authService;
-
+    public final static int REQUEST_CODE = 42;
     //TODO: Remove URL-Dependencies -> Config
     private final String AUTH_ENDPOINT = "https://github.com/login/oauth/authorize";
     private final String TOKEN_ENDPOINT = "https://github.com/login/oauth/access_token";
     private final Uri REDIRECT_URI = Uri.parse("de.lukaspanni.oss://opensourcestats/auth");
     private final String SCOPES = "repo:status";
     private final String CLIENT_ID;
-    public final static int REQUEST_CODE = 42;
+    private AuthHandlerActivity authHandlerActivity;
+    private AuthState authState;
+    private AuthorizationService authService;
 
+
+    public GithubOAuthHandler(AuthHandlerActivity activity) {
+        this.authHandlerActivity = activity;
+        //Not Optimal TODO: find better Solution
+        CLIENT_ID = activity.getClientId();
+    }
+
+    @Override
+    public boolean checkAuth() {
+        authState = getAuthState();
+        return authState.isAuthorized();
+    }
+
+    @Override
+    public void performActionWithToken(AuthenticatedAction action) {
+        //Uses own Interface AuthenticatedAction to reduce dependency to openid AppAuth
+        //Makes it easier to use different/multiple forms of authentication
+        authState.performActionWithFreshTokens(authService, action::execute);
+    }
+
+
+    @Override
+    public void authenticate() {
+        AuthorizationServiceConfiguration serviceConfig = new AuthorizationServiceConfiguration(
+                Uri.parse(AUTH_ENDPOINT), Uri.parse(TOKEN_ENDPOINT));
+        authState = new AuthState(serviceConfig);
+
+        AuthorizationRequest.Builder requestBuilder = new AuthorizationRequest.Builder(serviceConfig, CLIENT_ID, ResponseTypeValues.CODE, REDIRECT_URI);
+        AuthorizationRequest request = requestBuilder.setScope(SCOPES).build();
+
+        authService = new AuthorizationService(authHandlerActivity.getActivity());
+        Intent authIntent = authService.getAuthorizationRequestIntent(request);
+        authHandlerActivity.getActivity().startActivityForResult(authIntent, REQUEST_CODE);
+    }
 
     public void setAuthHandlerActivity(AuthHandlerActivity activity) {
         if (authHandlerActivity != activity) {
@@ -44,27 +77,10 @@ public class AuthHandler {
         }
     }
 
-    public AuthHandler(AuthHandlerActivity activity) {
-        this.authHandlerActivity = activity;
-        //Not Optimal TODO: find better Solution
-        CLIENT_ID = activity.getClientId();
-    }
-
-    public boolean checkAuth() {
-        authState = getAuthState();
-        return authState.isAuthorized();
-    }
-
     private AuthState getAuthState() {
         if (authState == null)
             authState = readAuthState();
         return authState;
-    }
-
-    public void performActionWithToken(AuthenticatedAction action) {
-        //Uses own Interface AuthenticatedAction to reduce dependency to openid AppAuth
-        //Makes it easier to use different/multiple forms of authentication
-        authState.performActionWithFreshTokens(authService, action::execute);
     }
 
     public void updateState(TokenResponse response, AuthorizationException ex1) {
@@ -80,19 +96,6 @@ public class AuthHandler {
         return authService;
     }
 
-
-    public void authenticate() {
-        AuthorizationServiceConfiguration serviceConfig = new AuthorizationServiceConfiguration(
-                Uri.parse(AUTH_ENDPOINT), Uri.parse(TOKEN_ENDPOINT));
-        authState = new AuthState(serviceConfig);
-
-        AuthorizationRequest.Builder requestBuilder = new AuthorizationRequest.Builder(serviceConfig, CLIENT_ID, ResponseTypeValues.CODE, REDIRECT_URI);
-        AuthorizationRequest request = requestBuilder.setScope(SCOPES).build();
-
-        authService = new AuthorizationService(authHandlerActivity.getActivity());
-        Intent authIntent = authService.getAuthorizationRequestIntent(request);
-        authHandlerActivity.getActivity().startActivityForResult(authIntent, REQUEST_CODE);
-    }
 
     public void forceWriteAuthState() {
         getAuthState();

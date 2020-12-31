@@ -24,7 +24,7 @@ import net.openid.appauth.TokenRequest;
 
 public class AuthActivity extends AppCompatActivity implements AuthHandlerActivity {
 
-    private AuthHandler handler;
+    private GithubOAuthHandler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class AuthActivity extends AppCompatActivity implements AuthHandlerActivi
         super.onActivityResult(requestCode, resultCode, data);
         final Context ctx = this;
 
-        if (requestCode == AuthHandler.REQUEST_CODE) {
+        if (requestCode == GithubOAuthHandler.REQUEST_CODE) {
             final AuthorizationResponse resp = AuthorizationResponse.fromIntent(data);
             AuthorizationException ex = AuthorizationException.fromIntent(data);
             if (resp != null) {
