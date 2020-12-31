@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import de.lukaspanni.opensourcestats.MainActivity;
+import de.lukaspanni.opensourcestats.OpenSourceStatsApplication;
+
 import com.lukaspanni.opensourcestats.R;
 
 import net.openid.appauth.AuthorizationException;
@@ -22,12 +24,13 @@ import net.openid.appauth.TokenRequest;
 
 public class AuthActivity extends AppCompatActivity implements AuthHandlerActivity {
 
-    private AuthHandler handler;
+    private GithubOAuthHandler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        handler = AuthHandler.getInstance(this);
+        OpenSourceStatsApplication app = (OpenSourceStatsApplication) getApplication();
+        handler = app.getAuthHandler(this);
         setContentView(R.layout.activity_auth);
         Button auth_button = (Button) findViewById(R.id.auth_button);
         auth_button.setOnClickListener(v -> {
@@ -40,7 +43,7 @@ public class AuthActivity extends AppCompatActivity implements AuthHandlerActivi
         super.onActivityResult(requestCode, resultCode, data);
         final Context ctx = this;
 
-        if (requestCode == AuthHandler.REQUEST_CODE) {
+        if (requestCode == GithubOAuthHandler.REQUEST_CODE) {
             final AuthorizationResponse resp = AuthorizationResponse.fromIntent(data);
             AuthorizationException ex = AuthorizationException.fromIntent(data);
             if (resp != null) {
@@ -48,8 +51,7 @@ public class AuthActivity extends AppCompatActivity implements AuthHandlerActivi
                 TokenRequest req = resp.createTokenExchangeRequest();
                 handler.getAuthService().performTokenRequest(req, clientAuth, (response, ex1) -> {
 
-                    handler.getAuthState().update(response, ex1);
-                    handler.writeAuthState();
+                    handler.updateState(response, ex1);
                     if (response != null) {
                         Toast.makeText(ctx, getString(R.string.auth_success_text), Toast.LENGTH_LONG).show();
                         Log.i("AUTH", "User authenticated");
