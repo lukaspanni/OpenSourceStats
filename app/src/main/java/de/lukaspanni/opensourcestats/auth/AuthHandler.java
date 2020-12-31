@@ -37,18 +37,21 @@ public class AuthHandler {
 
     public static AuthHandler getInstance(AuthHandlerActivity activity) {
         if (instance != null) {
-            if (instance.authHandlerActivity != activity) {
-                instance.authHandlerActivity = activity;
-                instance.authState = null;
-                if(instance.authService != null)
-                    instance.authService.dispose();
-                instance.authService = null;
-            }
+            instance.setAuthHandlerActivity(activity);
             return instance;
-
         }
         instance = new AuthHandler(activity);
         return instance;
+    }
+
+    public void setAuthHandlerActivity(AuthHandlerActivity activity){
+        if(authHandlerActivity != activity){
+            authHandlerActivity = activity;
+            authState = null;
+            if(authService != null)
+                authService.dispose();
+            authService = null;
+        }
     }
 
     private AuthHandler(AuthHandlerActivity activity) {
