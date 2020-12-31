@@ -1,12 +1,13 @@
 \documentclass[12pt]{article}
 \usepackage[ngerman]{babel}
 \usepackage[utf8]{inputenc}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{inconsolata}
 \usepackage{color}
 \usepackage{enumitem}
 \usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm]{geometry}
 \usepackage[onehalfspacing]{setspace}
+
 
 \definecolor{pblue}{rgb}{0.13,0.13,1}
 \definecolor{pgreen}{rgb}{0,0.5,0}
@@ -49,6 +50,7 @@ Das Ziel beim Brechen der Abhängigkeiten ist es, die Testbarkeit der betroffene
 \newpage
 
 \subsection{ExtractInterface bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/1e47e7b2d42c04429a433a6ac3dbea781409d36d} {1e47e7b}}
+\label{sec:ExtractInterface_AuthHandler_1}
 
 \subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/0daf8862a81a976e3d6341f5b5461bc8d3c64b4f/app/src/main/java/de/lukaspanni/opensourcestats/auth/}{Ausgangszustand}}
 
@@ -88,6 +90,24 @@ Dabei bleibt die alte Funktionalität erhalten und es müssen keine Anpassungen 
 Durch das Brechen der Abhängigkeit ist es nun möglich, beim Erstellen einer Instanz vom Typ \textit{RepositoryDataRepository} oder \textit{UserContributionsRepository} ein \textit{ResponseCache}-Objekt zu übergeben. Dadurch kann zum Beispiel beim Test ein Fake-Objekt übergeben werden.
 \newpage
 
-% TODO: ExtractInterface bei da964f5d7e2485f28cf19b4ec178b92805538adc
+
+\subsection{ExtractInterface bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/da964f5d7e2485f28cf19b4ec178b92805538adc} {da964f5}}
+\label{sec:ExtractInterface_AuthHandler_2}
+
+\subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/473384cdb4bc8e9f8269af865cf210923c42b5c5/app/src/main/java/de/lukaspanni/opensourcestats/auth}{Ausgangszustand}}
+
+Ein Objekt der Klasse \textit{AuthHandler} wird zum Beispiel in der Klasse \textit{GHClient} (bei da964f5 umbenannt in \textit{GithubOAuthClient}) benötigt, um Daten über die API abrufen zu können. Aktuell ist ein Test dieser Komponente nur schwer möglich, da \textit{AuthHandler} selbst wiederum Abhängigkeiten zu einer Third-Party Bibliothek besitzt. Deshalb ist hier das erstellen von Fake-/Mock-Objekten sehr aufwändig. Bei \ref{sec:ExtractInterface_AuthHandler_1} wurde bereits die Testbarkeit der \textit{AuthHandler}-Klasse erhöht und durch ExtractInterface an dieser Stelle soll die Testbarkeit der von \textit{AuthHandler} abhängigen Klassen erhöht werden.
+
+\subsubsection*{Gewählte Technik}
+
+Es wurde \textbf{ExtractInterface} gewählt um Abhängigkeiten zu \textit{AuthHandler} zu beseitigen. Dazu wurde das Interface \textit{AuthenticationHandler} eingeführt wird, das in der alten \textit{AuthHandler}-Klasse (zur besseren Verständlichkeit umbenannt zu \textit{GithubOAuthHandler}) implementiert wird. 
+Um den Vorgang zu ermöglichen wurde zuvor die Singleton-Eigenschaft entfernt (\href{https://github.com/lukaspanni/OpenSourceStats/commit/13efee847af5b7627391d2ae6309b800727c51fd}{13efee8}) und die Methoden und ihre Verwender wurden angepasst (\href{https://github.com/lukaspanni/OpenSourceStats/commit/473384cdb4bc8e9f8269af865cf210923c42b5c5}{473384c}). 
+Anschließend kann das Interface erstellt werden und bei allen Verwendern der Ursprünglichen Klasse, die dies erlauben, die Abhängigkeit zur Konkreten Klasse durch eine Abhängigkeit zum Interface ersetzt werden.
+
+\subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/da964f5d7e2485f28cf19b4ec178b92805538adc/app/src/main/java/de/lukaspanni/opensourcestats/auth}{Endzustand}}
+
+In der Klasse \textit{GithubOAuthClient} konnte die Abhängigkeit zu \textit{GithubOAuthHandler} (vormals \textit{AuthHandler} vollständig beseitigt werden.
+ Dadurch werden Tests der Klasse mit Fake-/Mock-Implementierungen des neuen Interfaces \textit{AuthenticationHandler} möglich. 
+Außerdem wird die Abstraktion verbessert und die konkrete Authentifizierungs-Klasse könnte leichter ausgetauscht werden, was zum Beispiel benötigt wird, wenn ein anderes OAuth-Framework eingesetzt werden sollte.
 
 \end{document}
