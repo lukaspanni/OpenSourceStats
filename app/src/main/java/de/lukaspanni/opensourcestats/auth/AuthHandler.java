@@ -6,14 +6,14 @@ import android.net.Uri;
 import android.util.Log;
 
 import net.openid.appauth.AuthState;
+import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationRequest;
 import net.openid.appauth.AuthorizationService;
 import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.ResponseTypeValues;
+import net.openid.appauth.TokenResponse;
 
 import org.json.JSONException;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * AuthHandler, needed to authenticate via OAuth
@@ -34,11 +34,11 @@ public class AuthHandler {
     public final static int REQUEST_CODE = 42;
 
 
-    public void setAuthHandlerActivity(AuthHandlerActivity activity){
-        if(authHandlerActivity != activity){
+    public void setAuthHandlerActivity(AuthHandlerActivity activity) {
+        if (authHandlerActivity != activity) {
             authHandlerActivity = activity;
             authState = null;
-            if(authService != null)
+            if (authService != null)
                 authService.dispose();
             authService = null;
         }
@@ -55,10 +55,21 @@ public class AuthHandler {
         return authState.isAuthorized();
     }
 
-    public AuthState getAuthState() {
+    private AuthState getAuthState() {
         if (authState == null)
             authState = readAuthState();
         return authState;
+    }
+
+    public void performActionWithToken(AuthenticatedAction action) {
+        //Uses own Interface AuthenticatedAction to reduce dependency to openid AppAuth
+        //Makes it easier to use different/multiple forms of authentication
+        authState.performActionWithFreshTokens(authService, action::execute);
+    }
+
+    public void updateState(TokenResponse response, AuthorizationException ex1) {
+        getAuthState().update(response, ex1);
+        writeAuthState();
     }
 
     public AuthorizationService getAuthService() {
@@ -83,9 +94,17 @@ public class AuthHandler {
         authHandlerActivity.getActivity().startActivityForResult(authIntent, REQUEST_CODE);
     }
 
-    public void writeAuthState() {
-        SharedPreferences authPreferences = authHandlerActivity.getAuthPreferences();
-        authPreferences.edit().putString("authState", authState.jsonSerializeString()).apply();
+    public void forceWriteAuthState() {
+        getAuthState();
+        this.writeAuthState();
+    }
+
+
+    private void writeAuthState() {
+        if (authState != null) {
+            SharedPreferences authPreferences = authHandlerActivity.getAuthPreferences();
+            authPreferences.edit().putString("authState", authState.jsonSerializeString()).apply();
+        }
     }
 
     //Bad Testability because of AuthState.jsonDeserialize (uses URI.parse internally)
@@ -104,7 +123,7 @@ public class AuthHandler {
 
     @Override
     protected void finalize() throws Throwable {
-        if(this.authService != null){
+        if (this.authService != null) {
             authService.dispose();
         }
     }

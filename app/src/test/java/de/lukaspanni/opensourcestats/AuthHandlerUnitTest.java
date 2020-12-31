@@ -25,7 +25,7 @@ public class AuthHandlerUnitTest {
         SharedPreferencesMock sharedPreferences = new SharedPreferencesMock();
         sharedPreferences.setGetStringReturnValue(str);
         sharedPreferences.setMockEditor(mockEditor);
-        return AuthHandler.getInstance(new MockAuthHandlerActivity(sharedPreferences));
+        return new AuthHandler(new MockAuthHandlerActivity(sharedPreferences));
     }
 
     @Test
@@ -50,8 +50,7 @@ public class AuthHandlerUnitTest {
         MockEditor mockEditor = new MockEditor();
         AuthHandler handler = getAuthHandlerWithSharedPreferences(AUTH_STATE_JSON, mockEditor);
 
-        handler.getAuthState();
-        handler.writeAuthState();
+        handler.forceWriteAuthState();
         assertTrue(mockEditor.isApplied());
         assertThat(mockEditor.getPutStringContent().getValue(), is(equalTo("{\"scope\":\"repo:status\",\"mLastTokenResponse\":{\"access_token\":\"426faff42050695169f34affeacafecf09efa00a\",\"request\":{\"redirectUri\":\"de.lukaspanni.oss://opensourcestats/auth\",\"clientId\":\"678ef41ce100a242b1ff\",\"configuration\":{\"tokenEndpoint\":\"https://github.com/login/oauth/access_token\",\"authorizationEndpoint\":\"https://github.com/login/oauth/authorize\"},\"authorizationCode\":\"ffff424242f2fb2ffaba\",\"additionalParameters\":{},\"grantType\":\"authorization_code\"},\"additionalParameters\":{},\"token_type\":\"bearer\"},\"config\":{\"tokenEndpoint\":\"https://github.com/login/oauth/access_token\",\"authorizationEndpoint\":\"https://github.com/login/oauth/authorize\"}}")));
         assertThat(mockEditor.getPutStringContent().getKey(), is(equalTo("authState")));
