@@ -20,7 +20,6 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class AuthHandler {
 
-    private static AuthHandler instance;
 
     private AuthHandlerActivity authHandlerActivity;
     private AuthState authState;
@@ -35,15 +34,6 @@ public class AuthHandler {
     public final static int REQUEST_CODE = 42;
 
 
-    public static AuthHandler getInstance(AuthHandlerActivity activity) {
-        if (instance != null) {
-            instance.setAuthHandlerActivity(activity);
-            return instance;
-        }
-        instance = new AuthHandler(activity);
-        return instance;
-    }
-
     public void setAuthHandlerActivity(AuthHandlerActivity activity){
         if(authHandlerActivity != activity){
             authHandlerActivity = activity;
@@ -54,7 +44,7 @@ public class AuthHandler {
         }
     }
 
-    private AuthHandler(AuthHandlerActivity activity) {
+    public AuthHandler(AuthHandlerActivity activity) {
         this.authHandlerActivity = activity;
         //Not Optimal TODO: find better Solution
         CLIENT_ID = activity.getClientId();

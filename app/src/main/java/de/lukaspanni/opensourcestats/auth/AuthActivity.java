@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import de.lukaspanni.opensourcestats.MainActivity;
+import de.lukaspanni.opensourcestats.OpenSourceStatsApplication;
+
 import com.lukaspanni.opensourcestats.R;
 
 import net.openid.appauth.AuthorizationException;
@@ -27,7 +29,8 @@ public class AuthActivity extends AppCompatActivity implements AuthHandlerActivi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        handler = AuthHandler.getInstance(this);
+        OpenSourceStatsApplication app = (OpenSourceStatsApplication) getApplication();
+        handler = app.getAuthHandler(this);
         setContentView(R.layout.activity_auth);
         Button auth_button = (Button) findViewById(R.id.auth_button);
         auth_button.setOnClickListener(v -> {
