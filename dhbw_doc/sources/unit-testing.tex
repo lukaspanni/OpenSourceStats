@@ -50,15 +50,27 @@ Außerdem tragen Unit-Tests auch zur Dokumentation bei, indem das gewünschte Ve
 Für dieses Projekt wird \textit{JUnit} als Framework für die Erstellung und Ausführung von Java-Unit-Tests verwendet.
 Bei der Implementierung der Tests wurde darauf geachtet die ATRIP-Regeln (\textit{Automatic, Thorough, Repeatable, Independent, Professional}) möglichst zu beachten.
 \newline
-Teile des Codes in diesem Projekt werden für Android-Spezifische UI-Aufgaben benötigt und können nur schlecht getestet werden. Das führt auch dazu, dass die Code-Coverage über das gesamte Projekt vergleichsweise klein sein kann. Stattdessen sollte hier zur Beurteilung der Testabdeckung nur die Code-Coverage der anderen Klassen betrachtet werden.
+Teile des Codes in diesem Projekt werden für Android-Spezifische UI-Aufgaben benötigt und können deshalb nur schlecht getestet werden. Das führt auch dazu, dass die Code-Coverage über das gesamte Projekt vergleichsweise klein sein kann und in diesem Fall keine sinnvolle Aussage über die Genauigkeit der Tests ermöglicht.
+Stattdessen sollte hier zur Beurteilung der Testabdeckung nur die Code-Coverage der nicht-UI-Klassen betrachtet werden.
 \newline
 Allgemein wird darauf verzichtet triviale Funktionen, wie zum Beispiel Getter zu testen.
 Tests dieser Funktionen würden bei großem Aufwand nur einen minimalen Mehrwert bringen, da keine echte Funktionalität getestet wird.
 Stattdessen sollen sich die Tests auf relevante Funktionalität des Systems fokussieren. Das bedeutet auch, dass vor allem die Klassen getestet werden sollen, die häufig verwendet werden.
 \newline
+\newline
 Zum Beispiel werden in diesem System oft Konvertierungen von API-Datentypen zu Datentypen der Anwendung durchgeführt.
-Diese Konvertierungen werden meist in den Konstruktoren der jeweiligen Anwendungsdatentypen durchgeführt.
-Deshalb werden diese ausführlich getestet, wobei auch dabei auf Tests trivialer Funktionalität verzichtet wird.
+Implementiert sind diese Konvertierungen in den Anwendungsdatentypen, die im \textit{data}-Package zusammengefasst sind.
+Diese werden häufig verwendet und werden deshalb ausführlich getestet, wobei auch hier auf Tests trivialer Funktionalität verzichtet wird.
+\newline
+Im \textit{data}-Package befindet sich zusätzlich ein \textit{Cache}-Package, das Klassen enthält, die für das Caching von Anwendungsdaten notwendig sind.
+Die Caching-Funktionalität wird eingesetzt, um die über eine Netzwerkverbindung übertragene Datenmenge zu reduzieren, da sehr viele Daten mehrfach benötigt werden. 
+Da die Cache-Komponente häufig benutzt wird und damit von hoher Relevanz für die Funktionalität der gesamten Anwendung ist, ist auch hier eine hohe Testabdeckung notwendig.
+\newline
+Deshalb ist das Ziel, im gesamten \textit{data}-Package die Code-Coverage hoch zu halten. Trotzdem sollen auch hier keine trivialen Funktionen getestet werden.
+\newline
+\newline
+
+%TODO: Code-Coverage Report und weitere Stellen begründen
 
 
 
@@ -67,6 +79,8 @@ Deshalb werden diese ausführlich getestet, wobei auch dabei auf Tests trivialer
 
 Fake- und Mock-Objekte werden benötigt, um Abhängigkeiten einer Komponente zu anderen Komponenten in Unit-Tests zu reduzieren.
 Sie implementieren dafür zum Beispiel das benötigte Interface, aber davon nur die aktuell benötigte Funktionalität.
+
+%TODO: Einsatz anhand von Beispielen begründen?
 
 
 \end{document}

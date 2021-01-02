@@ -180,6 +180,12 @@ Abbildung \ref{fig:ExtractMethod_Refactoring_After} zeigt das UML-Klassendiagram
 \end{figure}
 \newpage
 
-% TODO: ExtractMethod bei 2eedf85be90e2566aa3811f9ccd3bac860c444a2
+
+\subsection{ExtractMethod bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/2eedf85be90e2566aa3811f9ccd3bac860c444a2} {2eedf85}}
+\label{sec:ExtractMethod_AuthHandler}
+
+Um die Singleton-Eigenschaft der Klasse \textit{AuthHandler} entfernen zu können, muss ein Teil der \textit{getInstance()} Methode in eine andere Methode übertragen werden.
+Dafür wird das Refactoring \textbf{ExtractMethod} angewendet. So kann kann das Verhalten wiederverwendet werden. Teile des Verhaltens der \textit{getInstance()} Methode sind dadurch noch erhalten, auch wenn die ursprüngliche Methode in einem späteren Commit entfernt wird.
+
 
 \end{document}
