@@ -8,8 +8,6 @@ import androidx.annotation.Nullable;
 
 import com.lukaspanni.opensourcestats.R;
 
-import java.text.DecimalFormat;
-
 import de.lukaspanni.opensourcestats.data.ContributionCount;
 import de.lukaspanni.opensourcestats.data.ContributionCountChange;
 import de.lukaspanni.opensourcestats.ui.custom_elements.PercentageTextView;

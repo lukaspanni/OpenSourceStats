@@ -45,7 +45,7 @@ public abstract class RepositoryListFragment extends ListFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            Objects.requireNonNull(getActivity()).onBackPressed();
+            requireActivity().onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -75,7 +75,7 @@ public abstract class RepositoryListFragment extends ListFragment {
             if(strings.size() < 1){
                 strings.add(getString(R.string.no_repos_found_item));
             }
-            setListAdapter(new ArrayAdapter<>(Objects.requireNonNull(getContext()), R.layout.repository_list_item, R.id.repo_list_item, strings.toArray()));
+            setListAdapter(new ArrayAdapter<>(requireContext(), R.layout.repository_list_item, R.id.repo_list_item, strings.toArray()));
         };
     }
 

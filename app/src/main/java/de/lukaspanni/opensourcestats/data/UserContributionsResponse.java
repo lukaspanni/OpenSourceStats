@@ -2,8 +2,6 @@ package de.lukaspanni.opensourcestats.data;
 
 import de.lukaspanni.opensourcestats.UserContributionsQuery;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
