@@ -6,77 +6,54 @@ import android.net.Uri;
 import android.util.Log;
 
 import net.openid.appauth.AuthState;
+import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationRequest;
 import net.openid.appauth.AuthorizationService;
 import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.ResponseTypeValues;
+import net.openid.appauth.TokenResponse;
 
 import org.json.JSONException;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * AuthHandler, needed to authenticate via OAuth
  */
-public class AuthHandler {
+public class GithubOAuthHandler implements AuthenticationHandler {
 
-    private static AuthHandler instance;
 
-    private AuthHandlerActivity authHandlerActivity;
-    private AuthState authState;
-    private AuthorizationService authService;
-
+    public final static int REQUEST_CODE = 42;
     //TODO: Remove URL-Dependencies -> Config
     private final String AUTH_ENDPOINT = "https://github.com/login/oauth/authorize";
     private final String TOKEN_ENDPOINT = "https://github.com/login/oauth/access_token";
     private final Uri REDIRECT_URI = Uri.parse("de.lukaspanni.oss://opensourcestats/auth");
     private final String SCOPES = "repo:status";
     private final String CLIENT_ID;
-    public final static int REQUEST_CODE = 42;
+    private AuthHandlerActivity authHandlerActivity;
+    private AuthState authState;
+    private AuthorizationService authService;
 
 
-    public static AuthHandler getInstance(AuthHandlerActivity activity) {
-        if (instance != null) {
-            if (instance.authHandlerActivity != activity) {
-                instance.authHandlerActivity = activity;
-                instance.authState = null;
-                if(instance.authService != null)
-                    instance.authService.dispose();
-                instance.authService = null;
-            }
-            return instance;
-
-        }
-        instance = new AuthHandler(activity);
-        return instance;
-    }
-
-    private AuthHandler(AuthHandlerActivity activity) {
+    public GithubOAuthHandler(AuthHandlerActivity activity) {
         this.authHandlerActivity = activity;
         //Not Optimal TODO: find better Solution
         CLIENT_ID = activity.getClientId();
     }
 
+    @Override
     public boolean checkAuth() {
         authState = getAuthState();
         return authState.isAuthorized();
     }
 
-    public AuthState getAuthState() {
-        if (authState == null)
-            authState = readAuthState();
-        return authState;
-    }
-
-    public AuthorizationService getAuthService() {
-        if (authService != null) {
-            return authService;
-        }
-        authService = new AuthorizationService(authHandlerActivity.getActivity());
-        return authService;
+    @Override
+    public void performActionWithToken(AuthenticatedAction action) {
+        //Uses own Interface AuthenticatedAction to reduce dependency to openid AppAuth
+        //Makes it easier to use different/multiple forms of authentication
+        authState.performActionWithFreshTokens(authService, action::execute);
     }
 
 
+    @Override
     public void authenticate() {
         AuthorizationServiceConfiguration serviceConfig = new AuthorizationServiceConfiguration(
                 Uri.parse(AUTH_ENDPOINT), Uri.parse(TOKEN_ENDPOINT));
@@ -90,14 +67,52 @@ public class AuthHandler {
         authHandlerActivity.getActivity().startActivityForResult(authIntent, REQUEST_CODE);
     }
 
-    public void writeAuthState() {
-        SharedPreferences authPreferences = authHandlerActivity.getActivity().getSharedPreferences("auth", MODE_PRIVATE);
-        authPreferences.edit().putString("authState", authState.jsonSerializeString()).apply();
+    public void setAuthHandlerActivity(AuthHandlerActivity activity) {
+        if (authHandlerActivity != activity) {
+            authHandlerActivity = activity;
+            authState = null;
+            if (authService != null)
+                authService.dispose();
+            authService = null;
+        }
+    }
+
+    private AuthState getAuthState() {
+        if (authState == null)
+            authState = readAuthState();
+        return authState;
+    }
+
+    public void updateState(TokenResponse response, AuthorizationException ex1) {
+        getAuthState().update(response, ex1);
+        writeAuthState();
+    }
+
+    public AuthorizationService getAuthService() {
+        if (authService != null) {
+            return authService;
+        }
+        authService = new AuthorizationService(authHandlerActivity.getActivity());
+        return authService;
+    }
+
+
+    public void forceWriteAuthState() {
+        getAuthState();
+        this.writeAuthState();
+    }
+
+
+    private void writeAuthState() {
+        if (authState != null) {
+            SharedPreferences authPreferences = authHandlerActivity.getAuthPreferences();
+            authPreferences.edit().putString("authState", authState.jsonSerializeString()).apply();
+        }
     }
 
     //Bad Testability because of AuthState.jsonDeserialize (uses URI.parse internally)
     private AuthState readAuthState() {
-        SharedPreferences authPreferences = authHandlerActivity.getActivity().getSharedPreferences("auth", MODE_PRIVATE);
+        SharedPreferences authPreferences = authHandlerActivity.getAuthPreferences();
         String stateString = authPreferences.getString("authState", null);
         if (stateString != null) {
             try {
@@ -111,7 +126,7 @@ public class AuthHandler {
 
     @Override
     protected void finalize() throws Throwable {
-        if(this.authService != null){
+        if (this.authService != null) {
             authService.dispose();
         }
     }
