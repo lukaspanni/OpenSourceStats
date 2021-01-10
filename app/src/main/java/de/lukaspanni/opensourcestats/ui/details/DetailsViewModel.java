@@ -52,7 +52,7 @@ public class DetailsViewModel extends AndroidViewModel {
         OpenSourceStatsApplication application = (OpenSourceStatsApplication) getApplication();
         UserContributionsRepository repository = application.getUserContributionsRepository();
 
-        repository.userContributionsTimeSpan(timeSpan, data -> {
+        repository.loadUserContributionsInTimeSpan(timeSpan, data -> {
             UserContributionsResponse responseData = (UserContributionsResponse) data;
             if (data == null) return;
             ContributionRepositories repositories = responseData.getContributionRepositories();

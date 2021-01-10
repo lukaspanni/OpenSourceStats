@@ -64,7 +64,7 @@ public class RepositoryDetailsViewModel extends AndroidViewModel {
         this.repositoryName.postValue(repositoryWithOwner);
         OpenSourceStatsApplication app = (OpenSourceStatsApplication) getApplication();
         RepositoryDataRepository repository = app.getRepositoryDataRepository();
-        repository.repositorySummary(new RepositoryName(repositoryWithOwner), response -> {
+        repository.loadRepositoryData(new RepositoryName(repositoryWithOwner), response -> {
             RepositoryDataResponse repositoryData = (RepositoryDataResponse) response;
             this.repositoryCreatedAt.postValue(repositoryData.getCreatedAt());
             this.repositoryDescription.postValue(repositoryData.getDescription());

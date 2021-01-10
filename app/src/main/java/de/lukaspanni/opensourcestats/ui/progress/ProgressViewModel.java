@@ -52,18 +52,18 @@ public class ProgressViewModel extends AndroidViewModel implements DataAccessVie
             if (data == null) return;
             currentWeekContributions.postValue(currentWeekData.getContributionCount());
         }, forceReload);
-        repository.userContributionsLastWeek(data -> {
+        repository.loadUserContributionsInLastWeek(data -> {
             UserContributionsResponse lastWeekData = (UserContributionsResponse) data;
             if (data == null) return;
             lastWeekContributions.postValue(lastWeekData.getContributionCount());
         }, forceReload);
 
-        repository.userContributionsCurrentMonth(data -> {
+        repository.loadUserContributionsInCurrentMonth(data -> {
             UserContributionsResponse currentMonthData = (UserContributionsResponse) data;
             if (data == null) return;
             currentMonthContributions.postValue(currentMonthData.getContributionCount());
         }, forceReload);
-        repository.userContributionsLastMonth(data -> {
+        repository.loadUserContributionsInLastMonth(data -> {
             UserContributionsResponse lastMonthData = (UserContributionsResponse) data;
             if (data == null) return;
             lastMonthContributions.postValue(lastMonthData.getContributionCount());

@@ -29,7 +29,7 @@ public class UserContributionsRepository extends Repository<TimeSpan> {
         this(new ResponseCache<>(maxAge), client);
     }
 
-    public void userContributionsTimeSpan(TimeSpan timeSpan, ClientDataCallback callback, boolean forceReload) {
+    public void loadUserContributionsInTimeSpan(TimeSpan timeSpan, ClientDataCallback callback, boolean forceReload) {
         if (!forceReload) {
             UserContributionsResponse data = cache.get(timeSpan);
             if (data != null) {
@@ -48,20 +48,20 @@ public class UserContributionsRepository extends Repository<TimeSpan> {
     }
 
 
-    public void userContributionsLastWeek(ClientDataCallback callback, boolean forceReload) {
-        userContributionsTimeSpan(TimeSpanFactory.getLastWeek(), callback, forceReload);
+    public void loadUserContributionsInLastWeek(ClientDataCallback callback, boolean forceReload) {
+        loadUserContributionsInTimeSpan(TimeSpanFactory.getLastWeek(), callback, forceReload);
     }
 
-    public void userContributionsCurrentWeek(ClientDataCallback callback, boolean forceReload) {
-        userContributionsTimeSpan(TimeSpanFactory.getCurrentWeek(), callback, forceReload);
+    public void loadUserContributionsInCurrentWeek(ClientDataCallback callback, boolean forceReload) {
+        loadUserContributionsInTimeSpan(TimeSpanFactory.getCurrentWeek(), callback, forceReload);
     }
 
-    public void userContributionsLastMonth(ClientDataCallback callback, boolean forceReload) {
-        userContributionsTimeSpan(TimeSpanFactory.getLastMonth(), callback, forceReload);
+    public void loadUserContributionsInLastMonth(ClientDataCallback callback, boolean forceReload) {
+        loadUserContributionsInTimeSpan(TimeSpanFactory.getLastMonth(), callback, forceReload);
     }
 
-    public void userContributionsCurrentMonth(ClientDataCallback callback, boolean forceReload) {
-        userContributionsTimeSpan(TimeSpanFactory.getCurrentMonth(), callback, forceReload);
+    public void loadUserContributionsInCurrentMonth(ClientDataCallback callback, boolean forceReload) {
+        loadUserContributionsInTimeSpan(TimeSpanFactory.getCurrentMonth(), callback, forceReload);
     }
 
 }

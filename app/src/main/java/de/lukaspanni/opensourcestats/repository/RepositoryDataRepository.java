@@ -30,7 +30,7 @@ public class RepositoryDataRepository extends Repository<RepositoryName>{
         this(new ResponseCache<>(maxAge), client);
     }
 
-    public void repositorySummary(RepositoryName repository, ClientDataCallback callback, boolean forceReload){
+    public void loadRepositoryData(RepositoryName repository, ClientDataCallback callback, boolean forceReload){
         if(!forceReload){
             RepositoryDataResponse data = cache.get(repository);
             if(data != null){
