@@ -1,9 +1,13 @@
-\documentclass{article}
+\documentclass[12pt]{article}
 \usepackage[ngerman]{babel}
 \usepackage[utf8]{inputenc}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{inconsolata}
 \usepackage{color}
+\usepackage{enumitem}
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm]{geometry}
+\usepackage[onehalfspacing]{setspace}
+
 
 \definecolor{pblue}{rgb}{0.13,0.13,1}
 \definecolor{pgreen}{rgb}{0,0.5,0}
@@ -25,13 +29,115 @@
   moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
 }
 
+
 \title{Domain Driven Design}
 \date{DHBW Karlsruhe\\ Vorlesung Advanced Software Engineering Semester 5/6}
 \author{Lukas Panni \\ TINF18B5}
 \begin{document}
 \maketitle
 
+\newpage
+\tableofcontents
+\newpage
 
+\section{Analyse der Ubiquitous Language}
+
+Kern des \textit{Domain Driven Design} ist das gemeinsame Verständnis der Problemdomäne. Dies ist notwendig, um ein präzises Modell der Domäne erstellen zu können.
+Um die Kommunikation zwischen Entwicklern und Domänenexperten zu ermöglichen wird die sogenannte \textbf{Ubiquitous  Language} verwendet.
+Da weder Domänenexperten die Sprache der Entwickler, noch umgekehrt die Entwickler die Sprache der Domänenexperten verstehen ist die Ubiquitous Language als gemeinsame Sprache unerlässlich.
+Diese wird von Entwicklern und Domänenexperten gleichermaßen verwendet, um Begriffe, Prozesse und Konzepte eindeutig zu bezeichnen.
+Wenn die Ubiquitous Language korrekt eingesetzt wird werden in der Domäne und im Quellcode der Anwendung die gleichen Begriffe für die gleichen Konzepte verwendet.
+So können Missverständnisse und Mehrdeutigkeiten sicher vermieden werden, was gerade bei komplexen Domänen den Softwareerstellungsprozess erleichtert.
+Beim definieren der Ubiquitous Language sollte der Fokus auf die Begriffe und Konzepte der Kerndomäne gelegt werden.
+Andere Bereiche der Domäne können auch weniger genau modelliert werden, damit der Aufwand angemessen bleibt.
+\newline
+\newline
+Die Kerndomäne dieses Projekts ist die Übersicht über Beteiligungen (Contributions) an Öffentlichen Repositories auf der Plattform \textit{GitHub}.
+Die Ubiquitous Language ist dabei vergleichsweise einfach zu definieren, da sich die Anwendung an Entwickler richtet, die in diesem Fall gleichzeitig auch Domänenexperten sind.
+Trotzdem muss darauf geachtet werden, dass einheitliche Begriffe verwendet werden.
+Da die Plattform GitHub eindeutige Begriffe für die Bezeichnung von verschiedenen, wichtigen Konzepten verwendet und kein Einfluss auf diese Bezeichnungen besteht, wurde entschieden diese Bezeichnungen möglichst zu verwenden. Dabei werden diese Bezeichnungen nicht nur im Code sondern auch im User-Interface eingesetzt.
+
+\subsection*{Repository / Repositories}
+Der Begriff Repository beschreibt in diesem Kontext ein Verzeichnis, das zur Ablage von z.B. Programmcode verwendet werden kann.
+Dabei bietet ein Repository bei GitHub aber auch noch weitere Funktionen, die hier aufgrund der Fehlenden Relevanz für das System nicht genauer erläutert werden.
+Das Verständnis eines Repositoriy als Verzeichnis zur Ablage von Daten ist ausreichend.
+Der Begriff wird sowohl im Code als auch im User-Interface verwendet.
+Beispiele für die Verwendung des Begriffs im Code finden sich in der Klasse \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/RepositoryDataResponse.java}{\textit{RepositoryDataResponse}}, die Daten zu einem Repository speichert, die von der API abgerufen wurden und in der Klasse \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/ContributionRepositories.java}{\textit{ContributionRepositories}}, die beschreibt, in welchen Repositories Contributions durchgeführt wurden.
+\newline
+Beim Begriff Repository existiert allerdings eine Doppeldeutigkeit, da der Begriff Repository innerhalb des Systems auch als Bezeichnung für Klassen, die das \textit{Repository-Pattern} implementieren verwendet wird. Das führt zum Beispiel zu der Mehrdeutigen Bezeichnung der Klasse \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/repository/RepositoryDataRepository.java}{RepositoryDataRepository}. Diese Mehrdeutigkeit kann nur schwer beseitigt werden, da einerseits der Repository-Begriff aus der Domänensprache verwendet werden soll, andererseits aber auch Repository-Pattern-Klassen eindeutig gekennzeichnet werden sollen. Deshalb wird diese Mehrdeutigkeit akzeptiert und festgelegt, dass Klassen die das Repository-Pattern implementieren, den Begriff Repository am Ende des Klassennamens enthalten. Kommt der Begriff an anderen Stellen vor, kann mit hoher Wahrscheinlichkeit davon ausgegangen werden, dass ein Repository im Sinne der Domäne gemeint ist.
+
+\subsection*{Contribution / Contributions}
+\label{sec:Contributions}
+Beteiligungen an Repositories werden auf GitHub als Contributions bezeichnet. 
+Die API, die verwendet wird um Daten abzurufen, verwendet ebenfalls diese Bezeichnung. 
+Folglich soll auch im Code diese Bezeichnung für das gleiche Konzept verwendet werden.
+\newline
+Der Begriff Contributions ist allerdings nur ein Sammelbegriff für vier weitere Konzepte, die von großer Bedeutung für die Ubiquitous Language der Problemdomäne sind.
+Diese Konzepte sind \hyperref[sec:Commits]{\textit{Commits}}, \hyperref[sec:Issues]{\textit{Issues}}, \hyperref[sec:PullRequests]{\textit{Pull Requests}} und \hyperref[sec:PullRequestReviews]{\textit{Pull Request Reviews}}, und werden im Folgenden beschrieben.
+Die jeweilige Anzahl in einem bestimmten Zeitraum lässt sich über die GitHub-API abrufen und ist innerhalb dieser Anwendung von hoher Relevanz, da aus diesen Daten verschiedene Statistiken erstellt und dem Nutzer angezeigt werden.
+\subsubsection*{Commit / Commits}
+\label{sec:Commits}
+Ein Commit kann in diesem Kontext als Prozess vorgenommene Änderungen am Quellcode zu bestätigen verstanden werden.
+Die Anzahl der Commits in einem bestimmten Zeitraum erfasst so, wie viele unterschiedliche Änderungen ein Nutzer in diesem Zeitraum auf GitHub öffentlich gemacht hat. 
+\subsubsection*{Issue / Issues}
+\label{sec:Issues}
+Issues werden bei GitHub verwendet um Ideen, neue Features, Aufgaben und Bugs zentral zu verwalten und stellen die zweite Art der Contribution dar.
+Die Anzahl der Issues beschreibt, wie viele neue Issues ein Nutzer in einem bestimmten Zeitraum erstellt hat.
+Diese Beschreibung reicht für das Verständnis im Rahmen dieses Projekts aus.
+\subsubsection*{Pull Request / Pull Requests}
+\label{sec:PullRequests}
+GitHub verwendet sogenannte Pull Requests um Änderungen Code aus einem Branch in einen anderen, z.B. den main-Branch, zu übernehmen.
+Dabei bietet ein Pull Request die Möglichkeit weitere Tests oder auch ein Code-Review durchzuführen, bevor der Pull Request angenommen wird.
+Damit stellen Pull Requests ein wichtiges Konzept dar, das die Kollaboration erleichtert.
+Die Anzahl an Pull Requests beschreibt, wie viele Pull Requests eine Nutzer in einem bestimmen Zeitraum erstellt hat.
+\subsubsection*{Pull Request Review / Pull Request Reviews}
+\label{sec:PullRequestReviews}
+Ein Pull Request Review beschreibt bei GitHub ein Code-Review im Rahmen eines Pull Requests.
+Das Kommentieren von Änderungen eines anderen Nutzers, die dieser in Form eines Pull Requests einreicht, wird dabei als Pull Request Review gewertet.
+Die Anzahl von Pull Request Reviews beschreibt, wie viele Code-Reviews von Pull Requests anderer Nutzer durchgeführt wurden.
+\newline
+\newline
+Die Klasse \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/ContributionCount.java}{\textit{ContributionCount}} ist ein Beispiel dafür, wie alle Bezeichnungen, die im Zusammenhang mit Contributions stehen, auch im Code verwendet werden. Dies wird in Listing \ref{lst:ContributionCount} nochmals verdeutlicht. Die Klasse ContributionCount hat je eine Instanzvariable für die Anzahl von Commits, Issues, Pull Requests und Pull Request Reviews und verwendet somit alle vorgestellten Bezeichnungen, die in der Domäne im Zusammenhang mit Contributions verwendet werden.
+\begin{lstlisting}[caption={Auszug aus der Klasse ContributionCount}, captionpos=b, label={lst:ContributionCount}]
+public final class ContributionCount {
+
+    private final int commitCount;
+    private final int issueCount;
+    private final int pullRequestCount;
+    private final int pullRequestReviewCount;
+
+    public ContributionCount(int commits, int issues, int pullRequests, int pullRequestReviews) {
+        this.commitCount = Math.max(commits, 0);
+        this.issueCount = Math.max(issues, 0);
+        this.pullRequestCount = Math.max(pullRequests, 0);
+        this.pullRequestReviewCount = Math.max(pullRequestReviews, 0);
+    }
+[...]
+}
+\end{lstlisting}
+Auch im User-Interface werden diese Bezeichnungen gemeinsam verwendet, wie zum Beispiel die UI-Klasse \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/ui/custom_elements/card/OverviewCard.java}{\textit{OverviewCard}} zeigt, die ebenfalls all diese Bezeichnungen verwendet.
+\newline
+Generell sind diese Begriffe von großer Bedeutung für das System und werden deshalb noch an vielen weiteren Stellen verwendet.
+Weitere Beispiele sind unter anderem die Klasse \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/ContributionCountChange.java}{\textit{ContributionCountChange}}, die eine Veränderung der Contribution-Anzahl im Vergleich zu einem anderen Zeitraum beschreibt und die zugehörige UI-Klasse \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/ui/custom_elements/card/ProgressCard.java}{\textit{ProgressCard}}.
+
+
+
+
+\newpage
+
+\section{Analyse und Begründung von Value Objects}
+
+\newpage
+
+\section{Analyse und Begründung Entities}
+
+\newpage
+
+\section{Analyse und Begründung von Aggregates}
+
+\newpage
+
+\section{Analyse und Begründung Repositories}
 
 
 \end{document}
