@@ -49,7 +49,7 @@ public class GithubOAuthHandler implements AuthenticationHandler {
     public void performActionWithToken(AuthenticatedAction action) {
         //Uses own Interface AuthenticatedAction to reduce dependency to openid AppAuth
         //Makes it easier to use different/multiple forms of authentication
-        authState.performActionWithFreshTokens(authService, action::execute);
+        authState.performActionWithFreshTokens(getAuthService(), action::execute);
     }
 
 
