@@ -55,23 +55,43 @@ Stattdessen sollte hier zur Beurteilung der Testabdeckung nur die Code-Coverage 
 \newline
 Allgemein wird darauf verzichtet triviale Funktionen, wie zum Beispiel Getter zu testen.
 Tests dieser Funktionen würden bei großem Aufwand nur einen minimalen Mehrwert bringen, da keine echte Funktionalität getestet wird.
-Stattdessen sollen sich die Tests auf relevante Funktionalität des Systems fokussieren. Das bedeutet auch, dass vor allem die Klassen getestet werden sollen, die häufig verwendet werden.
+Stattdessen sollen sich die Tests auf relevante Funktionalität des Systems fokussieren.
+Das bedeutet, dass vor allem die Klassen getestet werden sollen, die häufig verwendet werden und auch die Klassen, die für die Funktion der Anwendung unerlässlich sind.
+UI-Klassen, die aufgrund starker Abhängigkeiten zu Android-Klassen schwer testbar sind sollen weniger ausführlich getestet werden.
+\newline
+Für die Tests innerhalb dieses Systems wurden drei Kernfunktionalitäten identifiziert, die von einer hohen Testabdeckung am stärksten profitieren.
+Diese sind das Abrufen von Daten von der API, die Konvertierung von API-Datentypen zu Datentypen der Anwendung und in diesem Zusammenhang auch das Caching von abgerufenen Daten um die Netzwerklast zu reduzieren.
+\newline
+Diese Funktionalitäten verteilen sich auf die Packages \textit{client}, \textit{data} und \textit{repository}.
+Im Folgenden wird genauer auf die Tests dieser Packages eingegangen
 \newline
 \newline
-Zum Beispiel werden in diesem System oft Konvertierungen von API-Datentypen zu Datentypen der Anwendung durchgeführt.
-Implementiert sind diese Konvertierungen in den Anwendungsdatentypen, die im \textit{data}-Package zusammengefasst sind.
-Diese werden häufig verwendet und werden deshalb ausführlich getestet, wobei auch hier auf Tests trivialer Funktionalität verzichtet wird.
-\newline
-Im \textit{data}-Package befindet sich zusätzlich ein \textit{Cache}-Package, das Klassen enthält, die für das Caching von Anwendungsdaten notwendig sind.
-Die Caching-Funktionalität wird eingesetzt, um die über eine Netzwerkverbindung übertragene Datenmenge zu reduzieren, da sehr viele Daten mehrfach benötigt werden. 
-Da die Cache-Komponente häufig benutzt wird und damit von hoher Relevanz für die Funktionalität der gesamten Anwendung ist, ist auch hier eine hohe Testabdeckung notwendig.
-\newline
-Deshalb ist das Ziel, im gesamten \textit{data}-Package die Code-Coverage hoch zu halten. Trotzdem sollen auch hier keine trivialen Funktionen getestet werden.
+Das data-Package enthält alle Klassen, die als Nutzdaten von der Anwendung verarbeitet werden.
+Antworten, die von der API empfangen werden, werden in einem ersten Schritt in einen solchen Datentyp konvertiert.
+Diese Konvertierungen werden in den Konstruktoren der Klassen durchgeführt. Ansonsten werden diese Klassen hauptsächlich zur Speicherung von Anwendungsdaten verwendet und enthalten nur vergleichsweise wenig weitere Funktionalität.
+Da die Konvertierung von API-Datentyp in Anwendungsdatentyp sehr häufig verwendet wird und die Anwendungsdatentypen generell an vielen verschiedenen verwendet werden, sind hier  ausführliche Tests notwendig.
+Der Fokus der Tests liegt dabei auf den Konstruktoren, alle weiteren Funktionalitäten der Klassen sind weniger wichtig und meist trivial.
 \newline
 \newline
+Im repository-Package, sind einerseits Repository-Klassen enthalten, die den Zugriff auf Anwendungsdaten abstrahieren und dabei das Caching der Daten transparent machen.
+Andererseits finden sich hier auch die Klassen, die für die Umsetzung des Cachings verwendet werden.
+Die Repository-Klassen übernehmen die Funktion, die Daten aus dem Cache abzurufen, wenn diese dort vorhanden sind und ansonsten die Daten über Funktionalität, die im client-Package implementiert ist von der API-abzurufen.
+Als zentrale Komponente, um auf Daten zuzugreifen sind die Repository-Klassen deshalb  entscheidend für die Funktionalität der gesamten Anwendung.
+Aus diesem Grund ist es wichtig hier eine möglichst hohe Testabdeckung zu erreichen.
+\newline
+Die Komponente zum Caching ist ebenfalls wichtig, da ohne funktionierendes Caching sehr viele Anfragen über das Netzwerk gesendet werden müssen, was nicht nur die Menge der übertragenen Daten unnötig erhöht, sondern auch die Reaktionszeit der Anwendung verschlechtert.
+Deshalb ist  auch im cache-Package eine hohe Testabdeckung wünschenswert.
+\newline
+\newline
+Das client-Package enthält alle Klassen, die benötigt werden, um Daten von der API abrufen zu können und steht damit, wie auch das cache-Package, im Zusammenhang mit dem Datenzugriff über die Repository-Klassen.
+Es ist offensichtlich, dass auch diese Funktionalität von großer Bedeutung für die Funktionalität der Anwendung ist, und deshalb auch in diesem Package eine möglichst hohe Testabdeckung angestrebt wird.
+\newline
+\newline
+Im Gegensatz zu den genannten Bereichen ist eine hohe Testabdeckung im \textit{ui}-Package weniger wichtig und bringt nur wenig Nutzen. 
+Zusätzlich ist hier aufgrund der genannten Einschränkungen eine hohe Testabdeckung nur mit sehr hohem Aufwand möglich.
+Im Anbetracht des geringen Nutzens ist der Aufwand hier eine hohe Testabdeckung zu erreichen nicht gerechtfertigt, weshalb hier weitestgehend auf ausführliche Tests verzichtet wird.
 
 %TODO: Code-Coverage Report und weitere Stellen begründen
-
 
 
 \newpage
