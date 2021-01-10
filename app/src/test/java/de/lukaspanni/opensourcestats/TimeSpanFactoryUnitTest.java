@@ -57,8 +57,9 @@ public class TimeSpanFactoryUnitTest {
 
         TimeSpan ts = TimeSpanFactory.getWeek(testCalendar, dayInWeek);
 
-      //  assertThat(ts.getStart(), is(equalTo(expectedStart)));
-       // assertThat(ts.getEnd(), is(equalTo(expectedEnd)));
+        //TODO: find out why Github-Actions fails here, but works locally
+        //assertThat(ts.getStart(), is(equalTo(expectedStart)));
+        // assertThat(ts.getEnd(), is(equalTo(expectedEnd)));
     }
 
     @Test
