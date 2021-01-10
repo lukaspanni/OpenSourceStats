@@ -149,15 +149,18 @@ view.findViewById(R.id.to_issue_repos)
 \label{sec:ExtractMethod_Repository}
 
 In den Klassen \textit{UserContributionsRepository} und \textit{RepositoryDataRepository} wurde doppelter und zusätzlich schlecht verständlicher Code verwendet. Um die Verständlichkeit des Codes zu erhöhen wurde eine Methode extrahiert und so benannt, dass die Funktion leicht verständlich ist. Die extrahierte Methode wurde in die Basisklasse verschoben, da diese Methode in allen Ableitungen der Basisklasse verwendet wird. Diese Änderung ist vergleichsweise klein erhöht jedoch die subjektive Verständlichkeit enorm.
-\newline
-\newline
-\textbf{Code Vorher:}
-\begin{lstlisting}
-ClientDataCallback decoratedCallback = new ClientDataCallbackDecorator(callback, response ->  cache.put(repository, (RepositoryDataResponse) response));
+\subsubsection*{Code Vorher:}
+\begin{lstlisting}[breaklines=false]
+ClientDataCallback decoratedCallback = new ClientDataCallbackDecorator(
+	callback, 
+	response -> cache.put(
+		repository, (RepositoryDataResponse) response));
 \end{lstlisting}
-\textbf{Code Nacher:} 
-\begin{lstlisting}
-ClientDataCallback decoratedCallback = new ClientDataCallbackDecorator(callback, getAddToCacheCallback(repository));
+\subsubsection*{Code Nacher:}
+\begin{lstlisting}[breaklines=false]
+ClientDataCallback decoratedCallback = new ClientDataCallbackDecorator(
+	callback, 
+	getAddToCacheCallback(repository));
 \end{lstlisting}
 
 \newpage
@@ -186,6 +189,45 @@ Abbildung \ref{fig:ExtractMethod_Refactoring_After} zeigt das UML-Klassendiagram
 
 Um die Singleton-Eigenschaft der Klasse \textit{AuthHandler} entfernen zu können, muss ein Teil der \textit{getInstance()} Methode in eine andere Methode übertragen werden.
 Dafür wird das Refactoring \textbf{ExtractMethod} angewendet. So kann kann das Verhalten wiederverwendet werden. Teile des Verhaltens der \textit{getInstance()} Methode sind dadurch noch erhalten, auch wenn die ursprüngliche Methode in einem späteren Commit entfernt wird.
+
+
+\subsection{RenameMethod bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/650235a5868f35cd0c641f0112b921ddead17a17} {650235a}}
+\label{sec:RenameMethod_Repositories}
+
+In den beiden Klassen \textit{RepositoryDataRepository} und \textit{UserContributionsRepository} werden Methodennamen verwendet, die den Zweck der Methode nur schwer verständlich machen. Um dies zu beheben wurde das Refactoring \textbf{ExtractMethod} angewendet.
+\subsubsection*{RepositoryDataRepository}
+Die Methode \textit{RepositoryDataRepository.repositorySummary} wurde umbenannt in \textit{RepositoryDataRepository.loadRepositoryData}, da dieser Name die Funktion der Methode deutlich besser beschreibt. Der alte Methodenname beschreibt nur den Zusammenhang mit einer Zusammenfassung über ein Repository, zeigt aber nicht deutlich genug, dass in dieser Methode Daten zu einem übergebenen Repository geladen werden. Auch war aufgrund des Methodennamens die Funktion des Parameters \textit{forceReload} unklar.
+Mit dem neuen Methodennamen sollen der Code deutlich leichter verständlich sein.
+\subsubsection*{UserContributionsRepository}
+In dieser Klasse wurden mehrere ähnliche Methoden umbenannt:
+\begin{itemize}
+	\item{\textit{UserContributionsRepository.userContributionsTimeSpan} umbenannt in \textit{UserContributionsRepository.loadUserContributionsInTimeSpan}}
+	\item{\textit{UserContributionsRepository.userContributionslastWeek} umbenannt in \textit{UserContributionsRepository.loadUserContributionsInLastWeek}}
+	\item{\textit{UserContributionsRepository.userContributionsCurrentWeek} umbenannt in \textit{UserContributionsRepository.loadUserContributionsInCurrentWeek}}
+	\item{\textit{UserContributionsRepository.userContributionslastMonth} umbenannt in \textit{UserContributionsRepository.loadUserContributionsInLastMonth}}
+	\item{\textit{UserContributionsRepository.userContributionsCurrentMonth} umbenannt in \textit{UserContributionsRepository.loadUserContributionsInCurrentMonth}}
+\end{itemize}
+Wie bereits in der Klasse \textit{RepositoryDataRepository} soll der Code durch die Umbenennungen besser verständlich sein, indem die neuen Methodennamen die Funktion der Methoden besser beschreiben.
+
+\subsubsection{UML Vorher}
+Abbildung \ref{fig:RenameMethod_Refactoring_Before} zeigt das UML-Klassendiagramm vor der Umbenennung der Methoden.
+\begin{figure}[h]
+  \includegraphics{refactoring_rename_method_repository_before.png}
+  \centering
+  \caption{UML vor Refactoring}
+  \label{fig:RenameMethod_Refactoring_Before}
+\end{figure}
+
+\newpage
+\subsubsection{UML Nacher}
+Abbildung \ref{fig:RenameMethod_Refactoring_After} zeigt das UML-Klassendiagramm nach der Umbenennung der Methoden in \textit{UserContributionsRepository} und \textit{RepositoryDataRepository}.
+\begin{figure}[h]
+  \includegraphics{refactoring_rename_method_repository_after.png}
+  \caption{UML nach Refactoring}
+  \label{fig:RenameMethod_Refactoring_After}
+\end{figure}
+\newpage
+
 
 
 \end{document}
