@@ -8,8 +8,7 @@ import de.lukaspanni.opensourcestats.client.ClientDataCallbackDecorator;
 import de.lukaspanni.opensourcestats.client.RepositoryDataClient;
 import de.lukaspanni.opensourcestats.data.RepositoryDataResponse;
 import de.lukaspanni.opensourcestats.repository.cache.ResponseCache;
-import de.lukaspanni.opensourcestats.util.RepositoryName;
-import de.lukaspanni.opensourcestats.util.TimeSpan;
+import de.lukaspanni.opensourcestats.data.RepositoryName;
 
 //better name?
 public class RepositoryDataRepository extends Repository<RepositoryName>{

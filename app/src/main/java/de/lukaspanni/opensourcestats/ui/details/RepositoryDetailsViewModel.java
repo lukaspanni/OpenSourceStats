@@ -12,7 +12,7 @@ import de.lukaspanni.opensourcestats.OpenSourceStatsApplication;
 
 import de.lukaspanni.opensourcestats.data.RepositoryDataResponse;
 import de.lukaspanni.opensourcestats.repository.RepositoryDataRepository;
-import de.lukaspanni.opensourcestats.util.RepositoryName;
+import de.lukaspanni.opensourcestats.data.RepositoryName;
 
 public class RepositoryDetailsViewModel extends AndroidViewModel {
 

@@ -3,15 +3,13 @@ package de.lukaspanni.opensourcestats.repository;
 import org.jetbrains.annotations.NotNull;
 
 
-import java.util.Calendar;
-
 import de.lukaspanni.opensourcestats.client.ClientDataCallback;
 import de.lukaspanni.opensourcestats.client.ClientDataCallbackDecorator;
 import de.lukaspanni.opensourcestats.client.UserContributionsClient;
 import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
 import de.lukaspanni.opensourcestats.repository.cache.ResponseCache;
-import de.lukaspanni.opensourcestats.util.TimeSpan;
-import de.lukaspanni.opensourcestats.util.TimeSpanFactory;
+import de.lukaspanni.opensourcestats.data.TimeSpan;
+import de.lukaspanni.opensourcestats.data.TimeSpanFactory;
 
 public class UserContributionsRepository extends Repository<TimeSpan> {
 

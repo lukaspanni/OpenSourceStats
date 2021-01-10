@@ -13,7 +13,7 @@ import de.lukaspanni.opensourcestats.OpenSourceStatsApplication;
 import de.lukaspanni.opensourcestats.data.ContributionRepositories;
 import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
 import de.lukaspanni.opensourcestats.repository.UserContributionsRepository;
-import de.lukaspanni.opensourcestats.util.TimeSpan;
+import de.lukaspanni.opensourcestats.data.TimeSpan;
 
 
 public class DetailsViewModel extends AndroidViewModel {

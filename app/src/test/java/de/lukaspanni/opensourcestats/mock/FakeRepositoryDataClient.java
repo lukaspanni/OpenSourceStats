@@ -2,7 +2,7 @@ package de.lukaspanni.opensourcestats.mock;
 
 import de.lukaspanni.opensourcestats.client.ClientDataCallback;
 import de.lukaspanni.opensourcestats.client.RepositoryDataClient;
-import de.lukaspanni.opensourcestats.util.RepositoryName;
+import de.lukaspanni.opensourcestats.data.RepositoryName;
 
 public class FakeRepositoryDataClient extends FakeRepositoryClientBase implements RepositoryDataClient {
 

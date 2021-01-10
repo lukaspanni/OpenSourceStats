@@ -6,8 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import de.lukaspanni.opensourcestats.util.TimeSpan;
-import de.lukaspanni.opensourcestats.util.TimeSpanFactory;
+import de.lukaspanni.opensourcestats.data.TimeSpan;
+import de.lukaspanni.opensourcestats.data.TimeSpanFactory;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;

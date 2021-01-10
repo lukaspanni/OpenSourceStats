@@ -17,8 +17,8 @@ import de.lukaspanni.opensourcestats.auth.GHAuthInterceptor;
 import de.lukaspanni.opensourcestats.data.RepositoryDataResponse;
 import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
 import de.lukaspanni.opensourcestats.type.CustomType;
-import de.lukaspanni.opensourcestats.util.RepositoryName;
-import de.lukaspanni.opensourcestats.util.TimeSpan;
+import de.lukaspanni.opensourcestats.data.RepositoryName;
+import de.lukaspanni.opensourcestats.data.TimeSpan;
 import okhttp3.OkHttpClient;
 
 public class GithubOAuthClient implements RepositoryDataClient, UserContributionsClient {

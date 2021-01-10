@@ -1,4 +1,4 @@
-package de.lukaspanni.opensourcestats.util;
+package de.lukaspanni.opensourcestats.data;
 
 import java.text.DateFormat;
 import java.util.Calendar;

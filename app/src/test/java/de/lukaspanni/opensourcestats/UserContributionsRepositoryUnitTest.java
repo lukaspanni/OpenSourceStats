@@ -13,8 +13,8 @@ import de.lukaspanni.opensourcestats.mock.FakeUserContributionsClient;
 import de.lukaspanni.opensourcestats.mock.MockClientCallback;
 import de.lukaspanni.opensourcestats.repository.UserContributionsRepository;
 import de.lukaspanni.opensourcestats.repository.cache.ResponseCache;
-import de.lukaspanni.opensourcestats.util.TimeSpan;
-import de.lukaspanni.opensourcestats.util.TimeSpanFactory;
+import de.lukaspanni.opensourcestats.data.TimeSpan;
+import de.lukaspanni.opensourcestats.data.TimeSpanFactory;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;

@@ -23,9 +23,8 @@ import com.lukaspanni.opensourcestats.R;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Objects;
 
-import de.lukaspanni.opensourcestats.util.TimeSpan;
+import de.lukaspanni.opensourcestats.data.TimeSpan;
 
 
 public abstract class RepositoryListFragment extends ListFragment {
