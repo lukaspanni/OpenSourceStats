@@ -47,7 +47,7 @@ public class ProgressViewModel extends AndroidViewModel implements DataAccessVie
     public void loadData(boolean forceReload) {
         OpenSourceStatsApplication application = (OpenSourceStatsApplication) getApplication();
         UserContributionsRepository repository = application.getUserContributionsRepository();
-        repository.userContributionsCurrentWeek(data -> {
+        repository.loadUserContributionsInCurrentWeek(data -> {
             UserContributionsResponse currentWeekData = (UserContributionsResponse) data;
             if (data == null) return;
             currentWeekContributions.postValue(currentWeekData.getContributionCount());

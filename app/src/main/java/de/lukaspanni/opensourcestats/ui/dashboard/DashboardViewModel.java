@@ -47,7 +47,7 @@ public class DashboardViewModel extends AndroidViewModel implements DataAccessVi
     public void loadData(boolean forceReload) {
         OpenSourceStatsApplication application = (OpenSourceStatsApplication) getApplication();
         UserContributionsRepository repository = application.getUserContributionsRepository();
-        repository.userContributionsCurrentWeek(data -> dataCallback(currentWeekContributions, (UserContributionsResponse) data), forceReload);
+        repository.loadUserContributionsInCurrentWeek(data -> dataCallback(currentWeekContributions, (UserContributionsResponse) data), forceReload);
         repository.loadUserContributionsInLastWeek(data -> dataCallback(lastWeekContributions, (UserContributionsResponse) data), forceReload);
         repository.loadUserContributionsInCurrentMonth(data -> dataCallback(currentMonthContributions, (UserContributionsResponse) data), forceReload);
         repository.loadUserContributionsInLastMonth(data -> dataCallback(lastMonthContributions, (UserContributionsResponse) data), forceReload);
