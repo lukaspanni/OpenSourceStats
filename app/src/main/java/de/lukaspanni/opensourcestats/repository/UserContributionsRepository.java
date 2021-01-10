@@ -3,6 +3,8 @@ package de.lukaspanni.opensourcestats.repository;
 import org.jetbrains.annotations.NotNull;
 
 
+import java.util.Calendar;
+
 import de.lukaspanni.opensourcestats.client.ClientDataCallback;
 import de.lukaspanni.opensourcestats.client.ClientDataCallbackDecorator;
 import de.lukaspanni.opensourcestats.client.UserContributionsClient;

@@ -2,24 +2,18 @@ package de.lukaspanni.opensourcestats;
 
 import org.junit.Test;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import de.lukaspanni.opensourcestats.client.ClientDataCallback;
 import de.lukaspanni.opensourcestats.client.ClientDataCallbackDecorator;
 import de.lukaspanni.opensourcestats.data.ContributionCount;
-import de.lukaspanni.opensourcestats.data.RepositoryDataResponse;
 import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
 import de.lukaspanni.opensourcestats.mock.ContributionsViewerFake;
-import de.lukaspanni.opensourcestats.mock.FakeRepositoryDataClient;
 import de.lukaspanni.opensourcestats.mock.FakeUserContributionsClient;
 import de.lukaspanni.opensourcestats.mock.MockClientCallback;
-import de.lukaspanni.opensourcestats.mock.RepositoryFake;
-import de.lukaspanni.opensourcestats.repository.RepositoryDataRepository;
 import de.lukaspanni.opensourcestats.repository.UserContributionsRepository;
 import de.lukaspanni.opensourcestats.repository.cache.ResponseCache;
-import de.lukaspanni.opensourcestats.util.RepositoryName;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 import de.lukaspanni.opensourcestats.util.TimeSpanFactory;
 
