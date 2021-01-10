@@ -2,24 +2,17 @@ package de.lukaspanni.opensourcestats;
 
 import org.junit.Test;
 
-import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import de.lukaspanni.opensourcestats.client.ClientDataCallback;
 import de.lukaspanni.opensourcestats.client.ClientDataCallbackDecorator;
 import de.lukaspanni.opensourcestats.data.ContributionCount;
-import de.lukaspanni.opensourcestats.data.RepositoryDataResponse;
 import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
 import de.lukaspanni.opensourcestats.mock.ContributionsViewerFake;
-import de.lukaspanni.opensourcestats.mock.FakeRepositoryDataClient;
 import de.lukaspanni.opensourcestats.mock.FakeUserContributionsClient;
 import de.lukaspanni.opensourcestats.mock.MockClientCallback;
-import de.lukaspanni.opensourcestats.mock.RepositoryFake;
-import de.lukaspanni.opensourcestats.repository.RepositoryDataRepository;
 import de.lukaspanni.opensourcestats.repository.UserContributionsRepository;
 import de.lukaspanni.opensourcestats.repository.cache.ResponseCache;
-import de.lukaspanni.opensourcestats.util.RepositoryName;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 import de.lukaspanni.opensourcestats.util.TimeSpanFactory;
 
@@ -37,7 +30,7 @@ public class UserContributionsRepositoryUnitTest {
         ResponseCache<TimeSpan, UserContributionsResponse> cache = new ResponseCache<>();
         UserContributionsRepository testObject = new UserContributionsRepository(cache, client);
 
-        testObject.userContributionsTimeSpan(timeSpan, response -> {
+        testObject.loadUserContributionsInTimeSpan(timeSpan, response -> {
         }, true);
 
         assertThat(client.isCalled(), is(true));
@@ -56,7 +49,7 @@ public class UserContributionsRepositoryUnitTest {
         ContributionsViewerFake testData = ContributionsViewerFake.create("test", "test", new ContributionCount(10, 5, 2,3), new HashMap());
         UserContributionsResponse fakeResponse = new UserContributionsResponse(testData);
 
-        testObject.userContributionsTimeSpan(timeSpan, callback, true);
+        testObject.loadUserContributionsInTimeSpan(timeSpan, callback, true);
         ClientDataCallback decoratedCallback = client.getCalledCallback();
         decoratedCallback.callback(fakeResponse);
 
@@ -79,11 +72,11 @@ public class UserContributionsRepositoryUnitTest {
         UserContributionsResponse fakeResponse = new UserContributionsResponse(testData);
 
         //put in cache
-        testObject.userContributionsTimeSpan(timeSpan, response -> {
+        testObject.loadUserContributionsInTimeSpan(timeSpan, response -> {
         }, true);
         client.getCalledCallback().callback(fakeResponse);
         //get from cache
-        testObject.userContributionsTimeSpan(timeSpan, callback, false);
+        testObject.loadUserContributionsInTimeSpan(timeSpan, callback, false);
 
         assertThat(cache.getMisses(), is(equalTo(0)));
         assertThat(cache.getHits(), is(equalTo(1)));
