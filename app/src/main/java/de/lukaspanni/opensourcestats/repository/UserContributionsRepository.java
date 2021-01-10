@@ -11,7 +11,7 @@ import de.lukaspanni.opensourcestats.repository.cache.ResponseCache;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 import de.lukaspanni.opensourcestats.util.TimeSpanFactory;
 
-public class UserContributionsRepository extends Repository<TimeSpan> implements UserContributionsDataStore {
+public class UserContributionsRepository extends Repository<TimeSpan> {
 
     private ResponseCache<TimeSpan, UserContributionsResponse> cache;
     private UserContributionsClient client;
@@ -48,22 +48,18 @@ public class UserContributionsRepository extends Repository<TimeSpan> implements
     }
 
 
-    @Override
     public void userContributionsLastWeek(ClientDataCallback callback, boolean forceReload) {
         userContributionsTimeSpan(TimeSpanFactory.getLastWeek(), callback, forceReload);
     }
 
-    @Override
     public void userContributionsCurrentWeek(ClientDataCallback callback, boolean forceReload) {
         userContributionsTimeSpan(TimeSpanFactory.getCurrentWeek(), callback, forceReload);
     }
 
-    @Override
     public void userContributionsLastMonth(ClientDataCallback callback, boolean forceReload) {
         userContributionsTimeSpan(TimeSpanFactory.getLastMonth(), callback, forceReload);
     }
 
-    @Override
     public void userContributionsCurrentMonth(ClientDataCallback callback, boolean forceReload) {
         userContributionsTimeSpan(TimeSpanFactory.getCurrentMonth(), callback, forceReload);
     }

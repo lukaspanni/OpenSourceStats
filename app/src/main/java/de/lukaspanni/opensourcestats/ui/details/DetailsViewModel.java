@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.lukaspanni.opensourcestats.OpenSourceStatsApplication;
-import de.lukaspanni.opensourcestats.repository.UserContributionsDataStore;
 import de.lukaspanni.opensourcestats.data.ContributionRepositories;
 import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
+import de.lukaspanni.opensourcestats.repository.UserContributionsRepository;
 import de.lukaspanni.opensourcestats.util.TimeSpan;
 
 
@@ -50,7 +50,7 @@ public class DetailsViewModel extends AndroidViewModel {
 
     public void loadData(TimeSpan timeSpan) {
         OpenSourceStatsApplication application = (OpenSourceStatsApplication) getApplication();
-        UserContributionsDataStore repository = application.getUserContributionsRepository();
+        UserContributionsRepository repository = application.getUserContributionsRepository();
 
         repository.userContributionsTimeSpan(timeSpan, data -> {
             UserContributionsResponse responseData = (UserContributionsResponse) data;
