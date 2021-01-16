@@ -208,6 +208,9 @@ In dieser Klasse wurden mehrere ähnliche Methoden umbenannt:
 	\item{\textit{UserContributionsRepository.userContributionsCurrentMonth} umbenannt in \textit{UserContributionsRepository.loadUserContributionsInCurrentMonth}}
 \end{itemize}
 Wie bereits in der Klasse \textit{RepositoryDataRepository} soll der Code durch die Umbenennungen besser verständlich sein, indem die neuen Methodennamen die Funktion der Methoden besser beschreiben.
+\newline
+In Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/9385bb4b9e20b5503e3ea72acd392185f0c533db} {9385bb4} wurde zusätzlich eine Umbenennung in der Klasse \textit{GithubOAuthClient} vorgenommen um die Konsistenz zu den neuen Methodennamen der Klasse \textit{RepositoryDataRepository} zu steigern.
+Konkret wurde die Methode \textit{GithubOAuthClient.repositoryData} zu \textit{GithubOAuthClient.loadRepositoryData} umbenannt. Durch diese kleine Änderung wird auch der Zusammenhang von \textit{GithubOAuthClient.loadRepositoryData} und \textit{RepositoryDataRepository.loadRepositoryData} besser deutlich.
 
 \subsubsection{UML Vorher}
 Abbildung \ref{fig:RenameMethod_Refactoring_Before} zeigt das UML-Klassendiagramm vor der Umbenennung der Methoden.
