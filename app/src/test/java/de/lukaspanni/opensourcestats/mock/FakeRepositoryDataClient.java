@@ -12,7 +12,7 @@ public class FakeRepositoryDataClient extends FakeRepositoryClientBase implement
     }
 
     @Override
-    public void repositoryData(RepositoryName repository, ClientDataCallback callback) {
+    public void loadRepositoryData(RepositoryName repository, ClientDataCallback callback) {
         this.setCalledCallback(callback);
         this.calledRepositoryName = repository;
     }

@@ -31,7 +31,7 @@ public class GithubOAuthClient implements RepositoryDataClient, UserContribution
     }
 
     @Override
-    public void repositoryData(RepositoryName repository, ClientDataCallback callback) {
+    public void loadRepositoryData(RepositoryName repository, ClientDataCallback callback) {
         handler.performActionWithToken((accessToken, idToken, ex) -> {
             if (ex != null) {
                 return;
