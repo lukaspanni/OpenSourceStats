@@ -38,7 +38,7 @@ public class RepositoryDataRepository extends Repository<RepositoryName>{
             }
         }
         ClientDataCallback decoratedCallback = new ClientDataCallbackDecorator(callback, getAddToCacheCallback(repository));
-        client.repositoryData(repository, decoratedCallback);
+        client.loadRepositoryData(repository, decoratedCallback);
     }
 
     @NotNull

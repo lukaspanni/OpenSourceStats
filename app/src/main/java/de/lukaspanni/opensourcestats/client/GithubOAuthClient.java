@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.ApolloClient;
+import com.apollographql.apollo.ApolloQueryCall;
 import com.apollographql.apollo.api.Error;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
@@ -23,6 +24,7 @@ import okhttp3.OkHttpClient;
 
 public class GithubOAuthClient implements RepositoryDataClient, UserContributionsClient {
 
+    //TODO: Extract hardcoded string to configuration
     private final String API_ENDPOINT = "https://api.github.com/graphql";
     private AuthenticationHandler handler;
 
@@ -31,12 +33,12 @@ public class GithubOAuthClient implements RepositoryDataClient, UserContribution
     }
 
     @Override
-    public void repositoryData(RepositoryName repository, ClientDataCallback callback) {
+    public void loadRepositoryData(RepositoryName repository, ClientDataCallback callback) {
         handler.performActionWithToken((accessToken, idToken, ex) -> {
             if (ex != null) {
                 return;
             }
-            ApolloClient graphqlClient = getGraphqlClient(accessToken);
+            ApolloQueryCall.Factory graphqlClient = getGraphqlClient(accessToken);
             graphqlClient.query(new RepositoryDataQuery(repository.getName(), repository.getOwner())).enqueue(
                     new ApolloCall.Callback<RepositoryDataQuery.Data>() {
                         @Override
@@ -65,7 +67,7 @@ public class GithubOAuthClient implements RepositoryDataClient, UserContribution
             if (ex != null) {
                 return;
             }
-            ApolloClient graphqlClient = getGraphqlClient(accessToken);
+            ApolloQueryCall.Factory graphqlClient = getGraphqlClient(accessToken);
             graphqlClient.query(new UserContributionsQuery(timeSpan.getStart(), timeSpan.getEnd())).enqueue(
                     new ApolloCall.Callback<UserContributionsQuery.Data>() {
                         @Override
@@ -90,7 +92,11 @@ public class GithubOAuthClient implements RepositoryDataClient, UserContribution
         });
     }
 
-    private ApolloClient getGraphqlClient(String accessToken) {
+    protected ApolloQueryCall.Factory getGraphqlClient(String accessToken){
+        return getGraphqlClientInternal(accessToken);
+    }
+
+    private ApolloQueryCall.Factory getGraphqlClientInternal(String accessToken) {
         OkHttpClient httpClient = (new OkHttpClient.Builder())
                 .addInterceptor(new GHAuthInterceptor(accessToken))
                 .build();
