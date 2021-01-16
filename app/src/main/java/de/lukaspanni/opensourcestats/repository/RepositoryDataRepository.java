@@ -8,8 +8,7 @@ import de.lukaspanni.opensourcestats.client.ClientDataCallbackDecorator;
 import de.lukaspanni.opensourcestats.client.RepositoryDataClient;
 import de.lukaspanni.opensourcestats.data.RepositoryDataResponse;
 import de.lukaspanni.opensourcestats.repository.cache.ResponseCache;
-import de.lukaspanni.opensourcestats.util.RepositoryName;
-import de.lukaspanni.opensourcestats.util.TimeSpan;
+import de.lukaspanni.opensourcestats.data.RepositoryName;
 
 //better name?
 public class RepositoryDataRepository extends Repository<RepositoryName>{
@@ -30,7 +29,7 @@ public class RepositoryDataRepository extends Repository<RepositoryName>{
         this(new ResponseCache<>(maxAge), client);
     }
 
-    public void repositorySummary(RepositoryName repository, ClientDataCallback callback, boolean forceReload){
+    public void loadRepositoryData(RepositoryName repository, ClientDataCallback callback, boolean forceReload){
         if(!forceReload){
             RepositoryDataResponse data = cache.get(repository);
             if(data != null){
@@ -39,7 +38,7 @@ public class RepositoryDataRepository extends Repository<RepositoryName>{
             }
         }
         ClientDataCallback decoratedCallback = new ClientDataCallbackDecorator(callback, getAddToCacheCallback(repository));
-        client.repositoryData(repository, decoratedCallback);
+        client.loadRepositoryData(repository, decoratedCallback);
     }
 
     @NotNull

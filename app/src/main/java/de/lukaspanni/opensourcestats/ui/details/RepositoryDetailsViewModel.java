@@ -12,7 +12,7 @@ import de.lukaspanni.opensourcestats.OpenSourceStatsApplication;
 
 import de.lukaspanni.opensourcestats.data.RepositoryDataResponse;
 import de.lukaspanni.opensourcestats.repository.RepositoryDataRepository;
-import de.lukaspanni.opensourcestats.util.RepositoryName;
+import de.lukaspanni.opensourcestats.data.RepositoryName;
 
 public class RepositoryDetailsViewModel extends AndroidViewModel {
 
@@ -64,7 +64,7 @@ public class RepositoryDetailsViewModel extends AndroidViewModel {
         this.repositoryName.postValue(repositoryWithOwner);
         OpenSourceStatsApplication app = (OpenSourceStatsApplication) getApplication();
         RepositoryDataRepository repository = app.getRepositoryDataRepository();
-        repository.repositorySummary(new RepositoryName(repositoryWithOwner), response -> {
+        repository.loadRepositoryData(new RepositoryName(repositoryWithOwner), response -> {
             RepositoryDataResponse repositoryData = (RepositoryDataResponse) response;
             this.repositoryCreatedAt.postValue(repositoryData.getCreatedAt());
             this.repositoryDescription.postValue(repositoryData.getDescription());

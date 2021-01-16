@@ -2,7 +2,7 @@ package de.lukaspanni.opensourcestats.mock;
 
 import de.lukaspanni.opensourcestats.client.ClientDataCallback;
 import de.lukaspanni.opensourcestats.client.UserContributionsClient;
-import de.lukaspanni.opensourcestats.util.TimeSpan;
+import de.lukaspanni.opensourcestats.data.TimeSpan;
 
 public class FakeUserContributionsClient extends FakeRepositoryClientBase implements UserContributionsClient {
 

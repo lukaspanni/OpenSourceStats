@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 
 import de.lukaspanni.opensourcestats.OpenSourceStatsApplication;
-import de.lukaspanni.opensourcestats.repository.UserContributionsDataStore;
+import de.lukaspanni.opensourcestats.repository.UserContributionsRepository;
 import de.lukaspanni.opensourcestats.ui.DataAccessViewModel;
 import de.lukaspanni.opensourcestats.data.ContributionCount;
 import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
@@ -46,11 +46,11 @@ public class DashboardViewModel extends AndroidViewModel implements DataAccessVi
 
     public void loadData(boolean forceReload) {
         OpenSourceStatsApplication application = (OpenSourceStatsApplication) getApplication();
-        UserContributionsDataStore repository = application.getUserContributionsRepository();
-        repository.userContributionsCurrentWeek(data -> dataCallback(currentWeekContributions, (UserContributionsResponse) data), forceReload);
-        repository.userContributionsLastWeek(data -> dataCallback(lastWeekContributions, (UserContributionsResponse) data), forceReload);
-        repository.userContributionsCurrentMonth(data -> dataCallback(currentMonthContributions, (UserContributionsResponse) data), forceReload);
-        repository.userContributionsLastMonth(data -> dataCallback(lastMonthContributions, (UserContributionsResponse) data), forceReload);
+        UserContributionsRepository repository = application.getUserContributionsRepository();
+        repository.loadUserContributionsInCurrentWeek(data -> dataCallback(currentWeekContributions, (UserContributionsResponse) data), forceReload);
+        repository.loadUserContributionsInLastWeek(data -> dataCallback(lastWeekContributions, (UserContributionsResponse) data), forceReload);
+        repository.loadUserContributionsInCurrentMonth(data -> dataCallback(currentMonthContributions, (UserContributionsResponse) data), forceReload);
+        repository.loadUserContributionsInLastMonth(data -> dataCallback(lastMonthContributions, (UserContributionsResponse) data), forceReload);
 
     }
 

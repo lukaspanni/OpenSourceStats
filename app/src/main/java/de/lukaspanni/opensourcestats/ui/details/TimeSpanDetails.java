@@ -16,10 +16,8 @@ import com.lukaspanni.opensourcestats.R;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
-import de.lukaspanni.opensourcestats.util.TimeSpan;
-import de.lukaspanni.opensourcestats.util.TimeSpanFactory;
+import de.lukaspanni.opensourcestats.data.TimeSpan;
+import de.lukaspanni.opensourcestats.data.TimeSpanFactory;
 
 
 public class TimeSpanDetails extends Fragment {

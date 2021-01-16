@@ -7,7 +7,7 @@ import java.util.Date;
 import de.lukaspanni.opensourcestats.mock.FakeResponseData;
 import de.lukaspanni.opensourcestats.repository.cache.ResponseCache;
 import de.lukaspanni.opensourcestats.data.ResponseData;
-import de.lukaspanni.opensourcestats.util.TimeSpan;
+import de.lukaspanni.opensourcestats.data.TimeSpan;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;

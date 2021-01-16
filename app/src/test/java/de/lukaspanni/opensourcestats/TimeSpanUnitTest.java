@@ -4,10 +4,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.sql.Time;
 import java.util.Date;
 
-import de.lukaspanni.opensourcestats.util.TimeSpan;
+import de.lukaspanni.opensourcestats.data.TimeSpan;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;

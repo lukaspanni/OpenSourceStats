@@ -8,14 +8,12 @@ import java.util.HashSet;
 import de.lukaspanni.opensourcestats.client.ClientDataCallback;
 import de.lukaspanni.opensourcestats.client.ClientDataCallbackDecorator;
 import de.lukaspanni.opensourcestats.data.RepositoryDataResponse;
-import de.lukaspanni.opensourcestats.data.ResponseData;
 import de.lukaspanni.opensourcestats.mock.FakeRepositoryDataClient;
 import de.lukaspanni.opensourcestats.mock.MockClientCallback;
 import de.lukaspanni.opensourcestats.mock.RepositoryFake;
 import de.lukaspanni.opensourcestats.repository.RepositoryDataRepository;
-import de.lukaspanni.opensourcestats.repository.cache.CacheKey;
 import de.lukaspanni.opensourcestats.repository.cache.ResponseCache;
-import de.lukaspanni.opensourcestats.util.RepositoryName;
+import de.lukaspanni.opensourcestats.data.RepositoryName;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -32,7 +30,7 @@ public class RepositoryDataRepositoryUnitTest {
         ResponseCache<RepositoryName, RepositoryDataResponse> cache = new ResponseCache<>();
         RepositoryDataRepository testObject = new RepositoryDataRepository(cache, client);
 
-        testObject.repositorySummary(repositoryName, response -> {
+        testObject.loadRepositoryData(repositoryName, response -> {
         }, true);
 
         assertThat(client.isCalled(), is(true));
@@ -51,7 +49,7 @@ public class RepositoryDataRepositoryUnitTest {
         RepositoryFake repositoryFake = RepositoryFake.create(new Date(), "Java", false, "Sample Description", new HashSet<>());
         RepositoryDataResponse fakeResponse = new RepositoryDataResponse(repositoryFake);
 
-        testObject.repositorySummary(repositoryName, callback, true);
+        testObject.loadRepositoryData(repositoryName, callback, true);
         ClientDataCallback decoratedCallback = client.getCalledCallback();
         decoratedCallback.callback(fakeResponse);
 
@@ -75,11 +73,11 @@ public class RepositoryDataRepositoryUnitTest {
 
 
         //put in cache
-        testObject.repositorySummary(repositoryName, response -> {
+        testObject.loadRepositoryData(repositoryName, response -> {
         }, true);
         client.getCalledCallback().callback(fakeResponse);
         //get from cache
-        testObject.repositorySummary(repositoryName, callback, false);
+        testObject.loadRepositoryData(repositoryName, callback, false);
 
         assertThat(cache.getMisses(), is(equalTo(0)));
         assertThat(cache.getHits(), is(equalTo(1)));

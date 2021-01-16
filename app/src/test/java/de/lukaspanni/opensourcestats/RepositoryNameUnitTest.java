@@ -2,7 +2,7 @@ package de.lukaspanni.opensourcestats;
 
 import org.junit.Test;
 
-import de.lukaspanni.opensourcestats.util.RepositoryName;
+import de.lukaspanni.opensourcestats.data.RepositoryName;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;

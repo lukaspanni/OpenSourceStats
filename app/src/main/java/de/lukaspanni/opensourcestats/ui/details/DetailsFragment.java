@@ -11,7 +11,7 @@ import androidx.navigation.Navigation;
 
 import com.lukaspanni.opensourcestats.R;
 
-import de.lukaspanni.opensourcestats.util.TimeSpanFactory;
+import de.lukaspanni.opensourcestats.data.TimeSpanFactory;
 
 
 public class DetailsFragment extends Fragment {
