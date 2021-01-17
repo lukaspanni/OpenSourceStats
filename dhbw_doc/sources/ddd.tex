@@ -127,6 +127,49 @@ Weitere Beispiele sind unter anderem die Klasse \href{https://github.com/lukaspa
 
 \section{Analyse und Begründung von Value Objects}
 
+\textbf{ValueObjects} sind vergleichsweise einfache Objekte, die nur durch ihre Werte beziehungsweise Eigenschaften beschreiben werden.
+Das hat unter anderem zur Folge, dass ValueObjects als gleich angesehen werden, wenn ihre Werte gleich sind.
+Allgemein beschreiben ValueObjects oft eine bestimmte Sache durch die Kombination mehrerer Attribute dieser Sache. Typische ValueObjects sind unter anderem Adressen und Geldbeträge.
+Dabei sind ValueObjects außerdem unveränderbar, so dass alle Werte bereits im Konstruktor gesetzt werden müssen.
+Diese scheinbare Einschränkung der Unveränderlichkeit kann vorteilhaft sein, da zum Beispiel die Gültigkeit von Werten nur an einer Stelle (im Konstruktor) geprüft werden muss und ein so erstelltes ValueObject zu jeder Zeit gültig ist. Damit sind ValueObjects auch leicht testbar, da nur die Gültigkeitsprüfungen im Konstruktor getestet werden müssen. 
+Die Test-Klassen \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/test/java/de/lukaspanni/opensourcestats/ContributionCountUnitTest.java}{ContributionCountUnitTest} und \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/test/java/de/lukaspanni/opensourcestats/ContributionCountChangeUnitTest.java}{ContributionCountChangeUnitTest} sind gute Beispiele für Tests von ValueObjects, die hier verwendet wurden.
+\newline
+Umgesetzt werden ValueObjects, indem jegliche Änderungen an Werten des Objekts eingeschränkt werden. Dazu bieten verschiedene Programmiersprachen verschiedene Sprachfeatures.
+\newline
+Konkret bedeutet das für die hier verwendete Sprache Java:
+\begin{itemize}
+\item{Klasse muss als final markiert sein, sodass auch keine Veränderungen durch Vererbung möglich sind}
+\item{Alle Membervariablen müssen ebenfalls als final gekennzeichnet werden, sodass die Variablen spätestens im Konstruktor gesetzt werden und sonst nicht mehr geändert werden können}
+\item{Dabei ist darauf zu achten, dass über den Konstruktor auch nur gültige Objekte erstellt werden können}
+\item{Die \textit{equals} und auch die \textit{hashCode} Methoden müssen geeignet überschrieben werden, sodass die Gleichheit durch gleiche Werte der Membervariablen festgelegt wird}
+\end{itemize}
+
+\subsection{Verwendete ValueObjects}
+Im \textit{\href{https://github.com/lukaspanni/OpenSourceStats/tree/main/app/src/main/java/de/lukaspanni/opensourcestats/data}{data}}-Package existieren mehrere Klassen, die \textbf{ValueObjects} darstellen.
+\newline
+Diese Klassen sind:
+\begin{itemize}
+\item{\textbf{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/ContributionCount.java}{ContributionCount}}}
+\newline
+Stellt die Anzahl von GitHub-Contributions dar, ausgedrückt als Sammlung der Anzahl von Commits, Issues, Pull-Requests und Pull-Request-Reviews.
+\item{\textbf{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/ContributionCountChange.java}{ContributionCountChange}}}
+\newline
+Repräsentiert die Differenz zweier ContributionCount-Objekte als Differenz deren einzelner Werte dar.
+\item{\textbf{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/ContributionRepositories.java}{ContributionRepositories}}}
+\newline
+Sammelt die Repositories, für die Commits, Issues, Pull-Requests und Pull-Request-Reviews durchgeführt wurden.
+\item{\textbf{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/TimeSpan.java}{TimeSpan}}}
+\newline
+Repräsentiert eine Zeitspanne, bestehend aus einem Start- und einem Enddatum.
+\end{itemize}
+Verwendet werden diese ValueObjects aufgrund ihrer Vorteile, wie zum Beispiel der leichten Testbarkeit.
+So kann leicht sichergestellt werden, dass das Verhalten der Objekte den Erwartungen entspricht.
+\newline
+Objekte der Klasse \textit{TimeSpan} zum Beispiel werden für das Caching, für das Abrufen von Daten und auch im User-Interface für die Anzeige von Zeiträumen eingesetzt.
+Die gute Testbarkeit von ValueObjects ist dadurch an mehreren Stellen von Vorteil und erleichtert die Entwicklung, da davon ausgegangen werden kann, dass sich TimeSpan-Objekte korrekt verhalten.
+Für die anderen genannten ValueObjects sind die Vorteile ähnlich.
+
+
 \newpage
 
 \section{Analyse und Begründung Entities}
