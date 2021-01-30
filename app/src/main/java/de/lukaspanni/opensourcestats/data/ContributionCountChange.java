@@ -37,4 +37,10 @@ public class ContributionCountChange {
         if (old == 0) return 0;
         return (current / (float) old) - 1;
     }
+
+    public boolean isPositive() {
+        //Positive if average change is >= 0% (no-change is considered positive)
+        float sum = commitCountChange + issueCountChange + pullRequestCountChange + pullRequestReviewCountChange;
+        return (sum / 4) >= 0;
+    }
 }
