@@ -154,13 +154,16 @@ Diese Klassen sind:
 Stellt die Anzahl von GitHub-Contributions dar, ausgedrückt als Sammlung der Anzahl von Commits, Issues, Pull-Requests und Pull-Request-Reviews.
 \item{\textbf{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/ContributionCountChange.java}{ContributionCountChange}}}
 \newline
-Repräsentiert die Differenz zweier ContributionCount-Objekte als Differenz deren einzelner Werte dar.
+Repräsentiert die Differenz zweier ContributionCount-Objekte und bietet die Möglichkeit die Unterschiede zwischen aktueller und vorangegangener Periode in Bezug auf Commits, Issues Pull-Requests und Pull-Request-Reviews zu berechnen. 
 \item{\textbf{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/ContributionRepositories.java}{ContributionRepositories}}}
 \newline
 Sammelt die Repositories, für die Commits, Issues, Pull-Requests und Pull-Request-Reviews durchgeführt wurden.
 \item{\textbf{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/TimeSpan.java}{TimeSpan}}}
 \newline
 Repräsentiert eine Zeitspanne, bestehend aus einem Start- und einem Enddatum.
+\item{\textbf{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/RepositoryName.java}{RepositoryName}}}
+\newline
+Repräsentiert den vollen Namen eines GitHub-Repositories, der sich aus Besitzer des Repositories und Bezeichnung des Repositories zusammensetzt.
 \end{itemize}
 Verwendet werden diese ValueObjects aufgrund ihrer Vorteile, wie zum Beispiel der leichten Testbarkeit.
 So kann leicht sichergestellt werden, dass das Verhalten der Objekte den Erwartungen entspricht.

@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import de.lukaspanni.opensourcestats.repository.cache.CacheKey;
 
-public class RepositoryName implements CacheKey {
+public final class RepositoryName implements CacheKey {
 
     private final String owner;
     private final String name;
