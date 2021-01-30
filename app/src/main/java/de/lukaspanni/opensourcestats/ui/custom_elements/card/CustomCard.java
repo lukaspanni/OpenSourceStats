@@ -12,10 +12,12 @@ import androidx.annotation.Nullable;
 
 import com.lukaspanni.opensourcestats.R;
 
+import de.lukaspanni.opensourcestats.ui.StringResourceAccess;
+
 /**
  * Abstract Base Class for custom card views
  */
-public abstract class CustomCard extends LinearLayout {
+public abstract class CustomCard extends LinearLayout implements StringResourceAccess {
 
     public CustomCard(@NonNull Context context) {
         this(context, null);
@@ -44,9 +46,7 @@ public abstract class CustomCard extends LinearLayout {
         initViews();
     }
 
-    protected int getCardLayout() {
-        return R.layout.card_component;
-    }
+    protected int getCardLayout() {return R.layout.card_component;}
 
     protected abstract void initViews();
 
@@ -58,5 +58,10 @@ public abstract class CustomCard extends LinearLayout {
             titleView.setText(text.toString());
         }
         arr.recycle();
+    }
+
+    @Override
+    public String getStringResource(int id) {
+        return this.getContext().getString(id);
     }
 }
