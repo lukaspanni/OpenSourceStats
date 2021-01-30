@@ -5,32 +5,28 @@ package de.lukaspanni.opensourcestats.data;
  * ContributionCount ValueObject, bundles commit, issue, pullrequest and pullrequestreview count changes
  */
 public class ContributionCountChange {
-    private final float commitCountChange;
-    private final float issueCountChange;
-    private final float pullRequestCountChange;
-    private final float pullRequestReviewCountChange;
+    private final ContributionCount previousPeriod;
+    private final ContributionCount currentPeriod;
 
     public ContributionCountChange(ContributionCount currentPeriod, ContributionCount previousPeriod) {
-        commitCountChange = calculateGain(currentPeriod.getCommitCount(), previousPeriod.getCommitCount());
-        issueCountChange = calculateGain(currentPeriod.getIssueCount(), previousPeriod.getIssueCount());
-        pullRequestCountChange = calculateGain(currentPeriod.getPullRequestCount(), previousPeriod.getPullRequestCount());
-        pullRequestReviewCountChange = calculateGain(currentPeriod.getPullRequestReviewCount(), previousPeriod.getPullRequestReviewCount());
+        this.currentPeriod = currentPeriod;
+        this.previousPeriod = previousPeriod;
     }
 
     public float getCommitCountChange() {
-        return commitCountChange;
+        return calculateGain(currentPeriod.getCommitCount(), previousPeriod.getCommitCount());
     }
 
     public float getIssueCountChange() {
-        return issueCountChange;
+        return calculateGain(currentPeriod.getIssueCount(), previousPeriod.getIssueCount());
     }
 
     public float getPullRequestCountChange() {
-        return pullRequestCountChange;
+        return calculateGain(currentPeriod.getPullRequestCount(), previousPeriod.getPullRequestCount());
     }
 
     public float getPullRequestReviewCountChange() {
-        return pullRequestReviewCountChange;
+        return calculateGain(currentPeriod.getPullRequestReviewCount(), previousPeriod.getPullRequestReviewCount());
     }
 
     private float calculateGain(float current, float old) {
@@ -40,7 +36,6 @@ public class ContributionCountChange {
 
     public boolean isPositive() {
         //Positive if average change is >= 0% (no-change is considered positive)
-        float sum = commitCountChange + issueCountChange + pullRequestCountChange + pullRequestReviewCountChange;
-        return (sum / 4) >= 0;
+        return currentPeriod.getTotalContributions() >= previousPeriod.getTotalContributions();
     }
 }
