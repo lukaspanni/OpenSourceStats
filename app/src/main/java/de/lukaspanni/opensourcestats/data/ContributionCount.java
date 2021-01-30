@@ -35,6 +35,10 @@ public final class ContributionCount {
         return pullRequestReviewCount;
     }
 
+    public int getTotalContributions(){
+        return commitCount + issueCount + pullRequestCount + pullRequestReviewCount;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
