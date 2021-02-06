@@ -4,16 +4,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.lukaspanni.opensourcestats.R;
 
-import java.util.Date;
-
 import de.lukaspanni.opensourcestats.data.TimeSpanFactory;
+import de.lukaspanni.opensourcestats.ui.custom_elements.DatePickerDialogFragment;
 
 
 public class DetailsFragment extends Fragment {
@@ -23,7 +24,16 @@ public class DetailsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_details, container, false);
 
-        
+        view.findViewById(R.id.to_custom_week_details).setOnClickListener(v -> {
+            //Show Date-Picker for Week and open timeSpanDetails with this date
+            DialogFragment datePicker = new DatePickerDialogFragment((timeSpan) -> {
+                Bundle b = new Bundle();
+                b.putParcelable("timeSpan", timeSpan);
+                Navigation.findNavController(view).navigate(R.id.action_details_to_time_span_details, b);
+            });
+            datePicker.show(getParentFragmentManager(), "datePicker");
+        });
+
         view.findViewById(R.id.to_current_week_details).setOnClickListener(v -> {
             Bundle b = new Bundle();
             b.putParcelable("timeSpan", TimeSpanFactory.getCurrentWeek());
