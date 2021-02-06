@@ -12,7 +12,7 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/to_custom_week_details"
+            android:id="@+id/to_custom_time_span_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -21,7 +21,7 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:padding="20dp"
-            android:text="@string/to_week_details_text"
+            android:text="@string/to_custom_time_span_details_text"
             android:textAlignment="center"
             android:textColor="@color/textWhite"
             app:layout_constraintTop_toTopOf="parent" />
@@ -39,7 +39,7 @@
             android:text="@string/to_current_week_details_text"
             android:textAlignment="center"
             android:textColor="@color/textWhite"
-            app:layout_constraintTop_toBottomOf="@id/to_custom_week_details" />
+            app:layout_constraintTop_toBottomOf="@id/to_custom_time_span_details" />
 
         <Button
             android:id="@+id/to_last_week_details"

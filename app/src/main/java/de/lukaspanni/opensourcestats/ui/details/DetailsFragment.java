@@ -7,14 +7,19 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.lukaspanni.opensourcestats.R;
 
+import java.util.Calendar;
+import java.util.Date;
+
+import de.lukaspanni.opensourcestats.data.TimeSpan;
 import de.lukaspanni.opensourcestats.data.TimeSpanFactory;
-import de.lukaspanni.opensourcestats.ui.custom_elements.DatePickerDialogFragment;
 
 
 public class DetailsFragment extends Fragment {
@@ -24,14 +29,22 @@ public class DetailsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_details, container, false);
 
-        view.findViewById(R.id.to_custom_week_details).setOnClickListener(v -> {
-            //Show Date-Picker for Week and open timeSpanDetails with this date
-            DialogFragment datePicker = new DatePickerDialogFragment((timeSpan) -> {
+        view.findViewById(R.id.to_custom_time_span_details).setOnClickListener(v -> {
+            //Show Date-Picker and open timeSpanDetails with picked time span
+            MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
+            builder.setCalendarConstraints(new CalendarConstraints.Builder().setEnd(Calendar.getInstance().getTimeInMillis()).build());
+            builder.setTitleText(R.string.date_range_picker_title);
+            MaterialDatePicker<Pair<Long, Long>> picker = builder.build();
+            picker.addOnPositiveButtonClickListener(selection -> {
+                if(selection.first == null || selection.second == null){
+                    return; //TODO: Error-Handling
+                }
+                TimeSpan timeSpan = new TimeSpan(new Date(selection.first), new Date(selection.second));
                 Bundle b = new Bundle();
                 b.putParcelable("timeSpan", timeSpan);
                 Navigation.findNavController(view).navigate(R.id.action_details_to_time_span_details, b);
             });
-            datePicker.show(getParentFragmentManager(), "datePicker");
+            picker.show(getParentFragmentManager(), picker.toString());
         });
 
         view.findViewById(R.id.to_current_week_details).setOnClickListener(v -> {
@@ -56,7 +69,6 @@ public class DetailsFragment extends Fragment {
             b.putParcelable("timeSpan", TimeSpanFactory.getLastMonth());
             Navigation.findNavController(view).navigate(R.id.action_details_to_time_span_details, b);
         });
-
 
 
         return view;
