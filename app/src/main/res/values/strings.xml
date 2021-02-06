@@ -20,6 +20,7 @@
     <string name="not_implemented">Not Implemented</string>
     <string name="not_set">-</string>
     <string name="progress_week_header">Weekly Progress</string>
+    <string name="to_week_details_text">Custom Week</string>
     <string name="to_current_week_details_text">Current Week</string>
     <string name="to_last_week_details_text">Last Week</string>
     <string name="to_current_month_details_text">Current Month</string>

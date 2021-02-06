@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_details">
 
         <action
-            android:id="@+id/action_details_to_week_details"
+            android:id="@+id/action_details_to_time_span_details"
             app:destination="@id/navigation_week_details" />
     </fragment>
 
