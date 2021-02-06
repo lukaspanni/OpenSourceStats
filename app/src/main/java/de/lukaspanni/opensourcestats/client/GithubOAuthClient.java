@@ -11,6 +11,7 @@ import com.apollographql.apollo.exception.ApolloException;
 
 import org.jetbrains.annotations.NotNull;
 
+import de.lukaspanni.opensourcestats.ApplicationConfig;
 import de.lukaspanni.opensourcestats.RepositoryDataQuery;
 import de.lukaspanni.opensourcestats.UserContributionsQuery;
 import de.lukaspanni.opensourcestats.auth.AuthenticationHandler;
@@ -24,8 +25,6 @@ import okhttp3.OkHttpClient;
 
 public class GithubOAuthClient implements RepositoryDataClient, UserContributionsClient {
 
-    //TODO: Extract hardcoded string to configuration
-    private final String API_ENDPOINT = "https://api.github.com/graphql";
     private AuthenticationHandler handler;
 
     public GithubOAuthClient(AuthenticationHandler handler) {
@@ -102,7 +101,7 @@ public class GithubOAuthClient implements RepositoryDataClient, UserContribution
                 .build();
 
         return ApolloClient.builder()
-                .serverUrl(API_ENDPOINT)
+                .serverUrl(ApplicationConfig.getApiEndpoint())
                 .okHttpClient(httpClient)
                 .addCustomTypeAdapter(CustomType.DATETIME, new DateCustomTypeAdapter())
                 .build();

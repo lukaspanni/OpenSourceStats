@@ -2,7 +2,6 @@ package de.lukaspanni.opensourcestats.auth;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.util.Log;
 
 import net.openid.appauth.AuthState;
@@ -15,18 +14,14 @@ import net.openid.appauth.TokenResponse;
 
 import org.json.JSONException;
 
+import de.lukaspanni.opensourcestats.ApplicationConfig;
+
 /**
  * AuthHandler, needed to authenticate via OAuth
  */
 public class GithubOAuthHandler implements AuthenticationHandler {
 
 
-    public final static int REQUEST_CODE = 42;
-    //TODO: Remove URL-Dependencies -> Config
-    private final String AUTH_ENDPOINT = "https://github.com/login/oauth/authorize";
-    private final String TOKEN_ENDPOINT = "https://github.com/login/oauth/access_token";
-    private final Uri REDIRECT_URI = Uri.parse("de.lukaspanni.oss://opensourcestats/auth");
-    private final String SCOPES = "repo:status";
     private final String CLIENT_ID;
     private AuthHandlerActivity authHandlerActivity;
     private AuthState authState;
@@ -56,15 +51,15 @@ public class GithubOAuthHandler implements AuthenticationHandler {
     @Override
     public void authenticate() {
         AuthorizationServiceConfiguration serviceConfig = new AuthorizationServiceConfiguration(
-                Uri.parse(AUTH_ENDPOINT), Uri.parse(TOKEN_ENDPOINT));
+                ApplicationConfig.getAuthEndpoint(), ApplicationConfig.getTokenEndpoint());
         authState = new AuthState(serviceConfig);
 
-        AuthorizationRequest.Builder requestBuilder = new AuthorizationRequest.Builder(serviceConfig, CLIENT_ID, ResponseTypeValues.CODE, REDIRECT_URI);
-        AuthorizationRequest request = requestBuilder.setScope(SCOPES).build();
+        AuthorizationRequest.Builder requestBuilder = new AuthorizationRequest.Builder(serviceConfig, CLIENT_ID, ResponseTypeValues.CODE, ApplicationConfig.getRedirectUri());
+        AuthorizationRequest request = requestBuilder.setScope(ApplicationConfig.getScopes()).build();
 
         authService = new AuthorizationService(authHandlerActivity.getActivity());
         Intent authIntent = authService.getAuthorizationRequestIntent(request);
-        authHandlerActivity.getActivity().startActivityForResult(authIntent, REQUEST_CODE);
+        authHandlerActivity.getActivity().startActivityForResult(authIntent, ApplicationConfig.getRequestCode());
     }
 
     public void setAuthHandlerActivity(AuthHandlerActivity activity) {

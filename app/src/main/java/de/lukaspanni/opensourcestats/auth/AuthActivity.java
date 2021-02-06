@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
+import de.lukaspanni.opensourcestats.ApplicationConfig;
 import de.lukaspanni.opensourcestats.MainActivity;
 import de.lukaspanni.opensourcestats.OpenSourceStatsApplication;
 
@@ -41,7 +42,7 @@ public class AuthActivity extends AppCompatActivity implements AuthHandlerActivi
         super.onActivityResult(requestCode, resultCode, data);
         final Context ctx = this;
 
-        if (requestCode == GithubOAuthHandler.REQUEST_CODE) {
+        if (requestCode == ApplicationConfig.getRequestCode()) {
             final AuthorizationResponse resp = AuthorizationResponse.fromIntent(data);
             AuthorizationException ex = AuthorizationException.fromIntent(data);
             if (resp != null) {
