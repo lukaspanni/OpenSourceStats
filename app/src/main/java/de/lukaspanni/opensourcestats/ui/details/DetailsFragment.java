@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
@@ -36,41 +35,36 @@ public class DetailsFragment extends Fragment {
             builder.setTitleText(R.string.date_range_picker_title);
             MaterialDatePicker<Pair<Long, Long>> picker = builder.build();
             picker.addOnPositiveButtonClickListener(selection -> {
-                if(selection.first == null || selection.second == null){
-                    return; //TODO: Error-Handling
-                }
+                if (selection.first == null || selection.second == null)
+                    return;
+
                 TimeSpan timeSpan = new TimeSpan(new Date(selection.first), new Date(selection.second));
-                Bundle b = new Bundle();
-                b.putParcelable("timeSpan", timeSpan);
-                Navigation.findNavController(view).navigate(R.id.action_details_to_time_span_details, b);
+                clickNavigationHandler(view, timeSpan);
             });
             picker.show(getParentFragmentManager(), picker.toString());
         });
 
         view.findViewById(R.id.to_current_week_details).setOnClickListener(v -> {
-            Bundle b = new Bundle();
-            b.putParcelable("timeSpan", TimeSpanFactory.getCurrentWeek());
-            Navigation.findNavController(view).navigate(R.id.action_details_to_time_span_details, b);
+            clickNavigationHandler(view, TimeSpanFactory.getCurrentWeek());
         });
         view.findViewById(R.id.to_last_week_details).setOnClickListener(v -> {
-            Bundle b = new Bundle();
-            b.putParcelable("timeSpan", TimeSpanFactory.getLastWeek());
-            Navigation.findNavController(view).navigate(R.id.action_details_to_time_span_details, b);
+            clickNavigationHandler(view, TimeSpanFactory.getLastWeek());
         });
 
         view.findViewById(R.id.to_current_month_details).setOnClickListener(v -> {
-            Bundle b = new Bundle();
-            b.putParcelable("timeSpan", TimeSpanFactory.getCurrentMonth());
-            Navigation.findNavController(view).navigate(R.id.action_details_to_time_span_details, b);
+            clickNavigationHandler(view, TimeSpanFactory.getCurrentMonth());
         });
 
         view.findViewById(R.id.to_last_month_details).setOnClickListener(v -> {
-            Bundle b = new Bundle();
-            b.putParcelable("timeSpan", TimeSpanFactory.getLastMonth());
-            Navigation.findNavController(view).navigate(R.id.action_details_to_time_span_details, b);
+            clickNavigationHandler(view, TimeSpanFactory.getLastMonth());
         });
 
-
         return view;
+    }
+
+    private void clickNavigationHandler(View view, TimeSpan timeSpan) {
+        Bundle b = new Bundle();
+        b.putParcelable("timeSpan", timeSpan);
+        Navigation.findNavController(view).navigate(R.id.action_details_to_time_span_details, b);
     }
 }
