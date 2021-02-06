@@ -7,6 +7,7 @@ import de.lukaspanni.opensourcestats.auth.AuthenticationHandler;
 import de.lukaspanni.opensourcestats.data.RepositoryName;
 import de.lukaspanni.opensourcestats.data.TimeSpan;
 import de.lukaspanni.opensourcestats.data.TimeSpanFactory;
+import de.lukaspanni.opensourcestats.mock.GithubOAuthClientTestImplementation;
 import de.lukaspanni.opensourcestats.mock.MockAuthenticationHandler;
 import de.lukaspanni.opensourcestats.mock.MockClientCallback;
 import de.lukaspanni.opensourcestats.mock.MockApolloQueryCallFactory;

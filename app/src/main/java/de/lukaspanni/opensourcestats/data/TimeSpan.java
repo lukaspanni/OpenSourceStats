@@ -41,7 +41,7 @@ public final class TimeSpan implements Parcelable, CacheKey {
     }
 
     private boolean isZeroDateSmaller(Date start, Date end) {
-        return start.compareTo(end) < 0;
+        return start.compareTo(end) <= 0;
     }
 
 

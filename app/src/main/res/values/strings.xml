@@ -20,6 +20,7 @@
     <string name="not_implemented">Not Implemented</string>
     <string name="not_set">-</string>
     <string name="progress_week_header">Weekly Progress</string>
+    <string name="to_custom_time_span_details_text">Custom Time Span</string>
     <string name="to_current_week_details_text">Current Week</string>
     <string name="to_last_week_details_text">Last Week</string>
     <string name="to_current_month_details_text">Current Month</string>
@@ -40,4 +41,5 @@
     <string name="work_harder_message_1">Not bad, but you have to try harder to beat your old scores.</string>
     <string name="work_harder_message_2">Taking a break?</string>
     <string name="work_harder_message_3">Is it too hard for you?</string>
+    <string name="date_range_picker_title">Select a Time Span</string>
 </resources>

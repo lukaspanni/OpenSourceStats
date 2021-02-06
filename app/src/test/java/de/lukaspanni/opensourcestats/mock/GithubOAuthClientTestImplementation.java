@@ -1,4 +1,4 @@
-package de.lukaspanni.opensourcestats;
+package de.lukaspanni.opensourcestats.mock;
 
 import com.apollographql.apollo.ApolloQueryCall;
 
