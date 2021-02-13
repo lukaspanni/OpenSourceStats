@@ -41,6 +41,7 @@
 \newpage
 
 \section{Analyse der Ubiquitous Language}
+\label{sec:ubiq_lang}
 
 Kern des \textit{Domain Driven Design} ist das gemeinsame Verständnis der Problemdomäne. Dies ist notwendig, um ein präzises Modell der Domäne erstellen zu können.
 Um die Kommunikation zwischen Entwicklern und Domänenexperten zu ermöglichen wird die sogenannte \textbf{Ubiquitous  Language} verwendet.
@@ -127,17 +128,104 @@ Weitere Beispiele sind unter anderem die Klasse \href{https://github.com/lukaspa
 
 \section{Analyse und Begründung von Value Objects}
 
+\textbf{ValueObjects} sind vergleichsweise einfache Objekte, die nur durch ihre Werte beziehungsweise Eigenschaften beschreiben werden.
+Das hat unter anderem zur Folge, dass ValueObjects als gleich angesehen werden, wenn ihre Werte gleich sind.
+Allgemein beschreiben ValueObjects oft eine bestimmte Sache durch die Kombination mehrerer Attribute dieser Sache. Typische ValueObjects sind unter anderem Adressen und Geldbeträge.
+Dabei sind ValueObjects außerdem unveränderbar, so dass alle Werte bereits im Konstruktor gesetzt werden müssen.
+Diese scheinbare Einschränkung der Unveränderlichkeit kann vorteilhaft sein, da zum Beispiel die Gültigkeit von Werten nur an einer Stelle (im Konstruktor) geprüft werden muss und ein so erstelltes ValueObject zu jeder Zeit gültig ist. Damit sind ValueObjects auch leicht testbar, da nur die Gültigkeitsprüfungen im Konstruktor getestet werden müssen. 
+Die Test-Klassen \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/test/java/de/lukaspanni/opensourcestats/ContributionCountUnitTest.java}{ContributionCountUnitTest} und \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/test/java/de/lukaspanni/opensourcestats/ContributionCountChangeUnitTest.java}{ContributionCountChangeUnitTest} sind gute Beispiele für Tests von ValueObjects, die hier verwendet wurden.
+\newline
+Umgesetzt werden ValueObjects, indem jegliche Änderungen an Werten des Objekts eingeschränkt werden. Dazu bieten verschiedene Programmiersprachen verschiedene Sprachfeatures.
+\newline
+Konkret bedeutet das für die hier verwendete Sprache Java:
+\begin{itemize}
+\item{Klasse muss als final markiert sein, sodass auch keine Veränderungen durch Vererbung möglich sind}
+\item{Alle Membervariablen müssen ebenfalls als final gekennzeichnet werden, sodass die Variablen spätestens im Konstruktor gesetzt werden und sonst nicht mehr geändert werden können}
+\item{Dabei ist darauf zu achten, dass über den Konstruktor auch nur gültige Objekte erstellt werden können}
+\item{Die \textit{equals} und auch die \textit{hashCode} Methoden müssen geeignet überschrieben werden, sodass die Gleichheit durch gleiche Werte der Membervariablen festgelegt wird}
+\end{itemize}
+
+\subsection{Verwendete ValueObjects}
+Im \textit{\href{https://github.com/lukaspanni/OpenSourceStats/tree/main/app/src/main/java/de/lukaspanni/opensourcestats/data}{data}}-Package existieren mehrere Klassen, die \textbf{ValueObjects} darstellen.
+\newline
+Diese Klassen sind:
+\begin{itemize}
+\item{\textbf{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/ContributionCount.java}{ContributionCount}}}
+\newline
+Stellt die Anzahl von GitHub-Contributions dar, ausgedrückt als Sammlung der Anzahl von Commits, Issues, Pull-Requests und Pull-Request-Reviews.
+\item{\textbf{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/ContributionCountChange.java}{ContributionCountChange}}}
+\newline
+Repräsentiert die Differenz zweier ContributionCount-Objekte und bietet die Möglichkeit die Unterschiede zwischen aktueller und vorangegangener Periode in Bezug auf Commits, Issues Pull-Requests und Pull-Request-Reviews zu berechnen. 
+\item{\textbf{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/ContributionRepositories.java}{ContributionRepositories}}}
+\newline
+Sammelt die Repositories, für die Commits, Issues, Pull-Requests und Pull-Request-Reviews durchgeführt wurden.
+\item{\textbf{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/TimeSpan.java}{TimeSpan}}}
+\newline
+Repräsentiert eine Zeitspanne, bestehend aus einem Start- und einem Enddatum.
+\item{\textbf{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/RepositoryName.java}{RepositoryName}}}
+\newline
+Repräsentiert den vollen Namen eines GitHub-Repositories, der sich aus Besitzer des Repositories und Bezeichnung des Repositories zusammensetzt.
+\end{itemize}
+Verwendet werden diese ValueObjects aufgrund ihrer Vorteile, wie zum Beispiel der leichten Testbarkeit.
+So kann leicht sichergestellt werden, dass das Verhalten der Objekte den Erwartungen entspricht.
+\newline
+Objekte der Klasse \textit{TimeSpan} zum Beispiel werden für das Caching, für das Abrufen von Daten und auch im User-Interface für die Anzeige von Zeiträumen eingesetzt.
+Die gute Testbarkeit von ValueObjects ist dadurch an mehreren Stellen von Vorteil und erleichtert die Entwicklung, da davon ausgegangen werden kann, dass sich TimeSpan-Objekte korrekt verhalten.
+Für die anderen genannten ValueObjects sind die Vorteile ähnlich.
+
+
 \newpage
 
 \section{Analyse und Begründung Entities}
+
+\textbf{Entities} haben im Gegensatz zu ValueObjects innerhalb der Domäne eine eindeutige ID, über diese sie identifiziert werden können, und die die Gleichheit von Entities bestimmt. Zusätzlich können sich Entities auch während ihrer Lebenszeit verändern und sind nicht immutable.
+Auch bei Entities ist es wichtig, dass sie nicht mit unerlaubten Werten initialisiert werden können und darüber hinaus auch nicht durch eine Aktion ungültige Zustände erreichen dürfen.
+\newline
+Aktuell konnten keine Objekte innerhalb des Projekts identifiziert werden, die die Eigenschaften einer Entity erfüllen.
+Der Grund dafür ist vermutlich, die vergleichsweise geringe Komplexität des Gesamtsystems.
 
 \newpage
 
 \section{Analyse und Begründung von Aggregates}
 
+\textbf{Aggregates} sind ein Konzept zur Zusammenfassung von mehreren Entities und ValueObjects zu einer Einheit. 
+Als Einheit werden Aggregates auch immer nur vollständig geladen und gespeichert, sodass ein Aggregate immer nur vollständig vorhanden sein kann.
+Eingesetzt werden Aggregates um die Beziehungen zwischen einzelnen Entities und ValueObjects zu vereinfachen, indem mehrere Entities und ValueObjects in einem Aggregate zusammengefasst werden und Beziehungen zu den enthaltenen Entities und ValueObjects nur über das Aggregate realisiert werden. 
+Außerdem bildet auch ein einzelne Entity bereits ein Aggregate.
+Zur Verwaltung des Zustands eines Aggregates gibt es immer eine Aggregate Root Entity, über die alle Zugriffe auf das Aggregat durchgeführt werden.
+So können an einer Stelle alle Zugriffe auf Validität geprüft werden, was die Prüfung von Domänenregeln einfacher macht.
+\newline
+Aggregates sind vergleichsweise komplex und kommen deshalb auch häufig nur in komplexen Systemen eingesetzt.
+Es gibt im Projekt keine klassischen Aggregates, die mehrere Entities und ValueObjects zusammenfassen, da es bereits keine echten Entities gibt.
+Die Klasse \textit{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/UserContributionsResponse.java}{UserContributionsResponse}} ist einem Aggregate ähnlich, da hier mehrere ValueObjects zusammengefasst werden. 
+Da diese Klasse allerdings kein Verhalten auf den enthaltenen ValueObjects durchführt, sondern diese nur erstellt, speichert und bei Bedarf zurückgibt, kann man diese Klasse nicht als klassisches Aggregate ansehen.
+
 \newpage
 
 \section{Analyse und Begründung Repositories}
+\textbf{Repositories} stellen die Schnittstelle zwischen Domäne und Datenmodell dar und stellen demnach Methoden bereit um Daten zu lesen, speichern oder zu löschen.
+Dabei werden Repositories häufig eingesetzt, um einen einfachen Datenzugriff für die Domäne zu ermöglichen und die technischen Details, wie zum Beispiel Datenbankzugriffe, zu kapseln.
+Normalerweise operieren Repositories auf der Basis von Aggregates.
+Um die Domäne frei von technischen Details zu halten werden Interfaces für Repositories innerhalb der Domäne verwendet und die eigentliche Implementierung findet außerhalb der Domäne statt.
+Zusätzlich bieten Repositories die Möglichkeit nicht nur allgemein Daten abzurufen, sondern Daten anhand von bestimmten Kriterien zu finden, was den Zugriff auf Daten für die Domänenobjekte erleichtert.
+\newline
+Da, wie bereits beschrieben, keine Aggregates verwendet werden, finden sich auch keine typischen Repositories.
+Stattdessen gibt es im \textit{\href{https://github.com/lukaspanni/OpenSourceStats/tree/main/app/src/main/java/de/lukaspanni/opensourcestats/repository/}{repository}}-Package mehrere Klassen, die die Bezeichnung Repository tragen.
+Diese erfüllen einen ähnlichen Zweck und dienen ebenfalls der Kapselung technischer Details des Datenzugriffs.
+Sie rufen Daten aus einem internen Cache ab oder verwenden die GitHub-API um die Daten zu laden und im Cache zu speichern.
+Allerdings bieten sie nicht die Möglichkeit Daten zurückzugeben. 
+Stattdessen werden den Datenzugriffsfunktionen Callback-Funktionen übergeben, die mit den abgerufenen Daten aufgerufen werden.
+Dies ist eine bewusste Entwurfsentscheidung, die getroffen wurde, um nicht nur die Anbindung an die verwendete GitHub-API und die gleichzeitige Verwendung eines eigenen Caching-Mechanismus zu erleichtern.
+Zusätzlich wird  so eine Asynchrone Datenverarbeitung gefördert, die gerade bei hohen Netzwerklatenzen bei Mobilgeräten, und vielen einzelnen API-Anfragen die Wartezeit für den Nutzer merklich verringern kann.
 
+\section{Fazit Domain Driven Design}
+
+Domain Driven Design umfasst verschiedene Konzepte, die genutzt werden können, um den Fokus auf die eigentliche Domäne zu steigern und die zusätzliche Komplexität zu verringern.
+Viele dieser Konzepte sind allerdings sehr aufwändig und der Nutzen wird häufig erst in größeren Anwendungen wirklich sichtbar.
+Im Rahmen dieser Arbeit wurden verschiedene Konzepte des Domain Driven Design genutzt.
+In \hyperref[sec:ubiq_lang]{\textit{Analyse der Ubiquitous Language}} wurde gezeigt, wie das Konzept einer einheitlichen Sprache sinnvoll genutzt wurde um Mehrdeutigkeiten möglichst zu vermeiden.
+Auch ValueObjects wurden genutzt, um bestimmte Dinge, wie zum Beispiel GitHub-Contributions, abbilden zu können und die Vorteile von unveränderlichen Objekten zu nutzen.
+Andere Konzepte, wie zum Beispiel Entities, Aggregates und Repositories wurden bewusst nicht, beziehungsweise nicht im eigentlichen Sinne, verwendet, da der Aufwand für die Verwendung dieser Konzepte in Relation zum Nutzen für ein vergleichsweise kleines System nicht gerechtfertigt ist.
+Zusätzlich beruht diese Entscheidung auf auf der Tatsache, dass die Verwendung eines Konzepts nur des Konzepts wegen nicht sinnvoll ist.
 
 \end{document}

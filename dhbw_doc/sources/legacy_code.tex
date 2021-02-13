@@ -110,4 +110,49 @@ In der Klasse \textit{GithubOAuthClient} konnte die Abhängigkeit zu \textit{Git
  Dadurch werden Tests der Klasse mit Fake-/Mock-Implementierungen des neuen Interfaces \textit{AuthenticationHandler} möglich. 
 Außerdem wird die Abstraktion verbessert und die konkrete Authentifizierungs-Klasse könnte leichter ausgetauscht werden, was zum Beispiel benötigt wird, wenn ein anderes OAuth-Framework eingesetzt werden sollte.
 
+\newpage
+
+\subsection{Parametrize Method bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/d8c995c387a792a6d83c852119760b0c57a63c02} {d8c995c}}
+
+\subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/eafe840d0bfc8a08beca01709003d5afe7e59963/app/src/main/java/de/lukaspanni/opensourcestats/util/TimeSpanFactory.java}{Ausgangszustand}}
+Die Klasse \textit{TimeSpanFactory}, die verwendet wird um \textit{TimeSpan}-Objekte zu erzeugen hat eine starke Abhängigkeit zur Java-Klasse \textit{java.util.Calendar}.
+In den Methoden von TimeSpanFactory wird jeweils eine Calendar-Instanz benötigt. 
+Um diese zu erhalten wird die Methode \textit{Calendar.getInstance()} verwendet.
+Da die verwendete Calendar-Instanz das Ergebnis der Methoden beeinflusst muss die Instanz für Tests ausgetauscht werden können.
+Dies ist aber aktuell nicht möglich.
+
+\subsubsection*{Gewählte Technik}
+Um die Abhängigkeit der Methoden zu \textit{Java.util.Calendar} zu beseitigen wurde die Technik \textbf{Parametrize Method} gewählt.
+Bei dieser Technik wird für die Methode, bei der die Abhängigkeit gebrochen werden muss, eine neue Methode mit einem zusätzlichen Parameter angelegt.
+Dieser Parameter ersetzt dann die Variable, die im Test benötigt wird.
+Die eigentliche Funktionalität der alten Methode wird in die neue Methode verschoben und die alte Methode ruft diese mit dem ursprünglichen Wert der Variablen auf.
+So sind keine Änderungen an bestehendem Code notwendig und trotzdem wird ein Test der Methode ermöglicht.
+
+\subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/d8c995c387a792a6d83c852119760b0c57a63c02/app/src/main/java/de/lukaspanni/opensourcestats/util/TimeSpanFactory.java}{Endzustand}}
+
+Die Technik Parametrize Method wurde für mehrere Methoden in TimeSpanFactory angewendet um die Abhängigkeit zu lösen, sodass Tests nun möglich sind.
+Durch die Möglichkeit eine Calendar-Instanz zu übergeben können die Methoden einfach getestet werden.
+
+\newpage
+
+\subsection{Subclass and Override Method bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/13676e52a506bd02a06fa26087c93b2620ccd3c2} {13676e5}}
+
+\subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/9385bb4b9e20b5503e3ea72acd392185f0c533db/app/src/main/java/de/lukaspanni/opensourcestats/client}{Ausgangszustand}}
+
+Die Klasse \textit{GithubOAuthClient} verwendet eine Third-Party-Library um GraphQL-Anfragen an die GitHub-API durchzuführen.
+Diese Abhängigkeit macht Tests vergleichsweise schwierig. Um also Tests durchführen zu können ist es notwendig, diese Abhängigkeit zu lösen.
+
+\subsubsection*{Gewählte Technik}
+Um diese Abhängigkeit zu lösen wurde die Technik \textbf{Subclass and Override Method} gewählt. Diese Technik erlaubt es, eine Methode, die im Test nicht sichtbar ist, zu ändern.
+So kann zum Beispiel der Rückgabewert der Methode für den Test festgelegt werden.
+Dafür wird zunächst die bestehende Methode umbenannt und eine neue Methode mit der gleichen Signatur der eben umbenannten Methode angelegt.
+Diese neue Methode muss für Ableitungen der Klasse sichtbar sein und kann dort überschrieben werden. 
+In der Basisklasse werden alle Aufrufe der alten Methode durch Aufrufe der neuen Methode ersetzt, die selbst wiederum die alte Methode aufruft.
+\newline
+Konkret wurde die private Methode \textit{GithubOAuthClient.getGraphqlClient} umbenannt zu \textit{GithubOAuthClient.getGraphqlClientInternal} und eine neue protected Methode \textit{GithubOAuthClient.getGraphqlClient} erstellt. So ist es möglich in Ableitungen der Klasse \textit{GithubOAuthClient} das Verhalten der Methode \textit{GithubOAuthClient.getGraphqlClient} zu verändern.
+
+\subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/13676e52a506bd02a06fa26087c93b2620ccd3c2/app/src/main/java/de/lukaspanni/opensourcestats/client}{Endzustand}}
+Durch Subclass and Override Method wurde es möglich gemacht, die Klasse \textit{GithubOAuthClientTestImplementation} zu erstellen, die \textit{getGraphqlClient} so überschreibt, dass eine Mock-Instanz zurückgegeben werden kann.
+So wird die Abhängigkeit zur Third-Party-Library  reduziert und die Entwicklung von Tests fällt leichter.
+
 \end{document}
