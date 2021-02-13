@@ -42,4 +42,6 @@
     <string name="work_harder_message_2">Taking a break?</string>
     <string name="work_harder_message_3">Is it too hard for you?</string>
     <string name="date_range_picker_title">Select a Time Span</string>
+    <string name="title_settings">Settings</string>
+    <string name="authentication_settings">Auth-Settings</string>
 </resources>

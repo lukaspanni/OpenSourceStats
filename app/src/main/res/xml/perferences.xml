@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/authentication_settings">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="samplePreference"
+            android:summary="SAMPLE SUMMARY"
+            android:title="SAMPLE PREFERENCE TITLE" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>
