@@ -1,45 +1,4 @@
-\documentclass[12pt]{article}
-\usepackage[ngerman]{babel}
-\usepackage[utf8]{inputenc}
-\usepackage[hidelinks]{hyperref}
-\usepackage{inconsolata}
-\usepackage{color}
-\usepackage{enumitem}
-\usepackage{graphicx}
-\graphicspath{ {./img/} }
-\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm]{geometry}
-\usepackage[onehalfspacing]{setspace}
-
-\definecolor{pblue}{rgb}{0.13,0.13,1}
-\definecolor{pgreen}{rgb}{0,0.5,0}
-\definecolor{pred}{rgb}{0.9,0,0}
-\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
-
-\usepackage{listings}
-\lstset{language=Java,
-  showspaces=false,
-  showtabs=false,
-  breaklines=true,
-  showstringspaces=false,
-  breakatwhitespace=true,
-  commentstyle=\color{pgreen},
-  keywordstyle=\color{pblue},
-  stringstyle=\color{pred},
-  basicstyle=\ttfamily,
-  moredelim=[il][\textcolor{pgrey}]{$$},
-  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
-}
-
-\title{Unit Testing}
-\date{DHBW Karlsruhe\\ Vorlesung Advanced Software Engineering Semester 5/6}
-\author{Lukas Panni \\ TINF18B5}
-\begin{document}
-\maketitle
-
-\newpage
-\tableofcontents
-\newpage
-
+\chapter{Unit Testing}
 
 \section{Analyse und Begründung für Umfang der Tests}
 
@@ -171,5 +130,3 @@ public void cache_get_returnsCorrectEntry() {
 \end{lstlisting}
 Der hier gezeigte Test soll testen, ob der \textit{ResponseCache} bei mehreren enthaltenen Elementen, die zu einem Key (in Form eines \textit{TimeSpan}-Objekts) passenden Daten zurückgibt.
 Dazu werden gleich zwei \textit{FakeResponseData}-Objekte erstellt und mit eigenen Keys im Cache gespeichert. Abschließend wird geprüft, ob ein aus dem Cache angefordertes \textit{FakeResponseData}-Objekt, korrekt ist.
-
-\end{document}
