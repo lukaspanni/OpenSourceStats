@@ -9,4 +9,6 @@ import de.lukaspanni.opensourcestats.repository.cache.CacheKey;
 public abstract class Repository<T extends CacheKey> {
     @NotNull
     protected abstract ClientDataCallback getAddToCacheCallback(T key);
+
+    public abstract void clearCache();
 }

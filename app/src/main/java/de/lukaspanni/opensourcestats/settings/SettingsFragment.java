@@ -13,6 +13,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.lukaspanni.opensourcestats.R;
 
 import de.lukaspanni.opensourcestats.ApplicationConfig;
+import de.lukaspanni.opensourcestats.OpenSourceStatsApplication;
 import de.lukaspanni.opensourcestats.auth.AuthActivity;
 
 
@@ -44,12 +45,17 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         } else if (preference.getKey().equals("auth_revoke_authentication")) {
             String deletedState = null;
             Activity parentActivity = getActivity();
+
+
+            parentActivity = null;
             if (parentActivity != null) {
                 //Delete save authentication
                 SharedPreferences authPreferences = parentActivity.getSharedPreferences("auth", Context.MODE_PRIVATE);
                 authPreferences.edit().putString(ApplicationConfig.getAuthStateSharedPreferencesKey(), deletedState).apply();
                 //Delete all data from caches
-            }
+                OpenSourceStatsApplication app = (OpenSourceStatsApplication) parentActivity.getApplication();
+                app.clearRepositoryCaches();
+            }else return false;
         }
         return true;
     }

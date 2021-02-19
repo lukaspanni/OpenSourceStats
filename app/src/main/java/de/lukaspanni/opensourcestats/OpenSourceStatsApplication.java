@@ -40,4 +40,9 @@ public class OpenSourceStatsApplication extends Application {
         return authHandler;
     }
 
+    public void clearRepositoryCaches(){
+        userContributionsRepository.clearCache();
+        repositoryDataRepository.clearCache();
+    }
+
 }
