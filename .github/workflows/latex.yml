@@ -20,6 +20,7 @@ jobs:
             ddd.tex
             unit-testing.tex
             refactoring.tex
+            programming_principles.tex
       - name: Move PDFs
         run: mv dhbw_doc/sources/*.pdf dhbw_doc/
       - uses: EndBug/add-and-commit@v5 

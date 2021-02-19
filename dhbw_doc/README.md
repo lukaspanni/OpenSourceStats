@@ -4,3 +4,5 @@
 - [Domain Driven Design](./ddd.pdf)
 - [Legacy Code](./legacy_code.pdf)
 - [Refactoring](./refactoring.pdf)
+- [Programming Principles](./programming_principles.pdf)
+
