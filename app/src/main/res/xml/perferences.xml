@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/authentication_settings">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/progress_settings">
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="samplePreference"
-            android:summary="SAMPLE SUMMARY"
-            android:title="SAMPLE PREFERENCE TITLE" />
+            android:key="show_progress_graph"
+            android:title="@string/show_progress_graph"
+            android:summary="@string/show_progress_graph_summary"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/authentication_settings">
+        <Preference
+            android:key="auth_revoke_authentication"
+            android:title="@string/auth_revoke_authentication"
+            android:summary="@string/auth_revoke_authentication_summary" />
+        <Preference
+            android:key="auth_restart_authentication"
+            android:title="@string/auth_restart_authentication"
+            android:summary="@string/auth_restart_authentication_summary" />
+        <Preference
+            android:key="auth_check_authentication"
+            android:title="@string/auth_check_authentication"
+            android:summary="@string/auth_check_authentication_summary" />
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

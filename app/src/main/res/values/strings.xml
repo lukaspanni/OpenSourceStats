@@ -44,4 +44,16 @@
     <string name="date_range_picker_title">Select a Time Span</string>
     <string name="title_settings">Settings</string>
     <string name="authentication_settings">Auth-Settings</string>
+    <string name="back_from_settings">Go Back</string>
+    <string name="progress_settings">Progress-View Settings</string>
+    <string name="show_progress_graph">Show Graph</string>
+    <string name="show_progress_graph_summary">Dertermines if the progress graph is available in the progress view</string>
+    <string name="auth_revoke_authentication">Revoke Authentication</string>
+    <string name="auth_revoke_authentication_summary">Revokes current GitHub-Authentication</string>
+    <string name="auth_restart_authentication">Re-Authenticate</string>
+    <string name="auth_restart_authentication_summary">Resets current Authentication and starts a new authentication process</string>
+    <string name="auth_check_authentication">Check Authentication</string>
+    <string name="auth_check_authentication_summary">Checks if current authentication works as expected</string>
+    <string name="check_auth_true">Works as Expected!</string>
+    <string name="check_auth_false">Could not verify authentication! Try to reset.</string>
 </resources>
