@@ -34,7 +34,7 @@
         <activity
             android:name="de.lukaspanni.opensourcestats.auth.AuthActivity"
             android:label="@string/title_activity_auth" />
-        <activity android:name="de.lukaspanni.opensourcestats.settings.SettingsActivity"
+        <activity android:name="de.lukaspanni.opensourcestats.ui.settings.SettingsActivity"
             android:label="@string/title_settings"/>
         <activity
             android:name="de.lukaspanni.opensourcestats.MainActivity"

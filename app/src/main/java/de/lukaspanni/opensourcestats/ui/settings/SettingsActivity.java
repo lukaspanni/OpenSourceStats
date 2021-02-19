@@ -1,4 +1,4 @@
-package de.lukaspanni.opensourcestats.settings;
+package de.lukaspanni.opensourcestats.ui.settings;
 
 import android.os.Bundle;
 

@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -24,7 +23,7 @@ import de.lukaspanni.opensourcestats.auth.AuthenticationHandler;
 import de.lukaspanni.opensourcestats.client.GithubOAuthClient;
 import de.lukaspanni.opensourcestats.repository.RepositoryDataRepository;
 import de.lukaspanni.opensourcestats.repository.UserContributionsRepository;
-import de.lukaspanni.opensourcestats.settings.SettingsActivity;
+import de.lukaspanni.opensourcestats.ui.settings.SettingsActivity;
 
 
 public class MainActivity extends AppCompatActivity implements AuthHandlerActivity {

@@ -4,7 +4,7 @@ package de.lukaspanni.opensourcestats.data;
 /**
  * ContributionCount ValueObject, bundles commit, issue, pullrequest and pullrequestreview count changes
  */
-public class ContributionCountChange {
+public final class ContributionCountChange {
     private final ContributionCount previousPeriod;
     private final ContributionCount currentPeriod;
 
