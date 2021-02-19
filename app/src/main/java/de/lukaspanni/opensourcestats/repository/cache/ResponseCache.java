@@ -40,6 +40,12 @@ public class ResponseCache<K extends CacheKey, T extends ResponseData> {
         return entry.getData();
     }
 
+    public void clearCache(){
+        dataStore.clear();
+        hits = 0;
+        misses = 0;
+    }
+
     //Functions for Statistics & Debugging
 
     public int getHits() {

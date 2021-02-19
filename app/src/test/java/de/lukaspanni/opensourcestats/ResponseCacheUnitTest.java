@@ -9,12 +9,13 @@ import de.lukaspanni.opensourcestats.repository.cache.ResponseCache;
 import de.lukaspanni.opensourcestats.data.ResponseData;
 import de.lukaspanni.opensourcestats.data.TimeSpan;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.*;
 
-
+//TODO: Update tests to use other cacheKey instead of TimeSpan
 public class ResponseCacheUnitTest {
 
     @Test
@@ -72,6 +73,25 @@ public class ResponseCacheUnitTest {
         cachedData = testCache.get(dataTimeSpan);
         assertThat(cachedData, is(nullValue()));
         assertThat(testCache.getMisses(), is(2));
+    }
+
+    @Test
+    public void cache_Clear_Empty(){
+        ResponseCache<TimeSpan, FakeResponseData> testCache = new ResponseCache<>();
+        FakeResponseData testResponseData = new FakeResponseData(42);
+        TimeSpan dataTimeSpan = new TimeSpan(new Date(2021, 2, 18), new Date(2022, 2, 19));
+        testCache.put(dataTimeSpan, testResponseData);
+
+        ResponseData cachedData = testCache.get(dataTimeSpan);
+        assertThat(cachedData, is(notNullValue()));
+        assertThat(cachedData, is(equalTo(testResponseData)));
+
+        testCache.clearCache();
+
+        assertThat(testCache.getHits(), is(0));
+        assertThat(testCache.getMisses(), is(0));
+        ResponseData noCachedData = testCache.get(dataTimeSpan);
+        assertThat(noCachedData, is(nullValue()));
     }
 
 

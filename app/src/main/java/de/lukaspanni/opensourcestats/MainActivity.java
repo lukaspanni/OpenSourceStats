@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -20,6 +24,7 @@ import de.lukaspanni.opensourcestats.auth.AuthenticationHandler;
 import de.lukaspanni.opensourcestats.client.GithubOAuthClient;
 import de.lukaspanni.opensourcestats.repository.RepositoryDataRepository;
 import de.lukaspanni.opensourcestats.repository.UserContributionsRepository;
+import de.lukaspanni.opensourcestats.settings.SettingsActivity;
 
 
 public class MainActivity extends AppCompatActivity implements AuthHandlerActivity {
@@ -39,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements AuthHandlerActivi
         app.setUserContributionsRepository(new UserContributionsRepository(client));
         app.setRepositoryDataRepository(new RepositoryDataRepository(client));
 
+
+
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -54,6 +61,22 @@ public class MainActivity extends AppCompatActivity implements AuthHandlerActivi
             startActivity(authIntent);
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.top_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.action_settings){
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

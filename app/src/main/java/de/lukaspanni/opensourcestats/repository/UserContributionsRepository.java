@@ -64,4 +64,9 @@ public class UserContributionsRepository extends Repository<TimeSpan> {
         loadUserContributionsInTimeSpan(TimeSpanFactory.getCurrentMonth(), callback, forceReload);
     }
 
+    @Override
+    public void clearCache(){
+        this.cache.clearCache();
+    }
+
 }

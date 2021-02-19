@@ -101,14 +101,14 @@ public class GithubOAuthHandler implements AuthenticationHandler {
     private void writeAuthState() {
         if (authState != null) {
             SharedPreferences authPreferences = authHandlerActivity.getAuthPreferences();
-            authPreferences.edit().putString("authState", authState.jsonSerializeString()).apply();
+            authPreferences.edit().putString(ApplicationConfig.getAuthStateSharedPreferencesKey(), authState.jsonSerializeString()).apply();
         }
     }
 
     //Bad Testability because of AuthState.jsonDeserialize (uses URI.parse internally)
     private AuthState readAuthState() {
         SharedPreferences authPreferences = authHandlerActivity.getAuthPreferences();
-        String stateString = authPreferences.getString("authState", null);
+        String stateString = authPreferences.getString(ApplicationConfig.getAuthStateSharedPreferencesKey(), null);
         if (stateString != null) {
             try {
                 return AuthState.jsonDeserialize(stateString);

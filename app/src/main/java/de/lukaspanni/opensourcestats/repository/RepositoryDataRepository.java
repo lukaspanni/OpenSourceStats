@@ -47,4 +47,9 @@ public class RepositoryDataRepository extends Repository<RepositoryName>{
         return response -> cache.put(repository, (RepositoryDataResponse) response);
     }
 
+    @Override
+    public void clearCache() {
+        this.cache.clearCache();
+    }
+
 }
