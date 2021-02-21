@@ -34,7 +34,26 @@ Das Aufteilen der Klasse in mehrere Klassen, ist eine sinnvolle Lösung für die
 \newline
 \newline
 Um sowohl lange Methoden als auch große Klassen zu finden wurde das Code-Statistik Plugin \href{https://plugins.jetbrains.com/plugin/4509-statistic}{\textit{Statistic}} für Android Studio verwendet.
-Als Obergrenze für die Länge von Klassen werden 200 Zeilen und für Methoden 50 Zeilen Code festgelegt. Es konnte festgestellt werden, dass keine Klasse mehr als 100 Code-Zeilen enthält und keine Methode die 50 erlaubten Zeilen erreicht.
+Um große Klassen oder Methoden zu finden, muss zunächst eine Obergrenze für die Methodenlänge fesgelegt werden.
+Legt man zusätzlich eine maximale Anzahl von Methoden pro Klasse fest, lässt sich eine maximale Klassenlänge ableiten.
+Im Buch \textit{Refactoring in Large Software Projects} wird angegeben, dass Methoden im Durchschnitt nicht länger als 30 Zeilen sein sollten \cite[p.~31]{refactoring_lippert}.
+Außerdem wird beschrieben, dass eine Klasse weniger als 30 Methoden und damit auch weniger als 900 Zeilen umfassen sollte.
+Die Längenvorgabe für Methoden soll auch hier verwendet werden.
+Eine Klasse mit 900 Zeilen Code, ist aber meiner Meinung nach zu unübersichtlich für den praktischen Gebrauch.
+Stattdessen sollte eine Klasse maximal etwa 200 Zeilen Code umfassen.
+So kann der Code der Klasse noch schnell erfasst und verstanden werden und gleichzeitig wird eine zu starke Fragmentierung in viele einzelne Datein vermieden.
+Aus diesem Grund sollen alle Klassen kleiner als 200 Zeilen Code sein.
+\newline
+Abbildung \ref{fig:class_length} zeigt die Länge der längsten Klassen im Projekt.
+Keine der Klassen erreicht die maximale Anzahl an Zeilen.
+Um die Länge der Methoden festzustellen wurden alle Klassen mit einer Länge von über 30 Zeilen untersucht.
+Die Längste gefundene Methode besteht aus 28 Code-Zeilen und ist damit knapp kürzer als erlaubt.
+\begin{figure}[h]
+  \includegraphics{class_length.png}
+  \centering
+  \caption{Größte Klassen des Projekts}
+  \label{fig:class_length}
+\end{figure}
 
 \subsection{Shotgun Surgery}
 

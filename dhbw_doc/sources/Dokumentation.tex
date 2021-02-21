@@ -10,10 +10,13 @@
 \usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm]{geometry}
 \usepackage[onehalfspacing]{setspace}
 \usepackage{listings}
+\usepackage[nottoc,numbib]{tocbibind}
 \usepackage[pagestyles]{titlesec}   
 
 \newpagestyle{defaultstyle}{\setfoot[\thepage][][]{}{}{\thepage}\sethead[\chaptertitle][][]{}{}{\chaptertitle}}
 \pagestyle{defaultstyle}
+\titleformat{\chapter}{\Huge\bfseries}{\thechapter.}{20pt}{\Huge\bfseries}
+
 
 \definecolor{pblue}{rgb}{0.13,0.13,1}
 \definecolor{pgreen}{rgb}{0,0.5,0}
@@ -52,5 +55,9 @@
 \input{programming_principles}
 
 \input{ddd}
+
+
+\bibliographystyle{ieeetr}
+\bibliography{sources}
 
 \end{document}
