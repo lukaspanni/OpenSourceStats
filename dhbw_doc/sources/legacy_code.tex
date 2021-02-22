@@ -1,45 +1,4 @@
-\documentclass[12pt]{article}
-\usepackage[ngerman]{babel}
-\usepackage[utf8]{inputenc}
-\usepackage[hidelinks]{hyperref}
-\usepackage{inconsolata}
-\usepackage{color}
-\usepackage{enumitem}
-\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm]{geometry}
-\usepackage[onehalfspacing]{setspace}
-
-
-\definecolor{pblue}{rgb}{0.13,0.13,1}
-\definecolor{pgreen}{rgb}{0,0.5,0}
-\definecolor{pred}{rgb}{0.9,0,0}
-\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
-
-\usepackage{listings}
-\lstset{language=Java,
-  showspaces=false,
-  showtabs=false,
-  breaklines=true,
-  showstringspaces=false,
-  breakatwhitespace=true,
-  commentstyle=\color{pgreen},
-  keywordstyle=\color{pblue},
-  stringstyle=\color{pred},
-  basicstyle=\ttfamily,
-  moredelim=[il][\textcolor{pgrey}]{$$},
-  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
-}
-
-\title{Legacy Code}
-\date{DHBW Karlsruhe\\ Vorlesung Advanced Software Engineering Semester 5/6}
-\author{Lukas Panni \\ TINF18B5}
-\begin{document}
-\maketitle
-
-\newpage
-
-\tableofcontents
-
-\newpage
+\chapter{Legacy Code}
 
 \section{Abhängigkeiten brechen}
 
@@ -154,5 +113,3 @@ Konkret wurde die private Methode \textit{GithubOAuthClient.getGraphqlClient} um
 \subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/13676e52a506bd02a06fa26087c93b2620ccd3c2/app/src/main/java/de/lukaspanni/opensourcestats/client}{Endzustand}}
 Durch Subclass and Override Method wurde es möglich gemacht, die Klasse \textit{GithubOAuthClientTestImplementation} zu erstellen, die \textit{getGraphqlClient} so überschreibt, dass eine Mock-Instanz zurückgegeben werden kann.
 So wird die Abhängigkeit zur Third-Party-Library  reduziert und die Entwicklung von Tests fällt leichter.
-
-\end{document}
