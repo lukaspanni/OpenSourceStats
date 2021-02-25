@@ -2,6 +2,7 @@ package de.lukaspanni.opensourcestats.client;
 
 import de.lukaspanni.opensourcestats.data.ResponseData;
 
+//Is basically a composite (not a real decorator, because it can creates callback-trees that can be executed with one callback-call) -> rename?
 public class ClientDataCallbackDecorator implements ClientDataCallback {
 
     private ClientDataCallback originalCallback;

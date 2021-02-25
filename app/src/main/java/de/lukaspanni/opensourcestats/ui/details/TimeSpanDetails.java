@@ -17,7 +17,6 @@ import com.lukaspanni.opensourcestats.R;
 import org.jetbrains.annotations.NotNull;
 
 import de.lukaspanni.opensourcestats.data.TimeSpan;
-import de.lukaspanni.opensourcestats.data.TimeSpanFactory;
 
 
 public class TimeSpanDetails extends Fragment {
@@ -54,7 +53,7 @@ public class TimeSpanDetails extends Fragment {
 
         if (timeSpan != null) {
             TextView header = view.findViewById(R.id.time_span_header);
-            header.setText(TimeSpanFactory.toTimeSpanString(timeSpan));
+            header.setText(timeSpan.toFormattedString());
         }
 
         return view;

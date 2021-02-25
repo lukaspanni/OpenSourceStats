@@ -13,12 +13,18 @@ public class UserContributionsResponse extends ResponseData {
     private ContributionRepositories contributionRepositories;
 
     public UserContributionsResponse(UserContributionsQuery.Viewer data) {
+        this(data, null);
+    }
+
+
+    public UserContributionsResponse(UserContributionsQuery.Viewer data, TimeSpan timeSpan) {
         super(QueryType.USER_CONTRIBUTIONS_QUERY);
         contributionCount = new ContributionCount(
                 data.contributionsCollection().totalCommitContributions(),
                 data.contributionsCollection().totalIssueContributions(),
                 data.contributionsCollection().totalPullRequestContributions(),
-                data.contributionsCollection().totalPullRequestReviewContributions()
+                data.contributionsCollection().totalPullRequestReviewContributions(),
+                timeSpan
         );
         contributionRepositories = new ContributionRepositories(
                 data.contributionsCollection().commitContributionsByRepository().stream().map(repo -> repo.repository().nameWithOwner()).collect(Collectors.toSet()),

@@ -56,4 +56,7 @@
     <string name="auth_check_authentication_summary">Checks if current authentication works as expected</string>
     <string name="check_auth_true">Works as Expected!</string>
     <string name="check_auth_false">Could not verify authentication! Try to reset.</string>
+    <string name="current_week_anaylsis_header">Analysis Current Week</string>
+    <string name="most_commits_text">Most Commits:</string>
+    <string name="most_contributions_text">Most total Contributions</string>
 </resources>

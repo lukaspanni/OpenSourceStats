@@ -82,8 +82,4 @@ public class TimeSpanFactory {
         return new TimeSpan(monthStart, monthEnd);
     }
 
-    public static String toTimeSpanString(TimeSpan timeSpan){
-        DateFormat formatter = DateFormat.getDateInstance();
-        return formatter.format(timeSpan.getStart()) +  " - " + formatter.format(timeSpan.getEnd());
-    }
 }
