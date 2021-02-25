@@ -13,7 +13,7 @@ public class ContributionCountCustomWeightedRanking extends ContributionCountRan
     private final int pullRequestReviewWeight;
 
     public ContributionCountCustomWeightedRanking(int commitWeight, int issueWeight, int pullRequestWeight, int pullRequestReviewWeight) {
-        float totalWeight = commitWeight + issueWeight + pullRequestWeight + pullRequestReviewWeight;
+        int totalWeight = commitWeight + issueWeight + pullRequestWeight + pullRequestReviewWeight;
         if (totalWeight != 100) {
             throw new IllegalArgumentException("Total Weight (" + totalWeight + ") is not equal to 100");
         }
