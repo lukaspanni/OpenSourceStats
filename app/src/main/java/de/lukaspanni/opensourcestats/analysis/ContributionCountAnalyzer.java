@@ -16,6 +16,7 @@ public class ContributionCountAnalyzer {
     int fullCollectionSize = 0; //to check if all data is loaded
     private UserContributionsRepository repository;
     private DataLoadedCallback callback;
+    boolean callbackCalled = false;
 
     public ContributionCountAnalyzer(UserContributionsRepository repository, TimeSpan timeSpan){
         this(repository, timeSpan, null);
@@ -28,17 +29,23 @@ public class ContributionCountAnalyzer {
         loadData(timeSpan);
     }
 
+    public void setCallback(DataLoadedCallback callback) {
+        this.callback = callback;
+        callbackCalled = false;
+        executeCallbackWhenReady();
+    }
+
     private void loadData(TimeSpan totalTimeSpan) {
         //For every day in totalTimeSpan load a ContributionCount Object
         Date dayDate = totalTimeSpan.getStart();
         TimeSpan dayTimeSpan;
         do {
             dayTimeSpan = new TimeSpan(dayDate, dayDate);
+            fullCollectionSize++;
             repository.loadUserContributionsInTimeSpan(dayTimeSpan, response -> {
                 contributions.add(((UserContributionsResponse) response).getContributionCount());
                 executeCallbackWhenReady();
             }, false);
-            fullCollectionSize++;
             //Move to next date
             dayDate = getOneDayAfter(dayDate);
         }while(!dayDate.equals(totalTimeSpan.getEnd()));
@@ -53,15 +60,18 @@ public class ContributionCountAnalyzer {
 
     private void executeCallbackWhenReady(){
         if(callback == null) return;
-        if(isReady()) callback.callback();
+        if(isReady()) {
+            callback.callback();
+            callbackCalled = true;
+        }
     }
 
     public boolean isReady(){
         return contributions.size() == fullCollectionSize;
     }
 
-    public List<ContributionCount> getTop1(ContributionCountRanking ranking) {
-        return getTopK(ranking, 1);
+    public ContributionCount getTop1(ContributionCountRanking ranking) {
+        return getTopK(ranking, 1).get(0);
     }
 
     public List<ContributionCount> getTopK(ContributionCountRanking ranking, int k) {

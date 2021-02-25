@@ -72,7 +72,7 @@ public class GithubOAuthClient implements RepositoryDataClient, UserContribution
                         @Override
                         public void onResponse(@NotNull Response<UserContributionsQuery.Data> response) {
                             if (response.getData() != null) {
-                                UserContributionsResponse data = new UserContributionsResponse(response.getData().viewer());
+                                UserContributionsResponse data = new UserContributionsResponse(response.getData().viewer(), timeSpan);
                                 if (clientDataCallback != null) {
                                     clientDataCallback.callback(data);
                                 }

@@ -12,6 +12,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.lukaspanni.opensourcestats.R;
 
 import de.lukaspanni.opensourcestats.ui.DataAccessFragment;
+import de.lukaspanni.opensourcestats.ui.custom_elements.card.AnalysisCard;
 import de.lukaspanni.opensourcestats.ui.custom_elements.card.OverviewCard;
 
 
@@ -36,12 +37,19 @@ public class DashboardFragment extends DataAccessFragment {
         OverviewCard currentMonthCard = root.findViewById(R.id.current_month_card);
         OverviewCard lastMonthCard = root.findViewById(R.id.last_month_card);
 
+        AnalysisCard currentWeekAnalysisCard = root.findViewById(R.id.current_week_analysis_card);
+
 
         dashboardViewModel.getCurrentWeekContributions().observe(getViewLifecycleOwner(), currentWeekCard::setContributions);
         dashboardViewModel.getLastWeekContributions().observe(getViewLifecycleOwner(), lastWeekCard::setContributions);
 
         dashboardViewModel.getCurrentMonthContributions().observe(getViewLifecycleOwner(), currentMonthCard::setContributions);
         dashboardViewModel.getLastMonthContributions().observe(getViewLifecycleOwner(), lastMonthCard::setContributions);
+
+        dashboardViewModel.getMostTotalContributions().observe(getViewLifecycleOwner(),
+                contributionCount -> currentWeekAnalysisCard.setMostTotalContributionsDay(contributionCount.getContributionTimeSpan()));
+        dashboardViewModel.getMostCommits().observe(getViewLifecycleOwner(),
+                contributionCount -> currentWeekAnalysisCard.setMostCommitsText(contributionCount.getContributionTimeSpan()));
 
         this.viewModel = dashboardViewModel;
 
