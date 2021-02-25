@@ -3,6 +3,7 @@ package de.lukaspanni.opensourcestats.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -98,5 +99,14 @@ public final class TimeSpan implements Parcelable, CacheKey {
     @Override
     public long getKey() {
         return hashCode();
+    }
+
+    public String toFormattedString(){
+        return dateFormattedString(getStart()) +  " - " + dateFormattedString(getEnd()) ;
+    }
+
+    public static String dateFormattedString(Date date){
+        DateFormat formatter = DateFormat.getDateInstance();
+        return formatter.format(date);
     }
 }
