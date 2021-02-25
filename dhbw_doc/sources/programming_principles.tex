@@ -17,6 +17,13 @@ Vorteile des Single Responsibility Principle sind unter anderem eine bessere Wie
 \subsubsection{Analyse und Begründung für SRP}
 \label{sec:Analyse_SRP}
 Bei der Betrachtung der Projektstruktur wird bereits deutlich, dass die Aufteilung des Codes in mehrere Packages bereits der Umsetzung des SRP dient.
+Das \textit{analysis}-Package enthält dementsprechend nur Code, der für das Durchführen von Analysen geladener Daten verwendet wird.
+Die hier enthaltene Klasse \textit{ContributionCountAnalyzer} hat die Funktion, Daten für eine Analyse zu laden und die eigentliche Analyse zu starten.
+Die eigentliche Analyse, die in diesem Fall ein Ranking der geladenen Daten nach verschiedenen Kriterien ist, ist in der Klasse \textit{ContributionCountRanking} und ihren Ableitungen implementiert.
+Jede der Ableitungen ist für das Ranking nach bestimmten Kriterien verantwortlich.
+Prinzipiell wäre es auch möglich gewesen, auf die Ableitungen zu verzichten und stattdessen die verschiedenen Ranking-Implementierungen in der Basisklasse umzusetzen.
+Um das SRP nicht zu verletzen und eine spätere Erweiterung zu erleichtern (siehe auch \ref{sec:OCP_Strategy}), wurde allerdings die Lösung gewählt, mehrere Ableitungen für jeweils eine Ranking-Implementierung zu erstellen. 
+\newline
 Zum Beispiel enthält das \textit{auth}-Package ausschließlich Code, der für die Authentifizierung (kurz: Auth) verantwortlich ist.
 Hier finden sich Interfaces und dazugehörige Implementierungen, die nur für die Authentifizierung eines Nutzers verwendet werden.
 Betrachtet man innerhalb dieses Packages die Klasse \textit{GithubOAuthHandler} genauer, erkennt man, dass diese Klasse die Hauptaufgabe hat, einen Nutzer über GitHub zu authentifizieren.
@@ -58,13 +65,16 @@ So wird der Code unter anderem auch Modularer.
 Insgesamt wurde beim Design der Klassen immer darauf geachtet, Erweiterungen mit möglichst wenig Aufwand zu ermöglichen.
 Im Laufe der Entwicklung konnten die Vorteile davon bereits mehrfach ausgenutzt werden um Erweiterungen der bestehenden Funktionalität zu realisieren.
 Da hier nicht für alle enthaltenen Klassen eine ausführliche Betrachtung erfolgen kann werden stattdessen einige Beispiele angeführt.
+\label{sec:OCP_Strategy}
+Als Beispiel für die Umsetzung des OCP, sollen zunächst die Klasse \textit{ContributionCountRanking} und ihre Ableitungen betrachtet werden.
+Diese Klassen implementieren ein Ranking gegebener Listen nach unterschiedlichen Kriterien.
+Eine Erweiterung des Systems um weitere Ranking-Kriterien stellt hier kein Problem dar, da eine solche Erweiterung als weitere Ableitung von \textit{ContributionCountRanking} erstellt werden kann.
+So muss kein bestehender Code geändert werden, eine Erweiterung um neue Funktionalität ist aber trotzdem möglich, was das OCP vollkommen erfüllt.
 \newline
 Ein gutes Beispiel für die Umsetzung des OCP stellt die Klasse \textit{ResponseCache} dar. 
 Diese Klasse wurde dafür konzipiert die Verwendung mit neuen Datentypen möglichst einfach zu gestalten.
 Anstatt eine Cache-Klasse für einen festen Datentyp zu erstellen wurde diese Klasse durch Verwendung von Generics so ausgelegt, dass alle Datentypen, die ein bestimmtes Interface implementieren, im Cache gespeichert werden können.
 Damit erfordert eine Erweiterung um Caching anderer Datentypen keinen weiteren Aufwand als die Implementierung der benötigten Interfaces.
-\newline
-%TODO: weitere Beispiel suchen
 
 
 
@@ -78,7 +88,12 @@ Dadurch wird eine bessere, verständlichere Abstraktion gefördert und auch Fehl
 
 \subsubsection{Analyse und Begründung für LSP}
 Bei Betrachtung des Codes fällt auf, dass nur an vergleichsweise wenigen Stellen Vererbung eingesetzt wurde, was die Betrachtung in Bezug auf das LSP erleichtert.
-Das vermutlich beste Beispiel für die Verwendung des LSP findet sich im \textit{ui}-Package mit der Klasse \textit{DataAccessFragment} und ihren Ableitungen.
+Das erste Beispiel für die Umsetzung des LSP ist die Vererbungshierarchie ausgehend von der Klasse \textit{ContributionCountRanking}.
+Hier lässt sich jede Ableitung der Klasse (z.B. \textit{ContributionCountCommitRanking} und \textit{ContributionCountTotalContributionsRanking}) genau wie die Basisklasse verwenden, da jede der Ableitungen nur eine unterschiedliche Implementierung der gleichen Funktionaliät ist.
+Alle diese Klassen haben die Aufgabe, eine gegebene Liste zu sortieren, nach welchen Kriterien die Liste sortiert wird hängt aber von der jeweiligen Implementierung ab.
+Ein Verwender dieser Klassen kann einfach eine Implementierung durch eine andere ersetzen ohne dass Seiteneffekte auftreten.
+\newline
+Ein weiteres Beispiel für die Verwendung des LSP findet sich im \textit{ui}-Package mit der Klasse \textit{DataAccessFragment} und ihren Ableitungen.
 Alle von dieser Klasse abgeleiteten Klassen können auf die gleich Art verwendet werden um Daten mithilfe eines \textit{DataAccessViewModel}s zu laden.
 Dabei sind die Ableitungen dafür verantwortlich, ein passendes ViewModel zu laden.
 Ansonsten kann auf jeder Instanz einer dieser Ableitungen die \textit{loadData}-Methode aufgerufen werden um verschiedene Daten zu laden und im User-Interface anzuzeigen.
@@ -128,3 +143,8 @@ Dadurch wird auch die bereits angesprochene mögliche Aufteilung der Klasse \tex
 
 \newpage
 \section{GRASP}
+
+
+
+
+
