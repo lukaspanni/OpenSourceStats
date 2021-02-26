@@ -24,3 +24,4 @@ Dokumentation Programmentwurf für die Vorlesung Advanced Software Engineering a
 ### Running Tests
 
 - Unit-Tests can be found [here](https://github.com/lukaspanni/OpenSourceStats/tree/main/app/src/test/java/de/lukaspanni/opensourcestats) and run using the Android-Studio Test-Runner
+
