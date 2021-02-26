@@ -1,4 +1,5 @@
 \chapter{Legacy Code}
+\label{ch:Legacy_Code}
 
 \section{Abhängigkeiten brechen}
 
@@ -37,7 +38,8 @@ Trotzdem wurde die Testbarkeit erhöht und die Abstraktion verbessert. Diese Än
 
 \subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/3b1eb5bf6750c3ccaeb05962ec8a8ae743adbf2c/app/src/main/java/de/lukaspanni/opensourcestats/repository}{Ausgangszustand}}
 
-Die Klassen \textit{RepositoryDataRepository} und \textit{UserContributionsRepository} haben eine Abhängigkeit zur Klasse \textit{ResponseCache} und erzeugen im Konstruktor eine Instanz dieser Klasse und speichern diese in einer Instanzvariablen.
+Die Klassen \textit{RepositoryDataRepository} und \textit{UserContributionsRepository} haben eine 
+Abhängigkeit zur Klasse \textit{ResponseCache} und erzeugen im Konstruktor eine Instanz dieser Klasse und speichern diese in einer Instanzvariablen.
 Für den Test der Klassen ist es hilfreich, diese Instanzvariable durch eine eigene Cache-Implementierung zu nutzen.
 In diesem Fall lässt sich die Abhängigkeit mit Hilfe von \textbf{Parametrize Constructor} brechen.
 \newline

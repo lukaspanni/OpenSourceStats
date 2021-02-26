@@ -7,6 +7,7 @@ Im Folgenden werden diese Prinzipien kurz erklärt und deren Einhaltung beziehun
 
 
 \subsection{\underline{S}ingle Responsibility Principle (SRP)}
+\label{sec:SRP}
 
 Das \textbf{Single Responsibility Principle} besagt, dass jede Klasse genau eine Aufgabe erfüllen sollte und es deshalb auch nur einen Grund geben sollte, eine Klasse zu ändern.
 Das Prinzip lässt sich ebenso auf andere Struktureinheiten des Codes, wie zum Beispiel Methoden oder auch Module übertragen.
@@ -80,6 +81,7 @@ Damit erfordert eine Erweiterung um Caching anderer Datentypen keinen weiteren A
 
 \newpage
 \subsection{\underline{L}iskov Substitution Principle (LSP)}
+\label{sec:LSP}
 
 Im \textbf{Liskov Substitution Principle} ist beschrieben, dass eine Instanz einer abgeleiteten Klasse jederzeit so verwendbar sein soll wie eine Instanz der Basisklasse.
 Dabei wird nicht nur gefordert, dass die Verwendung technisch möglich ist, sondern dass diese Art der Verwendung auch logisch sinnvoll und frei von unerwünschten Nebeneffekten ist.
@@ -101,6 +103,7 @@ Ansonsten kann auf jeder Instanz einer dieser Ableitungen die \textit{loadData}-
 
 \newpage
 \subsection{\underline{I}nterface Segregation Principle (ISP)}
+\label{sec:ISP}
 
 Das \textbf{Interface Segregation Principle} sagt aus, dass mehrere spezifische Interfaces besser sind als ein einzelnes unspezifisches Interface.
 Dadurch soll der Code modularer, wartbarer und besser strukturiert werden. 
@@ -121,6 +124,7 @@ Zusammenfassend kann man davon ausgehen, dass das ISP in der gesamten Anwendung 
 
 \newpage
 \subsection{\underline{D}ependency Inversion Principle (DIP)}
+\label{sec:DIP}
 
 Das \textbf{Dependency Inversion Principle} besagt, dass High-Level Module nicht von Low-Level Modulen direkt abhängen sollten, sondern beides möglichst von Abstraktionen abhängen sollte.
 Weiterhin sollen Abstraktionen nicht von Details, sondern Details von Abstraktionen abhängen.
@@ -144,7 +148,82 @@ Dadurch wird auch die bereits angesprochene mögliche Aufteilung der Klasse \tex
 \newpage
 \section{GRASP}
 
+\textbf{GRASP} (General Responsibility Assignment Software Pattersn) umfassen mehrere Muster und Prinzipien, die helfen können, zu bestimmen, welche Klasse für eine bestimmte Aufgabe zuständig sein sollte.
+Im Folgenden soll eine kurze Begründung für die Umsetzung dieser Muster erfolgen, insbesondere die beiden GRASP-Muster \textit{Low Coupling} und \textit{High Cohesion} sollen genauer betrachtet werden.
+\newline
+\newline
+Das Prinzipt \textit{Information Expert} sagt aus, dass neue Funktionalität in der Klasse implementiert werden soll, in der bereits die meisten benötigten Daten vorhanden sind.
+Diese Vorgehensweise entspricht im Grunde dem normalen Vorgehen bei einer Objektorientierten Entwicklung.
+Da dieses Prinzip so grundlegend ist, wird auf die Erläuterung von Beispielen verzichtet.
+\newline
+\newline
+Das \textit{Creator} Prinzip legt fest, welche Klasse für die Erzeugung einer Instanz dieser Klasse zuständig sein sollte.
+Demnach gibt es nur vier Fälle, in denen eine Klasse (A) eine Instanz einer anderen Klasse (B) erzeugen darf.
+Diese Fälle sind:
+\begin{itemize}
+    \item{A ist Aggregation von B / enthält Objekte von B}
+    \item{A verarbeitet Objekte von B}
+    \item{A ist stark von B abhängig}
+    \item{A ist Information Expert für die Erzeugung von B}
+\end{itemize}
+Jede beliebige Instanziierung einer Klasse innerhalb des Projekts, kann mit einem der hier angegebenen Gründe begründet werden.
+Deshalb wird hier ebenfalls darauf verzichtet konkrete Beispiel anzuführen.
+\newline
+\newline
+Das \textit{Controller} Muster beschreibt einen Controller als Einheit, der bestimmt, welche andere Einheit für bestimmte Ereignisse zuständig ist.
+Als erste Schnittstelle nach der Benutzeroberfläche delegiert der Controller Aufgaben an weitere Module.
+Die \textit{-ViewModel} Klassen im \textit{ui} Package können als Beispiel dafür herangezogen werden.
+Als Schnittstelle zwischen Benutzeroberfläche und eigentlicher Logik delegieren sie unter anderem Ereignisse die in der Benutzeroberfläche auftreten an passende Module.
+\subsection{Low Coupling}
+\label{sec:Low_Coupling}
+Low Coupling beschreibt, dass die Kopplung zwischen Modulen oder Elementen möglichst gering sein sollte.
+Dadurch wird die Testbarkeit, Wiederverwendbarkeit und auch Erweiterbarkeit verbessert.
+Die Reduzierung von Abhängigkeiten und damit der Kopplung zwischen Elementen ist ein grundlegendes Prinzip.
+In \ref{ch:Legacy_Code} wurden bereits mehrerer Beispiele angeführt, wie Abhängigkeiten aufgelöst wurden um die Kopplung zwischen Elementen zu verringern.
+Generell wurde aber darauf geachtet, dass Klassen möglichst lose gekoppelt sind, vor allem auch um eine spätere Erweiterung mit geringem Aufwand zu ermöglichen.
+Auch Prinzipien, wie zum Beispiel das Dependency Inversion Principle, helfen die Abhängigkeiten und damit die Kopplung zwischen Elementen zu verringern.
+Als Beispiel dafür können hier die bereits in \ref{sec:DIP} erklärten Beispiele dienen.
+Dadurch, dass Klassen so weit wie möglich nicht von konkreten Klassen abhängen, sondern von Abstraktionen, sind diese Klassen untereinander nur lose gekoppelt.
+Auch das \hyperref[sec:ISP]{Interface Segregation Principle} kann durch bessere Abstraktion dazu führen, dass Klassen untereinander entkoppelt werden.
+\subsection{High Cohesion}
+Die \textit{Cohesion} oder auch \textit{Kohäsion} beschreibt, wie stark Bestandteile einer Klasse zusammenarbeiten.
+\textit{High Cohesion} bedeutet also, dass die Elemente einer Klasse stark zusammenhängen und es zum Beispiel keine Methoden gibt, die nicht auf andere Bestandteile der Klasse angewiesen sind.
+Dadurch sollen unter anderem Low-Coupling und auch die Struktur des Codes verbessert werden.
+Dieses Prinzip weist eine gewisse Ähnlichkeit zum \hyperref[sec:SRP]{Single Responsibility Principle} auf.
+\textit{High Cohesion} sagt zum Beispiel aus, dass eine Klasse keine Methoden enthalten soll, die nichts mit den anderen enthaltenen Methoden zu tun haben oder keine Instanzvariablen der Klasse verwenden. 
+Da solche Methoden mit hoher Wahrscheinlichkeit auch eine andere Verantwortlichkeit abbilden, sind diese auch aufgrund des Single Responsibility Principles nicht erwünscht.
+In anderen Punkten unterscheiden sich die Prinzipien jedoch, sodass eine Methode, die zwar Methoden oder Instanzvariablen einer Klasse benötigt, aber einem komplett anderen Zweck dient als der Rest der Klasse, trotzdem einer hohen Kohäsion nicht widerspricht.
+\newline
+Trotzdem kann aufgrund der beschriebenen Ähnlichkeit davon ausgegangen werden, dass eine Hohe Kohäsion vorliegt, wenn das Single Responsibility Principle konsequent umgesetzt wurde.
+Wie bereits in \ref{sec:Analyse_SRP} beschrieben, entsprechen die meisten Klassen dem SRP, weshalb an dieser Stelle davon ausgegangen wird, dass diese Klassen auch eine angemessen hohe Kohäsion aufweisen.
+\newline
+\newline
+Das nächste Prinzip, das in \textbf{GRASP} enthalten ist, ist \textit{Polymorphism}.
+Damit soll erreicht werden, dass unterschiedliches Verhalten eines Typs durch Ausnutzung der Polymorphie realisiert werden soll anstatt andere Lösungen, wie zum Beispiel switch-statements zu verwenden.
+Als eine der Säulen Objektorientierter Softwareentwicklung ist es generell sinnvoll Polymorphie einzusetzen, wo dies möglich ist.
+Auch dieses Prinzip hat einige Überschneidungen mit dem \hyperref[sec:LSP]{Liskov Substitution Principle}, für das bereits Beispiele beschrieben wurden, die auch für diesen Abschnitt geeignet sind.
+\newline
+\newline
+Eine \textit{Pure Fabrication}, ist eine Klasse, die nicht in der Problemdomäne vorkommt und eine Art Hilfsklasse darstellt.
+So werden unter anderem technische Implementierungsdetails von der Problemdomäne getrennt.
+Ein sehr gutes Beispiel für eine \textit{Pure Fabrication} ist die Klasse \textit{ResponseCache}. 
+Ein Cache wie dieser ist in den allermeisten Fällen eine reine Hilfsklasse und nicht in der Domäne enthalten.
+\newline
+\newline
+\textit{Indirection / Delegation} beschreibt, dass zwei Einheiten nicht direkt Kommunizieren, sondern über eine dritte Einheit, die Aufrufe delegiert oder weiterleitet.
+Damit wird direkt die Kopplung zwischen Klassen verringert, weshalb dieses Prinzip an vielen Stellen angewendet wird.
+Ein Beispiel dafür sind alle Aufrufe der eigentlichen Logik aus der Benutzerschnittstelle.
+Die Benutzerschnittstelle ruft nie direkt die eigentliche Logik auf.
+Stattdessen delegieren Event-Handler die Aufgaben an weitere Module der Anwendung.
+So wird sichergestellt, dass die Benutzeroberfläche vom Rest des Systems möglichst entkoppelt ist.
+\newline
+\newline
+\textit{Protected Variations} dienen dazu, das System vor den Auswirkungen eines Wechsels einer konkreten Implementierung zu schützen.
+Dies wird sichergestellt, indem Interfaces eingesetzt werden, um das System von konkreten Implementierungen unabhängig zu gestalten.
+Die Verwendung von Interfaces zur Entkopplung der Komponenten wurde bereits an mehreren Stellen beschrieben (siehe \ref{sec:DIP}, \ref{sec:Low_Coupling}, ...), weshalb hier nicht weiter darauf eingegangen werden soll.
 
-
-
-
+\section{DRY}
+\textit{DRY} (\underline{D}on't \underline{r}epeat \underline{y}ourself) sagt aus, dass man Redundanz im Code, zum Beispiel durch mehrfache Implementierung der gleichen Funktionalität, möglichst vermeiden sollte.
+Stattdessen soll der Code so gestaltet werden, dass einzelne Elemente wiederverwendbar sind, sodass es gar keinen Grund gibt, eine Funktion mehrfach zu implementieren.
+Im Abschnitt \ref{sec:Duplicated_Code} wurde bereits der gesamte Code durchsucht und dabei festgestellt, dass es nur sehr wenige Wiederholungen im Programmcode gibt.
+Deshalb soll hier das gleiche Ergebnis nicht noch weiter ausgeführt werden.
