@@ -15,7 +15,7 @@ Teile des Codes in diesem Projekt werden für Android-Spezifische UI-Aufgaben be
 Stattdessen sollte hier zur Beurteilung der Testabdeckung nur die Code-Coverage der nicht-UI-Klassen betrachtet werden.
 \newline
 Allgemein wird darauf verzichtet triviale Funktionen, wie zum Beispiel Getter zu testen.
-Tests dieser Funktionen würden bei großem Aufwand nur einen minimalen Mehrwert bringen, da keine echte Funktionalität getestet wird.
+Tests dieser Funktionen würden bei großem Aufwand nur einen minimalen Mehrwert bringen, da keine "echte" Funktionalität getestet wird.
 Stattdessen sollen sich die Tests auf relevante Funktionalität des Systems fokussieren.
 Das bedeutet, dass vor allem die Klassen getestet werden sollen, die häufig verwendet werden und auch die Klassen, die für die Funktion der Anwendung unerlässlich sind.
 UI-Klassen, die aufgrund starker Abhängigkeiten zu Android-Klassen schwer testbar sind sollen weniger ausführlich getestet werden.
@@ -23,8 +23,9 @@ UI-Klassen, die aufgrund starker Abhängigkeiten zu Android-Klassen schwer testb
 Für die Tests innerhalb dieses Systems wurden drei Kernfunktionalitäten identifiziert, die von einer hohen Testabdeckung am stärksten profitieren.
 Diese sind das Abrufen von Daten von der API, die Konvertierung von API-Datentypen zu Datentypen der Anwendung und in diesem Zusammenhang auch das Caching von abgerufenen Daten um die Netzwerklast zu reduzieren.
 \newline
-Diese Funktionalitäten verteilen sich auf die Packages \textit{client}, \textit{data} und \textit{repository}.
-Abbildung \hyperref{fig:Code_Coverage} zeigt einen Code-Coverage-Report dieser Packages (Stand: Commit \href{https://github.com/lukaspanni/OpenSourceStats/tree/ac3c4098d8f89f5eed7142d675ca49c4d3dd724f}{ac3c409}).
+Diese Funktionalitäten verteilen sich auf die Packages \textit{analysis}, \textit{auth}, \textit{client}, \textit{data} und \textit{repository}.
+Abbildung \hyperref{fig:Code_Coverage} zeigt einen Code-Coverage-Report dieser Packages (Stand: Commit \href{https://github.com/lukaspanni/OpenSourceStats/tree/28770def85a66a72b343e6640f2dbfa8ba073782}{28770de}).
+Sten Pittet beschreibt in \cite{pittet_coverage}, dass 80\% Code-Coverage als gutes Ziel anerkannt sind, weshalb auch hier das Ziel gesetzt wird, mindestens 80\% der Methoden zu testen.
 \begin{figure}[h]
   \includegraphics{Code_Coverage.png}
   \centering
@@ -32,8 +33,19 @@ Abbildung \hyperref{fig:Code_Coverage} zeigt einen Code-Coverage-Report dieser P
   \label{fig:Code_Coverage}
 \end{figure}
 Der Code-Coverage-Report, zeigt, dass alle relevanten Klassen getestet wurden.
-Allerdings fällt dabei auf, dass die Coverage der einzelnen Methoden unterschiedlich ist, was darauf zurückzuführen ist, dass versucht wurde, triviale Funktionalität nicht ausführlich zu testen.
+Allerdings fällt dabei zunächst auf, dass die Coverage des \textit{ui}-Packages sehr schlecht ist, da der Fokus auf Tests der Funktionalität und nicht der Darstellung gelegt wurde.
+Außerdem schwankt die Methoden-Coverage stark, was darauf zurückzuführen ist, dass versucht wurde, triviale Funktionalität nicht ausführlich zu testen.
 Im Folgenden werden Funktionalität und Tests der einzelnen Packages noch weiter erläutert.
+\newline
+\newline
+Das analysis-Package enthält alle Klassen, die für die Erstellung von Analysen verwendet werden.
+Da diese Funktionalität, vermutlich noch am stärksten weiterentwickelt wird, wird hier eine gute Code-Coverage als sehr wichtig betrachtet.
+Sowohl auf Methoden als auch auf Zeilen bezogen wird hier eine gute Code-Coverage von 86\% erreicht.
+\newline
+\newline
+Im auth-Package, das alle Klassen die zur Authentifizierung benötigt werden enthält, wurde nur eine vergleichsweise kleine Code-Coverage von gerade mal 28\% aller Methoden erreicht, was als schlecht zu bewerten ist.
+Da für die Authentifizierung eine Third-Party-Library verwendet wird, ist hier allerdings nicht mit angemessenem Aufwand eine höhere Coverage erreichbar.
+Deshalb wurde die Entscheidung getroffen, die schlechte Coverage zu akzeptieren.
 \newline
 \newline
 Das data-Package enthält alle Klassen, die als Nutzdaten von der Anwendung verarbeitet werden.
@@ -41,7 +53,7 @@ Antworten, die von der API empfangen werden, werden in einem ersten Schritt in e
 Diese Konvertierungen werden in den Konstruktoren der Klassen durchgeführt. Ansonsten werden diese Klassen hauptsächlich zur Speicherung von Anwendungsdaten verwendet und enthalten nur vergleichsweise wenig weitere Funktionalität.
 Da die Konvertierung von API-Datentyp in Anwendungsdatentyp sehr häufig verwendet wird und die Anwendungsdatentypen generell an vielen verschiedenen verwendet werden, sind hier  ausführliche Tests notwendig.
 Der Fokus der Tests liegt dabei auf den Konstruktoren, die wenigen weiteren Funktionalitäten der Klassen sind weniger wichtig und meist trivial.
-Die Code-Coverage von 79\% aller Methoden wird deshalb als gut angesehen, vor allem wenn die Line-Coverage von 88\% in die Betrachtung mit einbezogen wird.
+Die Code-Coverage von 82\% aller Methoden wird deshalb als gut angesehen, vor allem wenn die Line-Coverage von 89\% in die Betrachtung mit einbezogen wird.
 \newline
 \newline
 Im repository-Package, sind einerseits Repository-Klassen enthalten, die den Zugriff auf Anwendungsdaten abstrahieren und dabei das Caching der Daten transparent machen.
@@ -49,23 +61,30 @@ Andererseits finden sich hier auch die Klassen, die für die Umsetzung des Cachi
 Die Repository-Klassen übernehmen die Funktion, die Daten aus dem Cache abzurufen, wenn diese dort vorhanden sind und ansonsten die Daten über Funktionalität, die im client-Package implementiert ist von der API-abzurufen.
 Als zentrale Komponente, um auf Daten zuzugreifen sind die Repository-Klassen deshalb  entscheidend für die Funktionalität der gesamten Anwendung.
 Aus diesem Grund ist es wichtig hier eine möglichst hohe Testabdeckung zu erreichen.
-Die niedrige Method-Coverage von nur 42\% ist hier trotzdem gut zu bewerten, da sie auf nicht getestete triviale Funktionen zurückzuführen ist.
+Die niedrige Method-Coverage von nur 37\% ist hier trotzdem angemessen, da sie auf nicht getestete triviale Funktionen zurückzuführen ist.
 Diese trivialen Funktionen sind verschieden Parametrisierte Konstruktoren und Hilfsfunktionen, die selbst wiederum nur Standard-Parameter für getestete Funktionen bereitstellen (siehe: \href{https://github.com/lukaspanni/OpenSourceStats/blob/ac3c4098d8f89f5eed7142d675ca49c4d3dd724f/app/src/main/java/de/lukaspanni/opensourcestats/repository/UserContributionsRepository.java#L51-L65}{UserCotributionsRepository.load...})
 \newline
 Die Komponente zum Caching ist ebenfalls wichtig, da ohne funktionierendes Caching sehr viele Anfragen über das Netzwerk gesendet werden müssen, was nicht nur die Menge der übertragenen Daten unnötig erhöht, sondern auch die Reaktionszeit der Anwendung verschlechtert.
 Deshalb ist  auch im cache-Package eine hohe Testabdeckung wünschenswert.
 In diesem Package wird sowohl für Method- als auch Line-Coverage ein Wert von 100\% erreicht, was als sehr gut zu bewerten ist.
-Durch diese hohe Coverage soll sichergestellt werden, dass das Caching wie erwartet funktioniert.
+Durch diese hohe Coverage soll sichergestellt werden, dass möglichst wenige Fehler beim Caching auftreten können und alle anderen Komponenten den Cache mit hoher Sicherheit verwenden können.
 \newline
 \newline
 Das client-Package enthält alle Klassen, die benötigt werden, um Daten von der API abrufen zu können und steht damit, wie auch das cache-Package, im Zusammenhang mit dem Datenzugriff über die Repository-Klassen.
 Es ist offensichtlich, dass auch diese Funktionalität von großer Bedeutung für die Funktionalität der Anwendung ist, und deshalb auch in diesem Package eine möglichst hohe Testabdeckung angestrebt wird.
-Method- und Line-Coverage sind hier mit 64\% beziehungsweise 46\% nicht als gut zu bewerten. Hier sollte die Coverage durch weitere Testes erhöht werden, was sich allerdings als schwierig herausstellte, da eine starke Kopplung an eine Thirt-Party-Library besteht, die nur schwer aufgelöst werden kann.
+Method- und Line-Coverage sind hier mit 64\% beziehungsweise 45\% nicht als gut zu bewerten.
+Hier sollte die Coverage durch weitere Testes erhöht werden, was sich allerdings als schwierig herausstellte, da eine starke Kopplung an eine Thirt-Party-Library besteht, die nur schwer aufgelöst werden kann.
+Deshalb wird die Code-Coverage aktuelle akzeptiert, sollte in Zukunft aber noch deutlich ausgebaut werden.
+\newline
+\newline
+Im Screenshot ist zusätzlich das Package \textit{type} aufgeführt.
+Dieses enthält ausschließlich automatisch generierten Java-Code, der für die Verwendung bestimmter Typen in Verbindung mit der GitHub-GraphQL-API benötigt wird.
+Die Code-Coverage dieses Packages ist deshalb nicht relevant.
 \newline
 \newline
 Im Gegensatz zu den genannten Bereichen ist eine hohe Testabdeckung im \textit{ui}-Package weniger wichtig und bringt nur wenig Nutzen. 
 Zusätzlich ist hier aufgrund der genannten Einschränkungen eine hohe Testabdeckung nur mit sehr hohem Aufwand möglich.
-Im Anbetracht des geringen Nutzens ist der Aufwand hier eine hohe Testabdeckung zu erreichen nicht gerechtfertigt, weshalb hier weitestgehend auf ausführliche Tests verzichtet wird.
+Im Anbetracht des geringen Nutzens ist der Aufwand hier eine hohe Testabdeckung zu erreichen nicht gerechtfertigt, weshalb hier weitestgehend auf Tests verzichtet wird.
 
 \newpage
 \section{Analyse und Begründung für Einsatz von Fake-/Mock-Objekten}

@@ -6,11 +6,12 @@ Im Folgenden sollen bekannte Code Smells im Code identifiziert werden. Im Abschn
 
 
 \subsection{Duplicated Code}
+\label{sec:Duplicated_Code}
 
 \textit{Duplicated Code} beschreibt, dass der gleiche beziehungsweise sehr ähnlicher Code an mehreren Stellen des Systems vorkommt.
 Dadurch ist der Wartungsaufwand vergleichsweise hoch, da bei jeder Änderung potentiell mehrere Stellen angepasst werden müssen. Das kann auch dazu führen, dass sich die Funktionalität der einzelnen Stellen im Laufe der Zeit minimal unterscheidet, wodurch das Verhalten des Systems inkonsistent wird.
 Um Duplicated Code zu reduzieren muss der doppelte Code ausgelagert werden und kann dann an verschiedenen Stellen wiederverwendet werden.
-
+Die folgende Liste enthält Beispiele für Duplicated Code im vorliegenden Projekt.
 \begin{itemize}
 	\item{TimeSpanDetails: Click-Listener-Code wird vier mal in gleicher Form (bis auf eine Variable) verwendet. Gelöst mit {\hyperref[sec:ExtractMethod_TimeSpanDetails]{ExtractMethod}} bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/0c0b357dee742575d8465ae26e64152bfecbf5ab} {0c0b357}}
 	
@@ -20,6 +21,7 @@ Da beide Klassen von der gleichen Basisklasse erben wäre die Auslagerung einer 
 Ein erster Schritt zur Verringerung des doppelten Codes ist durch das Refactoring {\hyperref[sec:ExtractMethod_Repository]{ExtractMethod}} bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/3b1eb5bf6750c3ccaeb05962ec8a8ae743adbf2c} {3b1eb5b} bereits umgesetzt.} 		
 \end{itemize}
 Ansonsten konnten keine weiteren duplizierten Code-Teile gefunden werden.
+Da nur wenige Dopplungen gefunden wurden und nur noch eine Kopplung weiterhin besteht, kann abschließend gesagt werden, dass der Code weitgehend frei von unnötigen Duplizierungen ist.
 
 \subsection{Long Method \& Large Class}
 

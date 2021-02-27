@@ -7,6 +7,7 @@ Im Folgenden werden diese Prinzipien kurz erklärt und deren Einhaltung beziehun
 
 
 \subsection{\underline{S}ingle Responsibility Principle (SRP)}
+\label{sec:SRP}
 
 Das \textbf{Single Responsibility Principle} besagt, dass jede Klasse genau eine Aufgabe erfüllen sollte und es deshalb auch nur einen Grund geben sollte, eine Klasse zu ändern.
 Das Prinzip lässt sich ebenso auf andere Struktureinheiten des Codes, wie zum Beispiel Methoden oder auch Module übertragen.
@@ -17,6 +18,13 @@ Vorteile des Single Responsibility Principle sind unter anderem eine bessere Wie
 \subsubsection{Analyse und Begründung für SRP}
 \label{sec:Analyse_SRP}
 Bei der Betrachtung der Projektstruktur wird bereits deutlich, dass die Aufteilung des Codes in mehrere Packages bereits der Umsetzung des SRP dient.
+Das \textit{analysis}-Package enthält dementsprechend nur Code, der für das Durchführen von Analysen geladener Daten verwendet wird.
+Die hier enthaltene Klasse \textit{ContributionCountAnalyzer} hat die Funktion, Daten für eine Analyse zu laden und die eigentliche Analyse zu starten.
+Die eigentliche Analyse, die in diesem Fall ein Ranking der geladenen Daten nach verschiedenen Kriterien ist, ist in der Klasse \textit{ContributionCountRanking} und ihren Ableitungen implementiert.
+Jede der Ableitungen ist für das Ranking nach bestimmten Kriterien verantwortlich.
+Prinzipiell wäre es auch möglich gewesen, auf die Ableitungen zu verzichten und stattdessen die verschiedenen Ranking-Implementierungen in der Basisklasse umzusetzen.
+Um das SRP nicht zu verletzen und eine spätere Erweiterung zu erleichtern (siehe auch \ref{sec:OCP_Strategy}), wurde allerdings die Lösung gewählt, mehrere Ableitungen für jeweils eine Ranking-Implementierung zu erstellen. 
+\newline
 Zum Beispiel enthält das \textit{auth}-Package ausschließlich Code, der für die Authentifizierung (kurz: Auth) verantwortlich ist.
 Hier finden sich Interfaces und dazugehörige Implementierungen, die nur für die Authentifizierung eines Nutzers verwendet werden.
 Betrachtet man innerhalb dieses Packages die Klasse \textit{GithubOAuthHandler} genauer, erkennt man, dass diese Klasse die Hauptaufgabe hat, einen Nutzer über GitHub zu authentifizieren.
@@ -58,18 +66,22 @@ So wird der Code unter anderem auch Modularer.
 Insgesamt wurde beim Design der Klassen immer darauf geachtet, Erweiterungen mit möglichst wenig Aufwand zu ermöglichen.
 Im Laufe der Entwicklung konnten die Vorteile davon bereits mehrfach ausgenutzt werden um Erweiterungen der bestehenden Funktionalität zu realisieren.
 Da hier nicht für alle enthaltenen Klassen eine ausführliche Betrachtung erfolgen kann werden stattdessen einige Beispiele angeführt.
+\label{sec:OCP_Strategy}
+Als Beispiel für die Umsetzung des OCP, sollen zunächst die Klasse \textit{ContributionCountRanking} und ihre Ableitungen betrachtet werden.
+Diese Klassen implementieren ein Ranking gegebener Listen nach unterschiedlichen Kriterien.
+Eine Erweiterung des Systems um weitere Ranking-Kriterien stellt hier kein Problem dar, da eine solche Erweiterung als weitere Ableitung von \textit{ContributionCountRanking} erstellt werden kann.
+So muss kein bestehender Code geändert werden, eine Erweiterung um neue Funktionalität ist aber trotzdem möglich, was das OCP vollkommen erfüllt.
 \newline
 Ein gutes Beispiel für die Umsetzung des OCP stellt die Klasse \textit{ResponseCache} dar. 
 Diese Klasse wurde dafür konzipiert die Verwendung mit neuen Datentypen möglichst einfach zu gestalten.
 Anstatt eine Cache-Klasse für einen festen Datentyp zu erstellen wurde diese Klasse durch Verwendung von Generics so ausgelegt, dass alle Datentypen, die ein bestimmtes Interface implementieren, im Cache gespeichert werden können.
 Damit erfordert eine Erweiterung um Caching anderer Datentypen keinen weiteren Aufwand als die Implementierung der benötigten Interfaces.
-\newline
-%TODO: weitere Beispiel suchen
 
 
 
 \newpage
 \subsection{\underline{L}iskov Substitution Principle (LSP)}
+\label{sec:LSP}
 
 Im \textbf{Liskov Substitution Principle} ist beschrieben, dass eine Instanz einer abgeleiteten Klasse jederzeit so verwendbar sein soll wie eine Instanz der Basisklasse.
 Dabei wird nicht nur gefordert, dass die Verwendung technisch möglich ist, sondern dass diese Art der Verwendung auch logisch sinnvoll und frei von unerwünschten Nebeneffekten ist.
@@ -78,7 +90,12 @@ Dadurch wird eine bessere, verständlichere Abstraktion gefördert und auch Fehl
 
 \subsubsection{Analyse und Begründung für LSP}
 Bei Betrachtung des Codes fällt auf, dass nur an vergleichsweise wenigen Stellen Vererbung eingesetzt wurde, was die Betrachtung in Bezug auf das LSP erleichtert.
-Das vermutlich beste Beispiel für die Verwendung des LSP findet sich im \textit{ui}-Package mit der Klasse \textit{DataAccessFragment} und ihren Ableitungen.
+Das erste Beispiel für die Umsetzung des LSP ist die Vererbungshierarchie ausgehend von der Klasse \textit{ContributionCountRanking}.
+Hier lässt sich jede Ableitung der Klasse (z.B. \textit{ContributionCountCommitRanking} und \textit{ContributionCountTotalContributionsRanking}) genau wie die Basisklasse verwenden, da jede der Ableitungen nur eine unterschiedliche Implementierung der gleichen Funktionaliät ist.
+Alle diese Klassen haben die Aufgabe, eine gegebene Liste zu sortieren, nach welchen Kriterien die Liste sortiert wird hängt aber von der jeweiligen Implementierung ab.
+Ein Verwender dieser Klassen kann einfach eine Implementierung durch eine andere ersetzen ohne dass Seiteneffekte auftreten.
+\newline
+Ein weiteres Beispiel für die Verwendung des LSP findet sich im \textit{ui}-Package mit der Klasse \textit{DataAccessFragment} und ihren Ableitungen.
 Alle von dieser Klasse abgeleiteten Klassen können auf die gleich Art verwendet werden um Daten mithilfe eines \textit{DataAccessViewModel}s zu laden.
 Dabei sind die Ableitungen dafür verantwortlich, ein passendes ViewModel zu laden.
 Ansonsten kann auf jeder Instanz einer dieser Ableitungen die \textit{loadData}-Methode aufgerufen werden um verschiedene Daten zu laden und im User-Interface anzuzeigen.
@@ -86,6 +103,7 @@ Ansonsten kann auf jeder Instanz einer dieser Ableitungen die \textit{loadData}-
 
 \newpage
 \subsection{\underline{I}nterface Segregation Principle (ISP)}
+\label{sec:ISP}
 
 Das \textbf{Interface Segregation Principle} sagt aus, dass mehrere spezifische Interfaces besser sind als ein einzelnes unspezifisches Interface.
 Dadurch soll der Code modularer, wartbarer und besser strukturiert werden. 
@@ -106,6 +124,7 @@ Zusammenfassend kann man davon ausgehen, dass das ISP in der gesamten Anwendung 
 
 \newpage
 \subsection{\underline{D}ependency Inversion Principle (DIP)}
+\label{sec:DIP}
 
 Das \textbf{Dependency Inversion Principle} besagt, dass High-Level Module nicht von Low-Level Modulen direkt abhängen sollten, sondern beides möglichst von Abstraktionen abhängen sollte.
 Weiterhin sollen Abstraktionen nicht von Details, sondern Details von Abstraktionen abhängen.
@@ -128,3 +147,83 @@ Dadurch wird auch die bereits angesprochene mögliche Aufteilung der Klasse \tex
 
 \newpage
 \section{GRASP}
+
+\textbf{GRASP} (General Responsibility Assignment Software Pattersn) umfassen mehrere Muster und Prinzipien, die helfen können, zu bestimmen, welche Klasse für eine bestimmte Aufgabe zuständig sein sollte.
+Im Folgenden soll eine kurze Begründung für die Umsetzung dieser Muster erfolgen, insbesondere die beiden GRASP-Muster \textit{Low Coupling} und \textit{High Cohesion} sollen genauer betrachtet werden.
+\newline
+\newline
+Das Prinzipt \textit{Information Expert} sagt aus, dass neue Funktionalität in der Klasse implementiert werden soll, in der bereits die meisten benötigten Daten vorhanden sind.
+Diese Vorgehensweise entspricht im Grunde dem normalen Vorgehen bei einer Objektorientierten Entwicklung.
+Da dieses Prinzip so grundlegend ist, wird auf die Erläuterung von Beispielen verzichtet.
+\newline
+\newline
+Das \textit{Creator} Prinzip legt fest, welche Klasse für die Erzeugung einer Instanz dieser Klasse zuständig sein sollte.
+Demnach gibt es nur vier Fälle, in denen eine Klasse (A) eine Instanz einer anderen Klasse (B) erzeugen darf.
+Diese Fälle sind:
+\begin{itemize}
+    \item{A ist Aggregation von B / enthält Objekte von B}
+    \item{A verarbeitet Objekte von B}
+    \item{A ist stark von B abhängig}
+    \item{A ist Information Expert für die Erzeugung von B}
+\end{itemize}
+Jede beliebige Instanziierung einer Klasse innerhalb des Projekts, kann mit einem der hier angegebenen Gründe begründet werden.
+Deshalb wird hier ebenfalls darauf verzichtet konkrete Beispiel anzuführen.
+\newline
+\newline
+Das \textit{Controller} Muster beschreibt einen Controller als Einheit, der bestimmt, welche andere Einheit für bestimmte Ereignisse zuständig ist.
+Als erste Schnittstelle nach der Benutzeroberfläche delegiert der Controller Aufgaben an weitere Module.
+Die \textit{-ViewModel} Klassen im \textit{ui} Package können als Beispiel dafür herangezogen werden.
+Als Schnittstelle zwischen Benutzeroberfläche und eigentlicher Logik delegieren sie unter anderem Ereignisse die in der Benutzeroberfläche auftreten an passende Module.
+\subsection{Low Coupling}
+\label{sec:Low_Coupling}
+Low Coupling beschreibt, dass die Kopplung zwischen Modulen oder Elementen möglichst gering sein sollte.
+Dadurch wird die Testbarkeit, Wiederverwendbarkeit und auch Erweiterbarkeit verbessert.
+Die Reduzierung von Abhängigkeiten und damit der Kopplung zwischen Elementen ist ein grundlegendes Prinzip.
+In \ref{ch:Legacy_Code} wurden bereits mehrerer Beispiele angeführt, wie Abhängigkeiten aufgelöst wurden um die Kopplung zwischen Elementen zu verringern.
+Generell wurde aber darauf geachtet, dass Klassen möglichst lose gekoppelt sind, vor allem auch um eine spätere Erweiterung mit geringem Aufwand zu ermöglichen.
+Auch Prinzipien, wie zum Beispiel das Dependency Inversion Principle, helfen die Abhängigkeiten und damit die Kopplung zwischen Elementen zu verringern.
+Als Beispiel dafür können hier die bereits in \ref{sec:DIP} erklärten Beispiele dienen.
+Dadurch, dass Klassen so weit wie möglich nicht von konkreten Klassen abhängen, sondern von Abstraktionen, sind diese Klassen untereinander nur lose gekoppelt.
+Auch das \hyperref[sec:ISP]{Interface Segregation Principle} kann durch bessere Abstraktion dazu führen, dass Klassen untereinander entkoppelt werden.
+\subsection{High Cohesion}
+Die \textit{Cohesion} oder auch \textit{Kohäsion} beschreibt, wie stark Bestandteile einer Klasse zusammenarbeiten.
+\textit{High Cohesion} bedeutet also, dass die Elemente einer Klasse stark zusammenhängen und es zum Beispiel keine Methoden gibt, die nicht auf andere Bestandteile der Klasse angewiesen sind.
+Dadurch sollen unter anderem Low-Coupling und auch die Struktur des Codes verbessert werden.
+Dieses Prinzip weist eine gewisse Ähnlichkeit zum \hyperref[sec:SRP]{Single Responsibility Principle} auf.
+\textit{High Cohesion} sagt zum Beispiel aus, dass eine Klasse keine Methoden enthalten soll, die nichts mit den anderen enthaltenen Methoden zu tun haben oder keine Instanzvariablen der Klasse verwenden. 
+Da solche Methoden mit hoher Wahrscheinlichkeit auch eine andere Verantwortlichkeit abbilden, sind diese auch aufgrund des Single Responsibility Principles nicht erwünscht.
+In anderen Punkten unterscheiden sich die Prinzipien jedoch, sodass eine Methode, die zwar Methoden oder Instanzvariablen einer Klasse benötigt, aber einem komplett anderen Zweck dient als der Rest der Klasse, trotzdem einer hohen Kohäsion nicht widerspricht.
+\newline
+Trotzdem kann aufgrund der beschriebenen Ähnlichkeit davon ausgegangen werden, dass eine Hohe Kohäsion vorliegt, wenn das Single Responsibility Principle konsequent umgesetzt wurde.
+Wie bereits in \ref{sec:Analyse_SRP} beschrieben, entsprechen die meisten Klassen dem SRP, weshalb an dieser Stelle davon ausgegangen wird, dass diese Klassen auch eine angemessen hohe Kohäsion aufweisen.
+\newline
+\newline
+Das nächste Prinzip, das in \textbf{GRASP} enthalten ist, ist \textit{Polymorphism}.
+Damit soll erreicht werden, dass unterschiedliches Verhalten eines Typs durch Ausnutzung der Polymorphie realisiert werden soll anstatt andere Lösungen, wie zum Beispiel switch-statements zu verwenden.
+Als eine der Säulen Objektorientierter Softwareentwicklung ist es generell sinnvoll Polymorphie einzusetzen, wo dies möglich ist.
+Auch dieses Prinzip hat einige Überschneidungen mit dem \hyperref[sec:LSP]{Liskov Substitution Principle}, für das bereits Beispiele beschrieben wurden, die auch für diesen Abschnitt geeignet sind.
+\newline
+\newline
+Eine \textit{Pure Fabrication}, ist eine Klasse, die nicht in der Problemdomäne vorkommt und eine Art Hilfsklasse darstellt.
+So werden unter anderem technische Implementierungsdetails von der Problemdomäne getrennt.
+Ein sehr gutes Beispiel für eine \textit{Pure Fabrication} ist die Klasse \textit{ResponseCache}. 
+Ein Cache wie dieser ist in den allermeisten Fällen eine reine Hilfsklasse und nicht in der Domäne enthalten.
+\newline
+\newline
+\textit{Indirection / Delegation} beschreibt, dass zwei Einheiten nicht direkt Kommunizieren, sondern über eine dritte Einheit, die Aufrufe delegiert oder weiterleitet.
+Damit wird direkt die Kopplung zwischen Klassen verringert, weshalb dieses Prinzip an vielen Stellen angewendet wird.
+Ein Beispiel dafür sind alle Aufrufe der eigentlichen Logik aus der Benutzerschnittstelle.
+Die Benutzerschnittstelle ruft nie direkt die eigentliche Logik auf.
+Stattdessen delegieren Event-Handler die Aufgaben an weitere Module der Anwendung.
+So wird sichergestellt, dass die Benutzeroberfläche vom Rest des Systems möglichst entkoppelt ist.
+\newline
+\newline
+\textit{Protected Variations} dienen dazu, das System vor den Auswirkungen eines Wechsels einer konkreten Implementierung zu schützen.
+Dies wird sichergestellt, indem Interfaces eingesetzt werden, um das System von konkreten Implementierungen unabhängig zu gestalten.
+Die Verwendung von Interfaces zur Entkopplung der Komponenten wurde bereits an mehreren Stellen beschrieben (siehe \ref{sec:DIP}, \ref{sec:Low_Coupling}, ...), weshalb hier nicht weiter darauf eingegangen werden soll.
+
+\section{DRY}
+\textit{DRY} (\underline{D}on't \underline{r}epeat \underline{y}ourself) sagt aus, dass man Redundanz im Code, zum Beispiel durch mehrfache Implementierung der gleichen Funktionalität, möglichst vermeiden sollte.
+Stattdessen soll der Code so gestaltet werden, dass einzelne Elemente wiederverwendbar sind, sodass es gar keinen Grund gibt, eine Funktion mehrfach zu implementieren.
+Im Abschnitt \ref{sec:Duplicated_Code} wurde bereits der gesamte Code durchsucht und dabei festgestellt, dass es nur sehr wenige Wiederholungen im Programmcode gibt.
+Deshalb soll hier das gleiche Ergebnis nicht noch weiter ausgeführt werden.
