@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.HashSet;
 
 import de.lukaspanni.opensourcestats.client.ClientDataCallback;
-import de.lukaspanni.opensourcestats.client.ClientDataCallbackDecorator;
+import de.lukaspanni.opensourcestats.client.ClientDataCallbackComposite;
 import de.lukaspanni.opensourcestats.data.RepositoryDataResponse;
 import de.lukaspanni.opensourcestats.mock.FakeRepositoryDataClient;
 import de.lukaspanni.opensourcestats.mock.MockClientCallback;
@@ -54,7 +54,7 @@ public class RepositoryDataRepositoryUnitTest {
         decoratedCallback.callback(fakeResponse);
 
         //callback should be decorated with additional callback
-        assertThat(client.getCalledCallback(), instanceOf(ClientDataCallbackDecorator.class));
+        assertThat(client.getCalledCallback(), instanceOf(ClientDataCallbackComposite.class));
         //original callback should be called
         assertThat(callback.isCallbackCalled(), is(true));
         //cache should contain fakeResponse

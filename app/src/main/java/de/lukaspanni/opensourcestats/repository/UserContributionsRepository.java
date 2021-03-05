@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 
 import de.lukaspanni.opensourcestats.client.ClientDataCallback;
-import de.lukaspanni.opensourcestats.client.ClientDataCallbackDecorator;
+import de.lukaspanni.opensourcestats.client.ClientDataCallbackComposite;
 import de.lukaspanni.opensourcestats.client.UserContributionsClient;
 import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
 import de.lukaspanni.opensourcestats.repository.cache.ResponseCache;
@@ -37,7 +37,7 @@ public class UserContributionsRepository extends Repository<TimeSpan> {
                 return;
             }
         }
-        ClientDataCallback decoratedCallback = new ClientDataCallbackDecorator(callback, getAddToCacheCallback(timeSpan));
+        ClientDataCallback decoratedCallback = new ClientDataCallbackComposite(callback, getAddToCacheCallback(timeSpan));
         client.loadUserContributionsData(timeSpan, decoratedCallback);
     }
 

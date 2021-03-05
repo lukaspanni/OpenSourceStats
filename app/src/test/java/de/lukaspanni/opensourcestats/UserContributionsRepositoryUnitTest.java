@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.util.HashMap;
 
 import de.lukaspanni.opensourcestats.client.ClientDataCallback;
-import de.lukaspanni.opensourcestats.client.ClientDataCallbackDecorator;
+import de.lukaspanni.opensourcestats.client.ClientDataCallbackComposite;
 import de.lukaspanni.opensourcestats.data.ContributionCount;
 import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
 import de.lukaspanni.opensourcestats.mock.ContributionsViewerFake;
@@ -54,7 +54,7 @@ public class UserContributionsRepositoryUnitTest {
         decoratedCallback.callback(fakeResponse);
 
         //callback should be decorated with additional callback
-        assertThat(client.getCalledCallback(), instanceOf(ClientDataCallbackDecorator.class));
+        assertThat(client.getCalledCallback(), instanceOf(ClientDataCallbackComposite.class));
         //original callback should be called
         assertThat(callback.isCallbackCalled(), is(true));
         //cache should contain fakeResponse
