@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import de.lukaspanni.opensourcestats.data.TimeSpan;
 import de.lukaspanni.opensourcestats.data.TimeSpanFactory;
@@ -21,14 +22,19 @@ public class TimeSpanFactoryUnitTest {
     private final int defaultYear = 2021;
 
     private Calendar generateTestCalendar() {
-        return new GregorianCalendar(defaultYear, defaultMonth, defaultDay);
+        Locale locale = new Locale("de", "DE");
+        Locale.setDefault(locale);
+        Calendar c = new GregorianCalendar(defaultYear, defaultMonth, defaultDay);
+        c.setFirstDayOfWeek(Calendar.MONDAY);
+        return c;
     }
 
     @Test
     public void test_get_current_week() {
         Calendar testCalendar = generateTestCalendar();
-        Date expectedStart = new Date(defaultYear - DATE_YEAR_OFFSET, defaultMonth, defaultDay);
-        Date expectedEnd = new Date(defaultYear - DATE_YEAR_OFFSET, defaultMonth, defaultDay + 6);
+        Date currentDate = new Date();
+        Date expectedStart = new Date(defaultYear - DATE_YEAR_OFFSET, currentDate.getMonth(), currentDate.getDate() - (currentDate.getDay() - 1));
+        Date expectedEnd = new Date(defaultYear - DATE_YEAR_OFFSET, currentDate.getMonth(), currentDate.getDate() - (currentDate.getDay() - 1) + 6);
 
         TimeSpan ts = TimeSpanFactory.getCurrentWeek(testCalendar);
 
@@ -57,9 +63,8 @@ public class TimeSpanFactoryUnitTest {
 
         TimeSpan ts = TimeSpanFactory.getWeek(testCalendar, dayInWeek);
 
-        //TODO: find out why Github-Actions fails here, but works locally
-        //assertThat(ts.getStart(), is(equalTo(expectedStart)));
-        // assertThat(ts.getEnd(), is(equalTo(expectedEnd)));
+         assertThat(ts.getStart(), is(equalTo(expectedStart)));
+         assertThat(ts.getEnd(), is(equalTo(expectedEnd)));
     }
 
     @Test
@@ -78,8 +83,9 @@ public class TimeSpanFactoryUnitTest {
     @Test
     public void test_get_current_month() {
         Calendar testCalendar = generateTestCalendar();
-        Date expectedStart = new Date(defaultYear - DATE_YEAR_OFFSET, defaultMonth, 1);
-        Date expectedEnd = new Date(defaultYear - DATE_YEAR_OFFSET, defaultMonth + 1, 0);
+        Date currentDate = new Date();
+        Date expectedStart = new Date(defaultYear - DATE_YEAR_OFFSET, currentDate.getMonth(), 1);
+        Date expectedEnd = new Date(defaultYear - DATE_YEAR_OFFSET, currentDate.getMonth() + 1, 0);
 
         TimeSpan ts = TimeSpanFactory.getCurrentMonth(testCalendar);
 
