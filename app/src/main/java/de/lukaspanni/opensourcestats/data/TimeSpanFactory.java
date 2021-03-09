@@ -1,6 +1,7 @@
 package de.lukaspanni.opensourcestats.data;
 
-import java.text.DateFormat;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -31,25 +32,23 @@ public class TimeSpanFactory {
     }
 
     public static TimeSpan getCurrentWeek(Calendar calendar){
-        calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
-        Date weekStart = calendar.getTime();
-        calendar.add(Calendar.DAY_OF_WEEK, 6);
-        Date weekEnd = calendar.getTime();
-        return new TimeSpan(weekStart, weekEnd);
+        return getWeek(new Date());
     }
 
     public static TimeSpan getLastWeek(Calendar calendar) {
         calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
         calendar.add(Calendar.WEEK_OF_YEAR, -1);
-        Date weekStart = calendar.getTime();
-        calendar.add(Calendar.DAY_OF_WEEK, 6);
-        Date weekEnd = calendar.getTime();
-        return new TimeSpan(weekStart, weekEnd);
+        return getWeekTimeSpan(calendar);
     }
 
     public static TimeSpan getWeek(Calendar calendar, Date dayInWeek){
         calendar.setTime(dayInWeek);
         calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+        return getWeekTimeSpan(calendar);
+    }
+
+    @NotNull
+    private static TimeSpan getWeekTimeSpan(Calendar calendar) {
         Date weekStart = calendar.getTime();
         calendar.add(Calendar.DAY_OF_WEEK, 6);
         Date weekEnd = calendar.getTime();
@@ -57,27 +56,25 @@ public class TimeSpanFactory {
     }
 
     public static TimeSpan getCurrentMonth(Calendar calendar){
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        Date monthStart = calendar.getTime();
-        calendar.add(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH)-1);
-        Date monthEnd = calendar.getTime();
-        return new TimeSpan(monthStart, monthEnd);
+        return getMonth(new Date());
     }
 
     public static TimeSpan getLastMonth(Calendar calendar){
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         calendar.add(Calendar.MONTH, -1);
-        Date monthStart = calendar.getTime();
-        calendar.add(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH)-1);
-        Date monthEnd = calendar.getTime();
-        return new TimeSpan(monthStart, monthEnd);
+        return getMonthTimeSpan(calendar, calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - 1);
     }
 
     public static TimeSpan getMonth(Calendar calendar, Date dayInMonth){
         calendar.setTime(dayInMonth);
         calendar.set(Calendar.DAY_OF_MONTH, 1);
+        return getMonthTimeSpan(calendar, calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - 1);
+    }
+
+    @NotNull
+    private static TimeSpan getMonthTimeSpan(Calendar calendar, int i) {
         Date monthStart = calendar.getTime();
-        calendar.add(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH)-1);
+        calendar.add(Calendar.DAY_OF_MONTH, i);
         Date monthEnd = calendar.getTime();
         return new TimeSpan(monthStart, monthEnd);
     }
