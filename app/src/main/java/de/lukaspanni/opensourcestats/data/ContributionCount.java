@@ -18,11 +18,15 @@ public final class ContributionCount {
     }
 
     public ContributionCount(int commits, int issues, int pullRequests, int pullRequestReviews, TimeSpan timeSpan) {
-        this.commitCount = Math.max(commits, 0);
-        this.issueCount = Math.max(issues, 0);
-        this.pullRequestCount = Math.max(pullRequests, 0);
-        this.pullRequestReviewCount = Math.max(pullRequestReviews, 0);
+        this.commitCount = getPositiveCount(commits);
+        this.issueCount = getPositiveCount(issues);
+        this.pullRequestCount = getPositiveCount(pullRequests);
+        this.pullRequestReviewCount = getPositiveCount(pullRequestReviews);
         this.contributionTimeSpan = timeSpan;
+    }
+
+    private int getPositiveCount(int count) {
+        return Math.max(count, 0);
     }
 
     public int getCommitCount() {

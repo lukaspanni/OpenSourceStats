@@ -7,10 +7,12 @@ import androidx.lifecycle.MutableLiveData;
 
 
 import de.lukaspanni.opensourcestats.OpenSourceStatsApplication;
+import de.lukaspanni.opensourcestats.client.ClientDataCallback;
 import de.lukaspanni.opensourcestats.repository.UserContributionsRepository;
 import de.lukaspanni.opensourcestats.ui.DataAccessViewModel;
 import de.lukaspanni.opensourcestats.data.ContributionCount;
 import de.lukaspanni.opensourcestats.data.UserContributionsResponse;
+import org.jetbrains.annotations.NotNull;
 
 public class ProgressViewModel extends AndroidViewModel implements DataAccessViewModel {
 
@@ -47,28 +49,21 @@ public class ProgressViewModel extends AndroidViewModel implements DataAccessVie
     public void loadData(boolean forceReload) {
         OpenSourceStatsApplication application = (OpenSourceStatsApplication) getApplication();
         UserContributionsRepository repository = application.getUserContributionsRepository();
-        repository.loadUserContributionsInCurrentWeek(data -> {
+        repository.loadUserContributionsInCurrentWeek(getClientDataCallback(currentWeekContributions), forceReload);
+        repository.loadUserContributionsInLastWeek(getClientDataCallback(lastWeekContributions), forceReload);
+
+        repository.loadUserContributionsInCurrentMonth(getClientDataCallback(currentMonthContributions), forceReload);
+        repository.loadUserContributionsInLastMonth(getClientDataCallback(lastMonthContributions), forceReload);
+
+    }
+
+    @NotNull
+    private ClientDataCallback getClientDataCallback(MutableLiveData<ContributionCount> currentWeekContributions) {
+        return data -> {
             UserContributionsResponse currentWeekData = (UserContributionsResponse) data;
             if (data == null) return;
             currentWeekContributions.postValue(currentWeekData.getContributionCount());
-        }, forceReload);
-        repository.loadUserContributionsInLastWeek(data -> {
-            UserContributionsResponse lastWeekData = (UserContributionsResponse) data;
-            if (data == null) return;
-            lastWeekContributions.postValue(lastWeekData.getContributionCount());
-        }, forceReload);
-
-        repository.loadUserContributionsInCurrentMonth(data -> {
-            UserContributionsResponse currentMonthData = (UserContributionsResponse) data;
-            if (data == null) return;
-            currentMonthContributions.postValue(currentMonthData.getContributionCount());
-        }, forceReload);
-        repository.loadUserContributionsInLastMonth(data -> {
-            UserContributionsResponse lastMonthData = (UserContributionsResponse) data;
-            if (data == null) return;
-            lastMonthContributions.postValue(lastMonthData.getContributionCount());
-        }, forceReload);
-
+        };
     }
 
 
