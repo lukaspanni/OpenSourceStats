@@ -14,10 +14,10 @@ Das Ziel beim Brechen der Abhängigkeiten ist es, die Testbarkeit der betroffene
 
 \subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/0daf8862a81a976e3d6341f5b5461bc8d3c64b4f/app/src/main/java/de/lukaspanni/opensourcestats/auth/}{Ausgangszustand}}
 
-Die Klasse \textit{AuthHandler} ist stark abhängig von der Android-Klasse \textit{Activity} und kann auch nicht erstellt werden ohne eine Instanz dieser Klasse der \textit{getInstance}-Methode zu übergeben.
+Die Klasse \textit{AuthHandler} ist stark abhängig von der Android-Klasse \textit{Activity} und kann nicht erstellt werden ohne eine Instanz dieser Klasse der \textit{getInstance}-Methode zu übergeben.
 Die Testbarkeit ist schlecht, da eine Android-\textit{Activity}-Instanz nicht ohne weiteres im Test-Kontext erstellt werden kann.
-Auch ein Fake-Objekt ist schwer zu erstellen, da eine finale Methode genutzt wird, in Ableitungen von \textit{Activity} nicht überschrieben werden kann.
-Da die Klasse \textit{AuthHandler} für die OAuth-Authentifizierung verantwortlich ist und damit wichtig für das Gesamtsystem, ist es wichtig, Tests für diese Klasse zu ermöglichen.
+Auch ein Fake-Objekt ist schwer zu erstellen, da eine finale Methode genutzt wird, die in Ableitungen von \textit{Activity} nicht überschrieben werden kann.
+Da die Klasse \textit{AuthHandler} für die OAuth-Authentifizierung verantwortlich ist und damit wichtig für das Gesamtsystem, ist es wichtig Tests für diese Klasse zu ermöglichen.
 
 \subsubsection*{Gewählte Technik}
 
@@ -38,13 +38,13 @@ Trotzdem wurde die Testbarkeit erhöht und die Abstraktion verbessert. Diese Än
 
 \subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/3b1eb5bf6750c3ccaeb05962ec8a8ae743adbf2c/app/src/main/java/de/lukaspanni/opensourcestats/repository}{Ausgangszustand}}
 
-Die Klassen \textit{RepositoryDataRepository} und \textit{UserContributionsRepository} haben eine 
-Abhängigkeit zur Klasse \textit{ResponseCache} und erzeugen im Konstruktor eine Instanz dieser Klasse und speichern diese in einer Instanzvariablen.
+Die Klassen \textit{RepositoryDataRepository} und \textit{UserContributionsRepository} haben eine Abhängigkeit zur Klasse \textit{ResponseCache}. 
+Sie erzeugen im Konstruktor eine Instanz dieser Klasse und speichern diese in einer Instanzvariablen.
 Für den Test der Klassen ist es hilfreich, diese Instanzvariable durch eine eigene Cache-Implementierung zu nutzen.
 In diesem Fall lässt sich die Abhängigkeit mit Hilfe von \textbf{Parametrize Constructor} brechen.
 \newline
-Dazu wird ein neuer Konstruktor erzeugt, der einen zusätzlichen Parameter vom Typ der zu überschreibenden Instanzvariable entgegennimmt. In diesem Beispiel eine Instanz von \textit{ResponseCache}. Die existierenden Konstruktoren rufen den neuen Konstruktor mit dem ursprünglichen Wert der Variable auf.
-Dabei bleibt die alte Funktionalität erhalten und es müssen keine Anpassungen an anderen Stellen erfolgen.
+Dazu wird ein neuer Konstruktor erzeugt, der einen zusätzlichen Parameter vom Typ der zu überschreibenden Instanzvariable entgegennimmt. In diesem Beispiel eine Instanz von \textit{ResponseCache}.
+Die existierenden Konstruktoren rufen den neuen Konstruktor mit dem ursprünglichen Wert der Variable auf, dabei bleibt die alte Funktionalität erhalten und es müssen keine Anpassungen an anderen Stellen erfolgen.
 
 \subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/d098b93ffd042cb095af679254ed01584417763e/app/src/main/java/de/lukaspanni/opensourcestats/repository}{Endzustand}}
 
@@ -57,42 +57,47 @@ Durch das Brechen der Abhängigkeit ist es nun möglich, beim Erstellen einer In
 
 \subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/473384cdb4bc8e9f8269af865cf210923c42b5c5/app/src/main/java/de/lukaspanni/opensourcestats/auth}{Ausgangszustand}}
 
-Ein Objekt der Klasse \textit{AuthHandler} wird zum Beispiel in der Klasse \textit{GHClient} (bei da964f5 umbenannt in \textit{GithubOAuthClient}) benötigt, um Daten über die API abrufen zu können. Aktuell ist ein Test dieser Komponente nur schwer möglich, da \textit{AuthHandler} selbst wiederum Abhängigkeiten zu einer Third-Party Bibliothek besitzt. Deshalb ist hier das erstellen von Fake-/Mock-Objekten sehr aufwändig. Bei \ref{sec:ExtractInterface_AuthHandler_1} wurde bereits die Testbarkeit der \textit{AuthHandler}-Klasse erhöht und durch ExtractInterface an dieser Stelle soll die Testbarkeit der von \textit{AuthHandler} abhängigen Klassen erhöht werden.
+Ein Objekt der Klasse \textit{AuthHandler} wird beispilsweise in der Klasse \textit{GHClient} (bei da964f5 umbenannt in \textit{GithubOAuthClient}) benötigt, um Daten über die API abrufen zu können.
+Aktuell ist ein Test dieser Komponente nur schwer möglich, da \textit{AuthHandler} selbst wiederum Abhängigkeiten zu einer Third-Party Bibliothek besitzt.
+Deshalb ist hier das Erstellen von Fake-/Mock-Objekten sehr aufwändig.
+Bei \ref{sec:ExtractInterface_AuthHandler_1} wurde bereits die Testbarkeit der \textit{AuthHandler}-Klasse erhöht und nun soll an dieser Stelle durch ExtractInterface die Testbarkeit der von \textit{AuthHandler} abhängigen Klassen erhöht werden.
 
 \subsubsection*{Gewählte Technik}
 
-Es wurde \textbf{ExtractInterface} gewählt um Abhängigkeiten zu \textit{AuthHandler} zu beseitigen. Dazu wurde das Interface \textit{AuthenticationHandler} eingeführt wird, das in der alten \textit{AuthHandler}-Klasse (zur besseren Verständlichkeit umbenannt zu \textit{GithubOAuthHandler}) implementiert wird. 
+Es wurde \textbf{ExtractInterface} gewählt um Abhängigkeiten zu \textit{AuthHandler} zu beseitigen.
+Dazu wurde das Interface \textit{AuthenticationHandler} eingeführt, welches in der alten \textit{AuthHandler}-Klasse (zur besseren Verständlichkeit umbenannt zu \textit{GithubOAuthHandler}) implementiert wird. 
 Um den Vorgang zu ermöglichen wurde zuvor die Singleton-Eigenschaft entfernt (\href{https://github.com/lukaspanni/OpenSourceStats/commit/13efee847af5b7627391d2ae6309b800727c51fd}{13efee8}) und die Methoden und ihre Verwender wurden angepasst (\href{https://github.com/lukaspanni/OpenSourceStats/commit/473384cdb4bc8e9f8269af865cf210923c42b5c5}{473384c}). 
-Anschließend kann das Interface erstellt werden und bei allen Verwendern der Ursprünglichen Klasse, die dies erlauben, die Abhängigkeit zur Konkreten Klasse durch eine Abhängigkeit zum Interface ersetzt werden.
+Anschließend kann das Interface erstellt werden und bei allen Verwendern der ursprünglichen Klasse, die dies erlauben, die Abhängigkeit zur konkreten Klasse durch eine Abhängigkeit zum Interface ersetzt werden.
 
 \subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/da964f5d7e2485f28cf19b4ec178b92805538adc/app/src/main/java/de/lukaspanni/opensourcestats/auth}{Endzustand}}
 
-In der Klasse \textit{GithubOAuthClient} konnte die Abhängigkeit zu \textit{GithubOAuthHandler} (vormals \textit{AuthHandler} vollständig beseitigt werden.
- Dadurch werden Tests der Klasse mit Fake-/Mock-Implementierungen des neuen Interfaces \textit{AuthenticationHandler} möglich. 
-Außerdem wird die Abstraktion verbessert und die konkrete Authentifizierungs-Klasse könnte leichter ausgetauscht werden, was zum Beispiel benötigt wird, wenn ein anderes OAuth-Framework eingesetzt werden sollte.
+In der Klasse \textit{GithubOAuthClient} konnte die Abhängigkeit zu \textit{GithubOAuthHandler} (vormals \textit{AuthHandler}) vollständig beseitigt werden.
+Dadurch werden Tests der Klasse mit Fake-/Mock-Implementierungen des neuen Interfaces \textit{AuthenticationHandler} möglich. 
+Außerdem wird die Abstraktion verbessert und die konkrete Authentifizierungs-Klasse könnte leichter ausgetauscht werden.
+Dies wird zum Beispiel benötigt, wenn ein anderes OAuth-Framework eingesetzt werden soll.
 
 \newpage
 
 \subsection{Parametrize Method bei Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/d8c995c387a792a6d83c852119760b0c57a63c02} {d8c995c}}
 
 \subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/eafe840d0bfc8a08beca01709003d5afe7e59963/app/src/main/java/de/lukaspanni/opensourcestats/util/TimeSpanFactory.java}{Ausgangszustand}}
-Die Klasse \textit{TimeSpanFactory}, die verwendet wird um \textit{TimeSpan}-Objekte zu erzeugen hat eine starke Abhängigkeit zur Java-Klasse \textit{java.util.Calendar}.
+Die Klasse \textit{TimeSpanFactory}, die verwendet wird um \textit{TimeSpan}-Objekte zu erzeugen, hat eine starke Abhängigkeit zur Java-Klasse \textit{java.util.Calendar}.
 In den Methoden von TimeSpanFactory wird jeweils eine Calendar-Instanz benötigt. 
 Um diese zu erhalten wird die Methode \textit{Calendar.getInstance()} verwendet.
-Da die verwendete Calendar-Instanz das Ergebnis der Methoden beeinflusst muss die Instanz für Tests ausgetauscht werden können.
+Da die verwendete Calendar-Instanz das Ergebnis der Methoden beeinflusst, muss die Instanz für Tests ausgetauscht werden können.
 Dies ist aber aktuell nicht möglich.
 
 \subsubsection*{Gewählte Technik}
-Um die Abhängigkeit der Methoden zu \textit{Java.util.Calendar} zu beseitigen wurde die Technik \textbf{Parametrize Method} gewählt.
+Um die Abhängigkeit der Methoden zu \textit{Java.util.Calendar} zu beseitigen, wurde die Technik \textbf{Parametrize Method} gewählt.
 Bei dieser Technik wird für die Methode, bei der die Abhängigkeit gebrochen werden muss, eine neue Methode mit einem zusätzlichen Parameter angelegt.
 Dieser Parameter ersetzt dann die Variable, die im Test benötigt wird.
 Die eigentliche Funktionalität der alten Methode wird in die neue Methode verschoben und die alte Methode ruft diese mit dem ursprünglichen Wert der Variablen auf.
-So sind keine Änderungen an bestehendem Code notwendig und trotzdem wird ein Test der Methode ermöglicht.
+So sind keine Änderungen am bestehenden Code notwendig und trotzdem wird ein Test der Methode ermöglicht.
 
 \subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/d8c995c387a792a6d83c852119760b0c57a63c02/app/src/main/java/de/lukaspanni/opensourcestats/util/TimeSpanFactory.java}{Endzustand}}
 
-Die Technik Parametrize Method wurde für mehrere Methoden in TimeSpanFactory angewendet um die Abhängigkeit zu lösen, sodass Tests nun möglich sind.
-Durch die Möglichkeit eine Calendar-Instanz zu übergeben können die Methoden einfach getestet werden.
+Die Technik ParametrizeMethod wurde für mehrere Methoden in \textit{TimeSpanFactory} angewendet, um die Abhängigkeit zu lösen, damit Tests nun möglich sind.
+Durch die Möglichkeit eine Calendar-Instanz zu übergeben, können die Methoden einfach getestet werden.
 
 \newpage
 
@@ -101,16 +106,19 @@ Durch die Möglichkeit eine Calendar-Instanz zu übergeben können die Methoden 
 \subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/9385bb4b9e20b5503e3ea72acd392185f0c533db/app/src/main/java/de/lukaspanni/opensourcestats/client}{Ausgangszustand}}
 
 Die Klasse \textit{GithubOAuthClient} verwendet eine Third-Party-Library um GraphQL-Anfragen an die GitHub-API durchzuführen.
-Diese Abhängigkeit macht Tests vergleichsweise schwierig. Um also Tests durchführen zu können ist es notwendig, diese Abhängigkeit zu lösen.
+Diese Abhängigkeit macht Tests vergleichsweise schwierig.
+Damit Tests durchgeführt werden können, ist es notwendig, diese Abhängigkeit zu lösen.
 
 \subsubsection*{Gewählte Technik}
-Um diese Abhängigkeit zu lösen wurde die Technik \textbf{Subclass and Override Method} gewählt. Diese Technik erlaubt es, eine Methode, die im Test nicht sichtbar ist, zu ändern.
+Um diese Abhängigkeit zu lösen, wurde die Technik \textbf{Subclass and Override Method} gewählt.
+Diese Technik erlaubt es, eine Methode, die im Test nicht sichtbar ist, zu ändern.
 So kann zum Beispiel der Rückgabewert der Methode für den Test festgelegt werden.
-Dafür wird zunächst die bestehende Methode umbenannt und eine neue Methode mit der gleichen Signatur der eben umbenannten Methode angelegt.
+Dafür wird zunächst die bestehende Methode umbenannt und eine neue Methode mit der gleichen Signatur, der eben umbenannten Methode, angelegt.
 Diese neue Methode muss für Ableitungen der Klasse sichtbar sein und kann dort überschrieben werden. 
 In der Basisklasse werden alle Aufrufe der alten Methode durch Aufrufe der neuen Methode ersetzt, die selbst wiederum die alte Methode aufruft.
 \newline
-Konkret wurde die private Methode \textit{GithubOAuthClient.getGraphqlClient} umbenannt zu \textit{GithubOAuthClient.getGraphqlClientInternal} und eine neue protected Methode \textit{GithubOAuthClient.getGraphqlClient} erstellt. So ist es möglich in Ableitungen der Klasse \textit{GithubOAuthClient} das Verhalten der Methode \textit{GithubOAuthClient.getGraphqlClient} zu verändern.
+Konkret wurde die private Methode \textit{GithubOAuthClient.getGraphqlClient} umbenannt zu \textit{GithubOAuthClient.getGraphqlClientInternal} und eine neue protected Methode \textit{GithubOAuthClient.getGraphqlClient} erstellt.
+Damit ist es möglich in Ableitungen der Klasse \textit{GithubOAuthClient} das Verhalten der Methode \textit{GithubOAuthClient.getGraphqlClient} zu verändern.
 
 \subsubsection*{\href{https://github.com/lukaspanni/OpenSourceStats/tree/13676e52a506bd02a06fa26087c93b2620ccd3c2/app/src/main/java/de/lukaspanni/opensourcestats/client}{Endzustand}}
 Durch Subclass and Override Method wurde es möglich gemacht, die Klasse \textit{GithubOAuthClientTestImplementation} zu erstellen, die \textit{getGraphqlClient} so überschreibt, dass eine Mock-Instanz zurückgegeben werden kann.
