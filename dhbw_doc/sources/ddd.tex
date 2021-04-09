@@ -3,29 +3,35 @@
 \section{Analyse der Ubiquitous Language}
 \label{sec:ubiq_lang}
 
-Kern des \textit{Domain Driven Design} ist das gemeinsame Verständnis der Problemdomäne. Dies ist notwendig, um ein präzises Modell der Domäne erstellen zu können.
-Um die Kommunikation zwischen Entwicklern und Domänenexperten zu ermöglichen wird die sogenannte \textbf{Ubiquitous  Language} verwendet.
-Da weder Domänenexperten die Sprache der Entwickler, noch umgekehrt die Entwickler die Sprache der Domänenexperten verstehen ist die Ubiquitous Language als gemeinsame Sprache unerlässlich.
+Kern des \textit{Domain Driven Design} ist das gemeinsame Verständnis der Problemdomäne.
+Dies ist notwendig, um ein präzises Modell der Domäne erstellen zu können.
+Um die Kommunikation zwischen Entwicklern und Domänenexperten zu ermöglichen, wird die sogenannte \textbf{Ubiquitous  Language} verwendet.
+Da weder Domänenexperten die Sprache der Entwickler, noch umgekehrt die Entwickler die Sprache der Domänenexperten verstehen, ist die Ubiquitous Language als gemeinsame Sprache unerlässlich.
 Diese wird von Entwicklern und Domänenexperten gleichermaßen verwendet, um Begriffe, Prozesse und Konzepte eindeutig zu bezeichnen.
-Wenn die Ubiquitous Language korrekt eingesetzt wird werden in der Domäne und im Quellcode der Anwendung die gleichen Begriffe für die gleichen Konzepte verwendet.
+Wenn die Ubiquitous Language korrekt eingesetzt wird, werden in der Domäne und im Quellcode der Anwendung die gleichen Begriffe für die gleichen Konzepte verwendet.
 So können Missverständnisse und Mehrdeutigkeiten sicher vermieden werden, was gerade bei komplexen Domänen den Softwareerstellungsprozess erleichtert.
-Beim definieren der Ubiquitous Language sollte der Fokus auf die Begriffe und Konzepte der Kerndomäne gelegt werden.
+Beim Definieren der Ubiquitous Language sollte der Fokus auf die Begriffe und Konzepte der Kerndomäne gelegt werden.
 Andere Bereiche der Domäne können auch weniger genau modelliert werden, damit der Aufwand angemessen bleibt.
 \newline
 \newline
-Die Kerndomäne dieses Projekts ist die Übersicht über Beteiligungen (Contributions) an Öffentlichen Repositories auf der Plattform \textit{GitHub}.
+Die Kerndomäne dieses Projekts ist die Übersicht über Beteiligungen (Contributions) an öffentlichen Repositories auf der Plattform \textit{GitHub}.
 Die Ubiquitous Language ist dabei vergleichsweise einfach zu definieren, da sich die Anwendung an Entwickler richtet, die in diesem Fall gleichzeitig auch Domänenexperten sind.
 Trotzdem muss darauf geachtet werden, dass einheitliche Begriffe verwendet werden.
-Da die Plattform GitHub eindeutige Begriffe für die Bezeichnung von verschiedenen, wichtigen Konzepten verwendet und kein Einfluss auf diese Bezeichnungen besteht, wurde entschieden diese Bezeichnungen möglichst zu verwenden. Dabei werden diese Bezeichnungen nicht nur im Code sondern auch im User-Interface eingesetzt.
+Da die Plattform GitHub eindeutige Begriffe für die Bezeichnung von verschiedenen, wichtigen Konzepten verwendet und kein Einfluss auf diese Bezeichnungen besteht, wurde entschieden diese Bezeichnungen möglichst zu verwended.
+Dabei werden diese Bezeichnungen nicht nur im Code sondern auch im User-Interface eingesetzt.
 
 \subsection*{Repository / Repositories}
 Der Begriff Repository beschreibt in diesem Kontext ein Verzeichnis, das zur Ablage von z.B. Programmcode verwendet werden kann.
-Dabei bietet ein Repository bei GitHub aber auch noch weitere Funktionen, die hier aufgrund der Fehlenden Relevanz für das System nicht genauer erläutert werden.
+Dabei bietet ein Repository bei GitHub aber auch noch weitere Funktionen, die hier aufgrund der fehlenden Relevanz für das System nicht genauer erläutert werden.
 Das Verständnis eines Repositoriy als Verzeichnis zur Ablage von Daten ist ausreichend.
 Der Begriff wird sowohl im Code als auch im User-Interface verwendet.
-Beispiele für die Verwendung des Begriffs im Code finden sich in der Klasse \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/RepositoryDataResponse.java}{\textit{RepositoryDataResponse}}, die Daten zu einem Repository speichert, die von der API abgerufen wurden und in der Klasse \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/ContributionRepositories.java}{\textit{ContributionRepositories}}, die beschreibt, in welchen Repositories Contributions durchgeführt wurden.
+Beispiele für die Verwendung des Begriffs im Code finden sich in der Klasse \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/RepositoryDataResponse.java}{\textit{RepositoryDataResponse}}, welche Daten zu einem Repository speichert, die von der API abgerufen wurden und in der Klasse \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/ContributionRepositories.java}{\textit{ContributionRepositories}}, die beschreibt, in welchen Repositories Contributions durchgeführt wurden.
 \newline
-Beim Begriff Repository existiert allerdings eine Doppeldeutigkeit, da der Begriff Repository innerhalb des Systems auch als Bezeichnung für Klassen, die das \textit{Repository-Pattern} implementieren verwendet wird. Das führt zum Beispiel zu der Mehrdeutigen Bezeichnung der Klasse \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/repository/RepositoryDataRepository.java}{RepositoryDataRepository}. Diese Mehrdeutigkeit kann nur schwer beseitigt werden, da einerseits der Repository-Begriff aus der Domänensprache verwendet werden soll, andererseits aber auch Repository-Pattern-Klassen eindeutig gekennzeichnet werden sollen. Deshalb wird diese Mehrdeutigkeit akzeptiert und festgelegt, dass Klassen die das Repository-Pattern implementieren, den Begriff Repository am Ende des Klassennamens enthalten. Kommt der Begriff an anderen Stellen vor, kann mit hoher Wahrscheinlichkeit davon ausgegangen werden, dass ein Repository im Sinne der Domäne gemeint ist.
+Beim Begriff Repository existiert allerdings eine Doppeldeutigkeit, da der Begriff Repository innerhalb des Systems ebenfalls als Bezeichnung für Klassen, die das \textit{Repository-Pattern} implementieren, verwendet wird.
+Das führt zum Beispiel zu der mehrdeutigen Bezeichnung der Klasse \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/repository/RepositoryDataRepository.java}{RepositoryDataRepository}.
+Diese Mehrdeutigkeit kann nur schwer beseitigt werden, da einerseits der Repository-Begriff aus der Domänensprache verwendet werden soll, andererseits aber auch Repository-Pattern-Klassen eindeutig gekennzeichnet werden sollen.
+Deshalb wird diese Mehrdeutigkeit akzeptiert und festgelegt, dass Klassen die das Repository-Pattern implementieren, den Begriff Repository am Ende des Klassennamens enthalten.
+Kommt der Begriff an anderen Stellen vor, kann mit hoher Wahrscheinlichkeit davon ausgegangen werden, dass ein Repository im Sinne der Domäne gemeint ist.
 
 \subsection*{Contribution / Contributions}
 \label{sec:Contributions}
@@ -47,9 +53,9 @@ Die Anzahl der Issues beschreibt, wie viele neue Issues ein Nutzer in einem best
 Diese Beschreibung reicht für das Verständnis im Rahmen dieses Projekts aus.
 \subsubsection*{Pull Request / Pull Requests}
 \label{sec:PullRequests}
-GitHub verwendet sogenannte Pull Requests um Änderungen Code aus einem Branch in einen anderen, z.B. den main-Branch, zu übernehmen.
+GitHub verwendet sogenannte Pull Requests um Änderungen am Code aus einem Branch in einen anderen, z.B. den main-Branch, zu übernehmen.
 Dabei bietet ein Pull Request die Möglichkeit weitere Tests oder auch ein Code-Review durchzuführen, bevor der Pull Request angenommen wird.
-Damit stellen Pull Requests ein wichtiges Konzept dar, das die Kollaboration erleichtert.
+Damit stellen Pull Requests ein wichtiges Konzept dar, welches die Kollaboration erleichtert.
 Die Anzahl an Pull Requests beschreibt, wie viele Pull Requests eine Nutzer in einem bestimmen Zeitraum erstellt hat.
 \subsubsection*{Pull Request Review / Pull Request Reviews}
 \label{sec:PullRequestReviews}
@@ -58,7 +64,9 @@ Das Kommentieren von Änderungen eines anderen Nutzers, die dieser in Form eines
 Die Anzahl von Pull Request Reviews beschreibt, wie viele Code-Reviews von Pull Requests anderer Nutzer durchgeführt wurden.
 \newline
 \newline
-Die Klasse \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/ContributionCount.java}{\textit{ContributionCount}} ist ein Beispiel dafür, wie alle Bezeichnungen, die im Zusammenhang mit Contributions stehen, auch im Code verwendet werden. Dies wird in Listing \ref{lst:ContributionCount} nochmals verdeutlicht. Die Klasse ContributionCount hat je eine Instanzvariable für die Anzahl von Commits, Issues, Pull Requests und Pull Request Reviews und verwendet somit alle vorgestellten Bezeichnungen, die in der Domäne im Zusammenhang mit Contributions verwendet werden.
+Die Klasse \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/ContributionCount.java}{\textit{ContributionCount}} ist ein Beispiel dafür, wie alle Bezeichnungen, die im Zusammenhang mit Contributions stehen, auch im Code verwendet werden.
+Dies wird in Listing \ref{lst:ContributionCount} nochmals verdeutlicht.
+Die Klasse ContributionCount hat je eine Instanzvariable für die Anzahl von Commits, Issues, Pull Requests und Pull Request Reviews und verwendet somit alle vorgestellten Bezeichnungen, die in der Domäne im Zusammenhang mit Contributions verwendet werden.
 \begin{lstlisting}[caption={Auszug aus der Klasse ContributionCount}, captionpos=b, label={lst:ContributionCount}]
 public final class ContributionCount {
 
@@ -76,26 +84,28 @@ public final class ContributionCount {
 [...]
 }
 \end{lstlisting}
-Auch im User-Interface werden diese Bezeichnungen gemeinsam verwendet, wie zum Beispiel die UI-Klasse \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/ui/custom_elements/card/OverviewCard.java}{\textit{OverviewCard}} zeigt, die ebenfalls all diese Bezeichnungen verwendet.
+Auch im User-Interface werden diese Bezeichnungen gemeinsam verwendet.
+Dies zeigt zum Beispiel die UI-Klasse \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/ui/custom_elements/card/OverviewCard.java}{\textit{OverviewCard}}, die ebenfalls all diese Bezeichnungen verwendet.
 \newline
 Generell sind diese Begriffe von großer Bedeutung für das System und werden deshalb noch an vielen weiteren Stellen verwendet.
 Weitere Beispiele sind unter anderem die Klasse \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/ContributionCountChange.java}{\textit{ContributionCountChange}}, die eine Veränderung der Contribution-Anzahl im Vergleich zu einem anderen Zeitraum beschreibt und die zugehörige UI-Klasse \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/ui/custom_elements/card/ProgressCard.java}{\textit{ProgressCard}}.
-
-
 
 
 \newpage
 
 \section{Analyse und Begründung von Value Objects}
 
-\textbf{ValueObjects} sind vergleichsweise einfache Objekte, die nur durch ihre Werte beziehungsweise Eigenschaften beschreiben werden.
-Das hat unter anderem zur Folge, dass ValueObjects als gleich angesehen werden, wenn ihre Werte gleich sind.
-Allgemein beschreiben ValueObjects oft eine bestimmte Sache durch die Kombination mehrerer Attribute dieser Sache. Typische ValueObjects sind unter anderem Adressen und Geldbeträge.
-Dabei sind ValueObjects außerdem unveränderbar, so dass alle Werte bereits im Konstruktor gesetzt werden müssen.
-Diese scheinbare Einschränkung der Unveränderlichkeit kann vorteilhaft sein, da zum Beispiel die Gültigkeit von Werten nur an einer Stelle (im Konstruktor) geprüft werden muss und ein so erstelltes ValueObject zu jeder Zeit gültig ist. Damit sind ValueObjects auch leicht testbar, da nur die Gültigkeitsprüfungen im Konstruktor getestet werden müssen. 
-Die Test-Klassen \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/test/java/de/lukaspanni/opensourcestats/ContributionCountUnitTest.java}{ContributionCountUnitTest} und \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/test/java/de/lukaspanni/opensourcestats/ContributionCountChangeUnitTest.java}{ContributionCountChangeUnitTest} sind gute Beispiele für Tests von ValueObjects, die hier verwendet wurden.
+\textbf{ValueObjects} sind vergleichsweise einfache Objekte, die nur durch ihre Werte beziehungsweise Eigenschaften beschrieben werden.
+Dies hat unter anderem zur Folge, dass ValueObjects als gleich angesehen werden, wenn ihre Werte gleich sind.
+Allgemein beschreiben ValueObjects oft eine bestimmte Sache durch die Kombination mehrerer Attribute dieser Sache.
+Typische ValueObjects sind beispielsweise Adressen und Geldbeträge.
+Dabei sind ValueObjects außerdem unveränderbar, sodass alle Werte bereits im Konstruktor gesetzt werden müssen.
+Diese scheinbare Einschränkung der Unveränderlichkeit kann vorteilhaft sein, da zum Beispiel die Gültigkeit von Werten nur an einer Stelle (im Konstruktor) geprüft werden muss und ein so erstelltes ValueObject zu jeder Zeit gültig ist.
+Damit sind ValueObjects auch leicht testbar, da nur die Gültigkeitsprüfungen im Konstruktor getestet werden müssen. 
+Die Test-Klassen \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/test/java/de/lukaspanni/opensourcestats/ContributionCountUnitTest.java}{ContributionCountUnitTest} und \href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/test/java/de/lukaspanni/opensourcestats/ContributionCountChangeUnitTest.java}{ContributionCountChangeUnitTest} sind gute Beispiele für Tests von ValueObjects, welche hier verwendet wurden.
 \newline
-Umgesetzt werden ValueObjects, indem jegliche Änderungen an Werten des Objekts eingeschränkt werden. Dazu bieten verschiedene Programmiersprachen verschiedene Sprachfeatures.
+Umgesetzt werden ValueObjects indem jegliche Änderungen an Werten des Objekts eingeschränkt werden.
+Dazu bieten verschiedene Programmiersprachen verschiedene Sprachfeatures.
 \newline
 Konkret bedeutet das für die hier verwendete Sprache Java:
 \begin{itemize}
@@ -118,10 +128,10 @@ Stellt die Anzahl von GitHub-Contributions dar, ausgedrückt als Sammlung der An
 Repräsentiert die Differenz zweier ContributionCount-Objekte und bietet die Möglichkeit die Unterschiede zwischen aktueller und vorangegangener Periode in Bezug auf Commits, Issues Pull-Requests und Pull-Request-Reviews zu berechnen. 
 \item{\textbf{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/ContributionRepositories.java}{ContributionRepositories}}}
 \newline
-Sammelt die Repositories, für die Commits, Issues, Pull-Requests und Pull-Request-Reviews durchgeführt wurden.
+Sammelt die Repositories für die Commits, Issues, Pull-Requests und Pull-Request-Reviews durchgeführt wurden.
 \item{\textbf{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/TimeSpan.java}{TimeSpan}}}
 \newline
-Repräsentiert eine Zeitspanne, bestehend aus einem Start- und einem Enddatum.
+Repräsentiert eine Zeitspanne bestehend aus einem Start- und einem Enddatum.
 \item{\textbf{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/RepositoryName.java}{RepositoryName}}}
 \newline
 Repräsentiert den vollen Namen eines GitHub-Repositories, der sich aus Besitzer des Repositories und Bezeichnung des Repositories zusammensetzt.
@@ -129,7 +139,7 @@ Repräsentiert den vollen Namen eines GitHub-Repositories, der sich aus Besitzer
 Verwendet werden diese ValueObjects aufgrund ihrer Vorteile, wie zum Beispiel der leichten Testbarkeit.
 So kann leicht sichergestellt werden, dass das Verhalten der Objekte den Erwartungen entspricht.
 \newline
-Objekte der Klasse \textit{TimeSpan} zum Beispiel werden für das Caching, für das Abrufen von Daten und auch im User-Interface für die Anzeige von Zeiträumen eingesetzt.
+Objekte der Klasse \textit{TimeSpan} werden zum Beispiel für das Caching, für das Abrufen von Daten und auch im User-Interface für die Anzeige von Zeiträumen eingesetzt.
 Die gute Testbarkeit von ValueObjects ist dadurch an mehreren Stellen von Vorteil und erleichtert die Entwicklung, da davon ausgegangen werden kann, dass sich TimeSpan-Objekte korrekt verhalten.
 Für die anderen genannten ValueObjects sind die Vorteile ähnlich.
 
@@ -138,11 +148,12 @@ Für die anderen genannten ValueObjects sind die Vorteile ähnlich.
 
 \section{Analyse und Begründung Entities}
 
-\textbf{Entities} haben im Gegensatz zu ValueObjects innerhalb der Domäne eine eindeutige ID, über diese sie identifiziert werden können, und die die Gleichheit von Entities bestimmt. Zusätzlich können sich Entities auch während ihrer Lebenszeit verändern und sind nicht immutable.
-Auch bei Entities ist es wichtig, dass sie nicht mit unerlaubten Werten initialisiert werden können und darüber hinaus auch nicht durch eine Aktion ungültige Zustände erreichen dürfen.
+\textbf{Entities} haben im Gegensatz zu ValueObjects innerhalb der Domäne eine eindeutige ID, über diese sie identifiziert werden können und die die Gleichheit von Entities bestimmt.
+Zusätzlich können sich Entities auch während ihrer Lebenszeit verändern und sind nicht immutable.
+Bei Entities ist es ebenfalls wichtig, dass sie nicht mit unerlaubten Werten initialisiert werden können und darüber hinaus auch nicht durch eine Aktion ungültige Zustände erreichen dürfen.
 \newline
 Aktuell konnten keine Objekte innerhalb des Projekts identifiziert werden, die die Eigenschaften einer Entity erfüllen.
-Der Grund dafür ist vermutlich, die vergleichsweise geringe Komplexität des Gesamtsystems.
+Der Grund dafür ist vermutlich die vergleichsweise geringe Komplexität des Gesamtsystems.
 
 \newpage
 
@@ -155,9 +166,9 @@ Außerdem bildet auch ein einzelne Entity bereits ein Aggregate.
 Zur Verwaltung des Zustands eines Aggregates gibt es immer eine Aggregate Root Entity, über die alle Zugriffe auf das Aggregat durchgeführt werden.
 So können an einer Stelle alle Zugriffe auf Validität geprüft werden, was die Prüfung von Domänenregeln einfacher macht.
 \newline
-Aggregates sind vergleichsweise komplex und kommen deshalb auch häufig nur in komplexen Systemen eingesetzt.
+Aggregates sind vergleichsweise komplex und kommen deshalb auch häufig nur in komplexen Systemen vor.
 Es gibt im Projekt keine klassischen Aggregates, die mehrere Entities und ValueObjects zusammenfassen, da es bereits keine echten Entities gibt.
-Die Klasse \textit{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/UserContributionsResponse.java}{UserContributionsResponse}} ist einem Aggregate ähnlich, da hier mehrere ValueObjects zusammengefasst werden. 
+Die Klasse \textit{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/main/java/de/lukaspanni/opensourcestats/data/UserContributionsResponse.java}{UserContributionsResponse}} ist einem Aggregate ähnlich, weil hier mehrere ValueObjects zusammengefasst werden. 
 Da diese Klasse allerdings kein Verhalten auf den enthaltenen ValueObjects durchführt, sondern diese nur erstellt, speichert und bei Bedarf zurückgibt, kann man diese Klasse nicht als klassisches Aggregate ansehen.
 
 \newpage
@@ -166,7 +177,7 @@ Da diese Klasse allerdings kein Verhalten auf den enthaltenen ValueObjects durch
 \textbf{Repositories} stellen die Schnittstelle zwischen Domäne und Datenmodell dar und stellen demnach Methoden bereit um Daten zu lesen, speichern oder zu löschen.
 Dabei werden Repositories häufig eingesetzt, um einen einfachen Datenzugriff für die Domäne zu ermöglichen und die technischen Details, wie zum Beispiel Datenbankzugriffe, zu kapseln.
 Normalerweise operieren Repositories auf der Basis von Aggregates.
-Um die Domäne frei von technischen Details zu halten werden Interfaces für Repositories innerhalb der Domäne verwendet und die eigentliche Implementierung findet außerhalb der Domäne statt.
+Um die Domäne frei von technischen Details zu halten, werden Interfaces für Repositories innerhalb der Domäne verwendet und die eigentliche Implementierung findet außerhalb der Domäne statt.
 Zusätzlich bieten Repositories die Möglichkeit nicht nur allgemein Daten abzurufen, sondern Daten anhand von bestimmten Kriterien zu finden, was den Zugriff auf Daten für die Domänenobjekte erleichtert.
 \newline
 Da, wie bereits beschrieben, keine Aggregates verwendet werden, finden sich auch keine typischen Repositories.
@@ -185,5 +196,5 @@ Viele dieser Konzepte sind allerdings sehr aufwändig und der Nutzen wird häufi
 Im Rahmen dieser Arbeit wurden verschiedene Konzepte des Domain Driven Design genutzt.
 In \hyperref[sec:ubiq_lang]{\textit{Analyse der Ubiquitous Language}} wurde gezeigt, wie das Konzept einer einheitlichen Sprache sinnvoll genutzt wurde um Mehrdeutigkeiten möglichst zu vermeiden.
 Auch ValueObjects wurden genutzt, um bestimmte Dinge, wie zum Beispiel GitHub-Contributions, abbilden zu können und die Vorteile von unveränderlichen Objekten zu nutzen.
-Andere Konzepte, wie zum Beispiel Entities, Aggregates und Repositories wurden bewusst nicht, beziehungsweise nicht im eigentlichen Sinne, verwendet, da der Aufwand für die Verwendung dieser Konzepte in Relation zum Nutzen für ein vergleichsweise kleines System nicht gerechtfertigt ist.
-Zusätzlich beruht diese Entscheidung auf auf der Tatsache, dass die Verwendung eines Konzepts nur des Konzepts wegen nicht sinnvoll ist.
+Andere Konzepte, wie zum Beispiel Entities, Aggregates und Repositories wurden bewusst nicht, beziehungsweise nicht im eigentlichen Sinne verwendet, da der Aufwand für die Verwendung dieser Konzepte in Relation zum Nutzen für ein vergleichsweise kleines System nicht gerechtfertigt ist.
+Zusätzlich beruht diese Entscheidung auf der Tatsache, dass die Verwendung eines Konzepts nur des Konzepts wegen nicht sinnvoll ist.

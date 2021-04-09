@@ -2,29 +2,30 @@
 
 \section{Analyse und Begründung für Umfang der Tests}
 
-Um die Funktionalität der einzelnen Komponenten gewährleisten zu können werden Unit-Tests eingesetzt.
-Dabei werden für die einzelnen Tests nur die, für diesen Test, relevanten Teile des Systems verwendet.
-Da Abhängigkeiten zu anderen Komponenten die Tests nicht beeinflussen sollen werden alle anderen Komponenten durch Fake-/Mock-Objekte ersetzt.
+Um die Funktionalität der einzelnen Komponenten gewährleisten zu können, werden Unit-Tests eingesetzt.
+Dabei werden für die einzelnen Tests nur die, für diesen Test relevanten Teile des Systems verwendet.
+Da Abhängigkeiten zu anderen Komponenten die Tests nicht beeinflussen sollen, werden alle anderen Komponenten durch Fake-/Mock-Objekte ersetzt.
 Das Zusammenspiel mit den anderen Komponenten kann in Integrationstests getestet werden.
 Außerdem tragen Unit-Tests auch zur Dokumentation bei, indem das gewünschte Verhalten der Komponente für Regel- und Ausnahmefälle in den Testfällen dokumentiert ist.
 \newline
 Für dieses Projekt wird \textit{JUnit} als Framework für die Erstellung und Ausführung von Java-Unit-Tests verwendet.
 Bei der Implementierung der Tests wurde darauf geachtet die ATRIP-Regeln (\textit{Automatic, Thorough, Repeatable, Independent, Professional}) möglichst zu beachten.
 \newline
-Teile des Codes in diesem Projekt werden für Android-Spezifische UI-Aufgaben benötigt und können deshalb nur schlecht getestet werden. Das führt auch dazu, dass die Code-Coverage über das gesamte Projekt vergleichsweise klein sein kann und in diesem Fall keine sinnvolle Aussage über die Genauigkeit der Tests ermöglicht.
+Teile des Codes in diesem Projekt werden für Android-spezifische UI-Aufgaben benötigt und können deshalb nur schlecht getestet werden.
+Dies führt auch dazu, dass die Code-Coverage über das gesamte Projekt vergleichsweise klein sein kann und in diesem Fall keine sinnvolle Aussage über die Genauigkeit der Tests ermöglicht.
 Stattdessen sollte hier zur Beurteilung der Testabdeckung nur die Code-Coverage der nicht-UI-Klassen betrachtet werden.
 \newline
-Allgemein wird darauf verzichtet triviale Funktionen, wie zum Beispiel Getter zu testen.
-Tests dieser Funktionen würden bei großem Aufwand nur einen minimalen Mehrwert bringen, da keine "echte" Funktionalität getestet wird.
+Allgemein wird darauf verzichtet triviale Funktionen, wie zum Beispiel Getter, zu testen.
+Tests dieser Funktionen würden bei großem Aufwand nur einen minimalen Mehrwert bringen, da keine \grqq echte\grqq{} Funktionalität getestet wird.
 Stattdessen sollen sich die Tests auf relevante Funktionalität des Systems fokussieren.
-Das bedeutet, dass vor allem die Klassen getestet werden sollen, die häufig verwendet werden und auch die Klassen, die für die Funktion der Anwendung unerlässlich sind.
+Daraus folgt, dass vor allem die Klassen getestet werden sollen, die häufig verwendet werden und auch die Klassen, die für die Funktion der Anwendung unerlässlich sind.
 UI-Klassen, die aufgrund starker Abhängigkeiten zu Android-Klassen schwer testbar sind sollen weniger ausführlich getestet werden.
 \newline
-Für die Tests innerhalb dieses Systems wurden drei Kernfunktionalitäten identifiziert, die von einer hohen Testabdeckung am stärksten profitieren.
+Für die Tests innerhalb dieses Systems wurden drei Kernfunktionalitäten identifiziert, die von einer hohen Testabdeckung am Stärksten profitieren.
 Diese sind das Abrufen von Daten von der API, die Konvertierung von API-Datentypen zu Datentypen der Anwendung und in diesem Zusammenhang auch das Caching von abgerufenen Daten um die Netzwerklast zu reduzieren.
 \newline
 Diese Funktionalitäten verteilen sich auf die Packages \textit{analysis}, \textit{auth}, \textit{client}, \textit{data} und \textit{repository}.
-Abbildung \hyperref{fig:Code_Coverage} zeigt einen Code-Coverage-Report dieser Packages (Stand: Commit \href{https://github.com/lukaspanni/OpenSourceStats/tree/28770def85a66a72b343e6640f2dbfa8ba073782}{28770de}).
+Abbildung \ref{fig:Code_Coverage} zeigt einen Code-Coverage-Report dieser Packages (Stand: Commit \href{https://github.com/lukaspanni/OpenSourceStats/tree/28770def85a66a72b343e6640f2dbfa8ba073782}{28770de}).
 Sten Pittet beschreibt in \cite{pittet_coverage}, dass 80\% Code-Coverage als gutes Ziel anerkannt sind, weshalb auch hier das Ziel gesetzt wird, mindestens 80\% der Methoden zu testen.
 \begin{figure}[h]
   \includegraphics{Code_Coverage.png}
@@ -34,35 +35,38 @@ Sten Pittet beschreibt in \cite{pittet_coverage}, dass 80\% Code-Coverage als gu
 \end{figure}
 Der Code-Coverage-Report, zeigt, dass alle relevanten Klassen getestet wurden.
 Allerdings fällt dabei zunächst auf, dass die Coverage des \textit{ui}-Packages sehr schlecht ist, da der Fokus auf Tests der Funktionalität und nicht der Darstellung gelegt wurde.
-Außerdem schwankt die Methoden-Coverage stark, was darauf zurückzuführen ist, dass versucht wurde, triviale Funktionalität nicht ausführlich zu testen.
+Außerdem schwankt die Methoden-Coverage stark, was darauf zurückzuführen ist, dass versucht wurde triviale Funktionalität nicht ausführlich zu testen.
 Im Folgenden werden Funktionalität und Tests der einzelnen Packages noch weiter erläutert.
 \newline
 \newline
 Das analysis-Package enthält alle Klassen, die für die Erstellung von Analysen verwendet werden.
-Da diese Funktionalität, vermutlich noch am stärksten weiterentwickelt wird, wird hier eine gute Code-Coverage als sehr wichtig betrachtet.
+Da diese Funktionalität vermutlich noch am Stärksten weiterentwickelt wird, wird hier eine gute Code-Coverage als sehr wichtig erachtet.
 Sowohl auf Methoden als auch auf Zeilen bezogen wird hier eine gute Code-Coverage von 86\% erreicht.
 \newline
 \newline
-Im auth-Package, das alle Klassen die zur Authentifizierung benötigt werden enthält, wurde nur eine vergleichsweise kleine Code-Coverage von gerade mal 28\% aller Methoden erreicht, was als schlecht zu bewerten ist.
+Im auth-Package, welches alle Klassen die zur Authentifizierung benötigt werden enthält, wurde nur eine vergleichsweise kleine Code-Coverage von gerade mal 28\% aller Methoden erreicht.
+Diese Coverage ist als schlecht zu bewerten.
 Da für die Authentifizierung eine Third-Party-Library verwendet wird, ist hier allerdings nicht mit angemessenem Aufwand eine höhere Coverage erreichbar.
 Deshalb wurde die Entscheidung getroffen, die schlechte Coverage zu akzeptieren.
 \newline
 \newline
 Das data-Package enthält alle Klassen, die als Nutzdaten von der Anwendung verarbeitet werden.
 Antworten, die von der API empfangen werden, werden in einem ersten Schritt in einen solchen Datentyp konvertiert.
-Diese Konvertierungen werden in den Konstruktoren der Klassen durchgeführt. Ansonsten werden diese Klassen hauptsächlich zur Speicherung von Anwendungsdaten verwendet und enthalten nur vergleichsweise wenig weitere Funktionalität.
-Da die Konvertierung von API-Datentyp in Anwendungsdatentyp sehr häufig verwendet wird und die Anwendungsdatentypen generell an vielen verschiedenen verwendet werden, sind hier  ausführliche Tests notwendig.
+Diese Konvertierungen werden in den Konstruktoren der Klassen durchgeführt\.
+Ansonsten werden diese Klassen hauptsächlich zur Speicherung von Anwendungsdaten verwendet und enthalten nur vergleichsweise wenig weitere Funktionalität.
+Da die Konvertierung von API-Datentyp in Anwendungsdatentyp sehr häufig verwendet wird und die Anwendungsdatentypen generell an vielen verschiedenen Stellen verwendet werden, sind hier ausführliche Tests notwendig.
 Der Fokus der Tests liegt dabei auf den Konstruktoren, die wenigen weiteren Funktionalitäten der Klassen sind weniger wichtig und meist trivial.
 Die Code-Coverage von 82\% aller Methoden wird deshalb als gut angesehen, vor allem wenn die Line-Coverage von 89\% in die Betrachtung mit einbezogen wird.
 \newline
 \newline
-Im repository-Package, sind einerseits Repository-Klassen enthalten, die den Zugriff auf Anwendungsdaten abstrahieren und dabei das Caching der Daten transparent machen.
+Im repository-Package sind einerseits Repository-Klassen enthalten, die den Zugriff auf Anwendungsdaten abstrahieren und dabei das Caching der Daten transparent machen.
 Andererseits finden sich hier auch die Klassen, die für die Umsetzung des Cachings verwendet werden.
-Die Repository-Klassen übernehmen die Funktion, die Daten aus dem Cache abzurufen, wenn diese dort vorhanden sind und ansonsten die Daten über Funktionalität, die im client-Package implementiert ist von der API-abzurufen.
-Als zentrale Komponente, um auf Daten zuzugreifen sind die Repository-Klassen deshalb  entscheidend für die Funktionalität der gesamten Anwendung.
-Aus diesem Grund ist es wichtig hier eine möglichst hohe Testabdeckung zu erreichen.
-Die niedrige Method-Coverage von nur 37\% ist hier trotzdem angemessen, da sie auf nicht getestete triviale Funktionen zurückzuführen ist.
-Diese trivialen Funktionen sind verschieden Parametrisierte Konstruktoren und Hilfsfunktionen, die selbst wiederum nur Standard-Parameter für getestete Funktionen bereitstellen (siehe: \href{https://github.com/lukaspanni/OpenSourceStats/blob/ac3c4098d8f89f5eed7142d675ca49c4d3dd724f/app/src/main/java/de/lukaspanni/opensourcestats/repository/UserContributionsRepository.java#L51-L65}{UserCotributionsRepository.load...})
+Die Repository-Klassen übernehmen die Funktion die Daten aus dem Cache abzurufen, wenn diese dort vorhanden sind.
+Ansonsten werden die Daten über Funktionalität, die im client-Package implementiert ist von der API-abgerufen.
+Als zentrale Komponente, um auf Daten zuzugreifen, sind die Repository-Klassen deshalb entscheidend für die Funktionalität der gesamten Anwendung.
+Aus diesem Grund ist es wichtig, hier eine möglichst hohe Testabdeckung zu erreichen.
+Die niedrige Method-Coverage von nur 37\% ist an dieser Stelle trotzdem angemessen, da sie auf nicht getestete triviale Funktionen zurückzuführen ist.
+Diese trivialen Funktionen sind verschieden parametrisierte Konstruktoren und Hilfsfunktionen, die selbst wiederum nur Standard-Parameter für getestete Funktionen bereitstellen (siehe: \href{https://github.com/lukaspanni/OpenSourceStats/blob/ac3c4098d8f89f5eed7142d675ca49c4d3dd724f/app/src/main/java/de/lukaspanni/opensourcestats/repository/UserContributionsRepository.java#L51-L65}{UserCotributionsRepository.load...})
 \newline
 Die Komponente zum Caching ist ebenfalls wichtig, da ohne funktionierendes Caching sehr viele Anfragen über das Netzwerk gesendet werden müssen, was nicht nur die Menge der übertragenen Daten unnötig erhöht, sondern auch die Reaktionszeit der Anwendung verschlechtert.
 Deshalb ist  auch im cache-Package eine hohe Testabdeckung wünschenswert.
@@ -73,7 +77,8 @@ Durch diese hohe Coverage soll sichergestellt werden, dass möglichst wenige Feh
 Das client-Package enthält alle Klassen, die benötigt werden, um Daten von der API abrufen zu können und steht damit, wie auch das cache-Package, im Zusammenhang mit dem Datenzugriff über die Repository-Klassen.
 Es ist offensichtlich, dass auch diese Funktionalität von großer Bedeutung für die Funktionalität der Anwendung ist, und deshalb auch in diesem Package eine möglichst hohe Testabdeckung angestrebt wird.
 Method- und Line-Coverage sind hier mit 64\% beziehungsweise 45\% nicht als gut zu bewerten.
-Hier sollte die Coverage durch weitere Testes erhöht werden, was sich allerdings als schwierig herausstellte, da eine starke Kopplung an eine Thirt-Party-Library besteht, die nur schwer aufgelöst werden kann.
+Die Coverage sollte in diesem Package durch weitere Testes erhöht werden.
+Dies stellte sich allerdings als schwierig heraus, da eine starke Kopplung an eine Third-Party-Library besteht, die nur schwer aufgelöst werden kann.
 Deshalb wird die Code-Coverage aktuelle akzeptiert, sollte in Zukunft aber noch deutlich ausgebaut werden.
 \newline
 \newline
@@ -84,24 +89,27 @@ Die Code-Coverage dieses Packages ist deshalb nicht relevant.
 \newline
 Im Gegensatz zu den genannten Bereichen ist eine hohe Testabdeckung im \textit{ui}-Package weniger wichtig und bringt nur wenig Nutzen. 
 Zusätzlich ist hier aufgrund der genannten Einschränkungen eine hohe Testabdeckung nur mit sehr hohem Aufwand möglich.
-Im Anbetracht des geringen Nutzens ist der Aufwand hier eine hohe Testabdeckung zu erreichen nicht gerechtfertigt, weshalb hier weitestgehend auf Tests verzichtet wird.
+In Anbetracht des geringen Nutzens ist der Aufwand für eine hohe Testabdeckung nicht gerechtfertigt, weshalb hier weitestgehend auf Tests verzichtet wird.
 
 \newpage
 \section{Analyse und Begründung für Einsatz von Fake-/Mock-Objekten}
 
 Fake- und Mock-Objekte werden benötigt, um Abhängigkeiten einer Komponente zu anderen Komponenten in Unit-Tests zu reduzieren.
 Sie implementieren dafür zum Beispiel das benötigte Interface, aber davon nur die aktuell benötigte Funktionalität.
-Fake- und auch Mock-Objekte wurden eingesetzt, um Abhängigkeiten zu Third-Party-Komponenten, z.B. Android-Spezifische Klassen, und zu eigenen Klassen zu ersetzen.
+Fake- und auch Mock-Objekte wurden eingesetzt, um Abhängigkeiten zu Third-Party-Komponenten, z.B. Android-spezifische Klassen und zu eigenen Klassen zu ersetzen.
 Alle Fake- und Mock-Objekte sind im Package \textit{\href{https://github.com/lukaspanni/OpenSourceStats/tree/main/app/src/test/java/de/lukaspanni/opensourcestats/mock}{mock}} gesammelt.
 \newline
 Im Folgenden sollen beispielhaft einige der Fake-/Mock-Klassen genauer erläutert werden.
 \newpage
 \subsection*{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/test/java/de/lukaspanni/opensourcestats/mock/FakeUserContributionsClient.java}{FakeUserContributionsClient}}
-Diese Klasse ist ein Fake-Objekt, das das Interface \textit{UserContributionsClient} implementiert. Diese Interface wir außerhalb der Tests für Clients verwendet, die bestimmte Daten (spezifisch: Objekte der Klasse \textit{UserContributionsResponse}) von einer API abrufen.
+Diese Klasse ist ein Fake-Objekt, welches das Interface \textit{UserContributionsClient} implementiert\.
+Dieses Interface wird außerhalb der Tests für Clients verwendet, die bestimmte Daten (spezifisch: Objekte der Klasse \textit{UserContributionsResponse}) von einer API abrufen.
 \newline
-Offensichtlich sollen Tests von Klassen, die das Interface verwenden, auch ohne echte API-Anfragen möglich sein, da so auch weitere unerwünschte Abhängigkeiten im Test reduziert werden können. Die Klasse  \textit{FakeUserContributionsClient} implementiert dazu die Funktionen des Interfaces und zeichnet die Parameter der Methodenaufrufe auf, sodass Auswertungen im Test möglich sind.
+Offensichtlich sollen Tests von Klassen, die das Interface verwenden, ohne echte API-Anfragen möglich sein, da so weitere unerwünschte Abhängigkeiten im Test reduziert werden können\.
+Die Klasse  \textit{FakeUserContributionsClient} implementiert dazu die Funktionen des Interfaces und zeichnet die Parameter der Methodenaufrufe auf, sodass Auswertungen im Test möglich sind.
 \newline
-Listing \ref{lst:FakeUserContributionsClient} zeigt beispielhaft, wie die Klasse \textit{FakeUserContributionsClient} im Rahmen eines Tests eingesetzt werden kann. Das Code-Beispiel stammt aus \href{https://github.com/lukaspanni/OpenSourceStats/blob/eafe840d0bfc8a08beca01709003d5afe7e59963/app/src/test/java/de/lukaspanni/opensourcestats/UserContributionsRepositoryUnitTest.java#L33-L47}{UserContributionsRepositoryUnitTest}.
+Listing \ref{lst:FakeUserContributionsClient} zeigt beispielhaft, wie die Klasse \textit{FakeUserContributionsClient} im Rahmen eines Tests eingesetzt werden kann\.
+Das Code-Beispiel stammt aus \href{https://github.com/lukaspanni/OpenSourceStats/blob/eafe840d0bfc8a08beca01709003d5afe7e59963/app/src/test/java/de/lukaspanni/opensourcestats/UserContributionsRepositoryUnitTest.java#L33-L47}{UserContributionsRepositoryUnitTest}.
 \begin{lstlisting}[caption={Beispielhafte Verwendung von FakeUserContributionsClient}, label={lst:FakeUserContributionsClient}, captionpos={b}]
 @Test
 public void test_repository_summary_force_reload_client_not_cache() {
@@ -120,18 +128,21 @@ public void test_repository_summary_force_reload_client_not_cache() {
 }
 \end{lstlisting}
 In diesem Beispiel soll getestet werden, dass eine Instanz der Klasse \textit{UserContributionsRepository} bei setzen des Parameters forceReload die Daten nicht aus dem Cache bezieht sondern einen UserContributionsClient verwendet.
-Um zu testen, ob eine Methode des UserContributionClient aufgerufen wird, wird in diesem Fall ein Objekt der Klasse \textit{FakeUserContributionsClient} als Implementierung von UserContributionClient an die Repository-Instanz übergeben. Nach dem Aufruf der Methode \textit{loadUserContributionsInTimeSpan} der Repository-Klasse wird geprüft, ob das Fake-Objekt einen Aufruf der Methode aufgezeichnet hat und ob Methoden des Caches aufgerufen wurden.
-Wenn das Fake-Objekt aufgerufen wurde und der Cache nicht, dann ist das Verhalten in diesem Fall korrekt.
+Um zu testen, ob eine Methode des UserContributionClient aufgerufen wird, wird in diesem Fall ein Objekt der Klasse \textit{FakeUserContributionsClient} als Implementierung von UserContributionClient an die Repository-Instanz übergeben\.
+Nach dem Aufruf der Methode \textit{loadUserContributionsInTimeSpan} der Repository-Klasse wird geprüft, ob das Fake-Objekt einen Aufruf der Methode aufgezeichnet hat und ob Methoden des Caches aufgerufen wurden.
+Wenn das Fake-Objekt aufgerufen wurde und der Cache nicht, ist das Verhalten in diesem Fall korrekt.
 
 \newpage
-\subsection*{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/test/java/de/lukaspanni/opensourcestats/mock/FakeResponseData.java}{FakeRespnseData}}
-Die Klasse \textit{FakeResponseData} ist abgeleitet von der abstrakten Klasse \textit{ResponseData}, die die Basisklasse für alle Daten darstellt, die von der API als Antwort empfangen werden. Eingebettet in ein Objekt der Klasse \textit{CacheEntry} werden \textit{ResponseData}-Objekte im internen Cache (Objekte der Klasse \textit{ResponseCache}) gespeichert.
+\subsection*{\href{https://github.com/lukaspanni/OpenSourceStats/blob/main/app/src/test/java/de/lukaspanni/opensourcestats/mock/FakeResponseData.java}{FakeResponseData}}
+Die Klasse \textit{FakeResponseData} ist abgeleitet von der abstrakten Klasse \textit{ResponseData}, die die Basisklasse für alle Daten darstellt, die von der API als Antwort empfangen werden\.
+Eingebettet in ein Objekt der Klasse \textit{CacheEntry} werden \textit{ResponseData}-Objekte im internen Cache (Objekte der Klasse \textit{ResponseCache}) gespeichert.
 \newline
 Für Tests der Klasse \textit{ResponseCache} werden also \textit{CacheEntry}-Objekte benötigt, die selbst wiederum ein Objekt der Klasse \textit{ResponseData} benötigen.
-Um diese Objekte für Tests erstellen zu können muss eine  konkrete Klasse von \textit{ResponseData} abgeleitet werden. \textit{FakeResponseData} übernimmt diese Funktion und implementiert die Speicherung eines einfachen Integer-Werts als Test-Datum und die \textit{equals}-Methode um die Gleichheit zu anderen Objekten feststellen zu können.
+Um diese Objekte für Tests erstellen zu können, muss eine konkrete Klasse von \textit{ResponseData} abgeleitet werden. \textit{FakeResponseData} übernimmt diese Funktion und implementiert die Speicherung eines einfachen Integer-Werts als Test-Datum und die \textit{equals}-Methode um die Gleichheit zu anderen Objekten feststellen zu können.
 Diese Funktionalität ist für Tests ausreichend.
 \newline
-Listing \ref{lst:FakeResponseData} zeigt, wie Objekte der Klasse \textit{FakeResponseData} in \textit{ResponseCache}-Tests verwendet werden. Das Codebeispiel stammt aus \href{https://github.com/lukaspanni/OpenSourceStats/blob/d0f67e73e4692b70316216688b7f556f42ccc11e/app/src/test/java/de/lukaspanni/opensourcestats/ResponseCacheUnitTest.java#L20-L32}{ResponseCacheUnitTest}.
+Listing \ref{lst:FakeResponseData} zeigt, wie Objekte der Klasse \textit{FakeResponseData} in \textit{ResponseCache}-Tests verwendet werden\.
+Das Codebeispiel stammt aus \href{https://github.com/lukaspanni/OpenSourceStats/blob/d0f67e73e4692b70316216688b7f556f42ccc11e/app/src/test/java/de/lukaspanni/opensourcestats/ResponseCacheUnitTest.java#L20-L32}{ResponseCacheUnitTest}.
 \begin{lstlisting}[caption={Beispielhafte Verwendung von FakeResponseData}, label={lst:FakeResponseData}, captionpos={b}]
 @Test
 public void cache_get_returnsCorrectEntry() {
@@ -147,5 +158,6 @@ public void cache_get_returnsCorrectEntry() {
     assertThat(cachedData, is(testResponseDataCorrect));
 }
 \end{lstlisting}
-Der hier gezeigte Test soll testen, ob der \textit{ResponseCache} bei mehreren enthaltenen Elementen, die zu einem Key (in Form eines \textit{TimeSpan}-Objekts) passenden Daten zurückgibt.
-Dazu werden gleich zwei \textit{FakeResponseData}-Objekte erstellt und mit eigenen Keys im Cache gespeichert. Abschließend wird geprüft, ob ein aus dem Cache angefordertes \textit{FakeResponseData}-Objekt, korrekt ist.
+Der hier gezeigte Test soll testen, ob der \textit{ResponseCache} bei mehreren enthaltenen Elementen die zu einem Key (in Form eines \textit{TimeSpan}-Objekts) passenden Daten zurückgibt.
+Dazu werden gleich zwei \textit{FakeResponseData}-Objekte erstellt und mit eigenen Keys im Cache gespeichert\.
+Abschließend wird geprüft, ob ein aus dem Cache angefordertes \textit{FakeResponseData}-Objekt, korrekt ist.
