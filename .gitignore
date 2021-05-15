@@ -15,3 +15,4 @@ app/src/main/res/values/auth.xml
 *out
 *bbl
 *.log
+.actrc
