@@ -46,11 +46,26 @@ Das User-Interface wird zum Beispiel in einem eigenen Package zusammengefasst un
 An anderen Stellen werden wiederum Defizite deutlich.
 Im \textit{client}-Package zum Beispiel befinden sich sowohl Interfaces, die der Kernanwendung zuzuordnen sind, als auch Klassen, die konkrete Implementierungsdetails mit starren Abhängigkeiten zu externen Libraries sind.
 Konkret sind die Interfaces \textit{UserContributionsClient} und \textit{RepositoryDataClient} Teil der Kernanwendung, da sie wichtige Funktionalität der Anwendung abstrahieren.
-Andererseits implementiert die Klasse \textit{GithubOAuthClient} diese Interfaces und ist sehr Technologiespezifisch und ist Abhängig von einer konkreten Bibliothek.
-Trotzdem können auch hier die Grundideen der Clean Architecture erkannt werden, da innerhalb der Kernanwendung immer mit den Abstraktionen der Interfaces gearbeitet wird, anstatt die konkrete Implementierung zu verwenden, die Implementierung ist dadurch also austauschbar.
+Andererseits implementiert die Klasse \textit{GithubOAuthClient} diese Interfaces und ist sehr Technologiespezifisch. 
+Zusätzlich existiert hier eine starke Abhängigkeit zu einer externen Bibliothek.
+Trotzdem können auch hier die Grundideen der Clean Architecture erkannt werden und die Dependency Rule ist erfüllt, sofern man \textit{GithubOAuthClient} einer weiter außen liegenden Schicht zuordnet.
+Innere Klassen sind nicht davon abhängig, sondern verwenden nur die Abstraktion durch die Interfaces. 
+Die konkrete Implementierung ist dadurch leichter austauschbar.
+
+An anderen Stellen der Kernanwendung gibt es allerdings auch deutliche Verletzungen der Dependency Rule.
+Ein Beispiel dafür ist die Klasse \textit{TimeSpan}, die innerhalb der Kernanwendung häufiger verwendet wird.
+Diese Klasse ist damit selbst als Teil der Kernanwendung anzusehen.
+Die Dependency Rule wird hier durch die Implementierung des android-spezifischen Interfaces Parcelable eindeutig verletzt. 
+Mit der Einführung einer Klasse der Adapterschicht, die die android-spezifischen Funktionen und die Umwandlung zwischen den Datenformaten übernimmt lässt sich das Design deutlich verbessern.
+Die Umsetzung dieser Verbesserung wird in \ref{sec:TimeSpanAdapter} beschrieben.
 
 \subsection{Fazit Clean Architecture}
 Bei der Betrachtung der Architektur des Systems ist die Umsetzung Clean Architecture nicht direkt ersichtlich, da sie nicht explizit beachtet wurde.
-Trotzdem wird bei genauerer Analyse deutlich, dass zumindest das Grundprinzip der Clean Architecture - die Dependency Rule - meist umgesetzt wurde, auch wenn dabei nicht immer klar ist, wo die Grenzen der einzelnen Schichten verlaufen.
+Trotzdem wird bei genauerer Analyse deutlich, dass zumindest das Grundprinzip der Clean Architecture - die Dependency Rule - oft eingehalten wurde, auch wenn dabei nicht immer klar ist, wo die Grenzen der einzelnen Schichten verlaufen.
 Um das Design des Systems zu verbessern sollten die Schichten klar definiert und voneinander abgegrenzt werden.
-Die Aufteilung auf Schichten muss dann unbedingt an der Projektstruktur deutlich werden, sodass die weitere Arbeit an diesem System einfach ist.
+Die Aufteilung auf Schichten muss unbedingt an der Projektstruktur deutlich werden, sodass die weitere Arbeit an diesem System einfach ist.
+Durch bessere Trennung von externen Systemen durch eine klare Adapterschicht, wie zum Beispiel in \ref{sec:TimeSpanAdapter} schon teilweise umgesetzt, kann die Flexibilität des Kernsystem gesteigert und die Technologieabhängigkeit beseitigt werden.
+Wenn das System weiterentwickelt werden soll, ist eine Anpassung des Designs im Sinne der Clean Architecture sinnvoll.
+
+\section{Umsetzung einer Klasse der Adapterschicht}
+\label{sec:TimeSpanAdapter}
