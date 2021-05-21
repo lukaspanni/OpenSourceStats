@@ -59,6 +59,15 @@ Die Dependency Rule wird hier durch die Implementierung des android-spezifischen
 Mit der Einführung einer Klasse der Adapterschicht, die die android-spezifischen Funktionen und die Umwandlung zwischen den Datenformaten übernimmt lässt sich das Design deutlich verbessern.
 Die Umsetzung dieser Verbesserung wird in \ref{sec:TimeSpanAdapter} beschrieben.
 
+\subsection{Umsetzung einer Klasse der Adapterschicht}
+\label{sec:TimeSpanAdapter}
+Um das Design zu verbessern wurde in Commit \href{https://github.com/lukaspanni/OpenSourceStats/commit/46ae8389947276f033a738a454d29a615655be09}{46ae838} die Klasse \textit{ParcelableTimeSpan} eingeführt, die der Adapterschicht zuzuordnen ist.
+Diese adaptiert eine Zeitspanne, wie sie in Kernanwendung verwendet wird, sodass diese im android-Umfeld innerhalb eines sogenannten \textit{Parcels} übertragen werden kann.
+Zur Verdeutlichung, dass diese Klasse ein Implementierungsdetail der android-Platform ist, wurde zusätztlich das Package \textit{android} angelegt, dass aktuell nur diese Klasse enthält.
+Durch die Implementierund von \textit{ParcelableTimeSpan} ist es nun möglich, innerhalb der Kernanwendung nur die Klasse \textit{TimeSpan} zu verwenden, die jetzt keine externen Abhängigkeiten aufweist.
+Stattdessen ist die \textit{ParcelableTimeSpan} von \textit{TimeSpan} abhgängig, sodass die Dependency Rule hier eingehalten wird.
+Objekte beider Klassen können sehr leicht in Objekt der jeweils anderen überführt werden, sodass alle Teile des Systems, die jeweils passende Instanz nutzen können.
+
 \subsection{Fazit Clean Architecture}
 Bei der Betrachtung der Architektur des Systems ist die Umsetzung Clean Architecture nicht direkt ersichtlich, da sie nicht explizit beachtet wurde.
 Trotzdem wird bei genauerer Analyse deutlich, dass zumindest das Grundprinzip der Clean Architecture - die Dependency Rule - oft eingehalten wurde, auch wenn dabei nicht immer klar ist, wo die Grenzen der einzelnen Schichten verlaufen.
@@ -66,6 +75,3 @@ Um das Design des Systems zu verbessern sollten die Schichten klar definiert und
 Die Aufteilung auf Schichten muss unbedingt an der Projektstruktur deutlich werden, sodass die weitere Arbeit an diesem System einfach ist.
 Durch bessere Trennung von externen Systemen durch eine klare Adapterschicht, wie zum Beispiel in \ref{sec:TimeSpanAdapter} schon teilweise umgesetzt, kann die Flexibilität des Kernsystem gesteigert und die Technologieabhängigkeit beseitigt werden.
 Wenn das System weiterentwickelt werden soll, ist eine Anpassung des Designs im Sinne der Clean Architecture sinnvoll.
-
-\section{Umsetzung einer Klasse der Adapterschicht}
-\label{sec:TimeSpanAdapter}
