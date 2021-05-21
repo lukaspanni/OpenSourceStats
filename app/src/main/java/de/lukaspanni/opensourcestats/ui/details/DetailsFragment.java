@@ -17,6 +17,7 @@ import com.lukaspanni.opensourcestats.R;
 import java.util.Calendar;
 import java.util.Date;
 
+import de.lukaspanni.opensourcestats.android.ParcelableTimeSpan;
 import de.lukaspanni.opensourcestats.data.TimeSpan;
 import de.lukaspanni.opensourcestats.data.TimeSpanFactory;
 
@@ -64,7 +65,7 @@ public class DetailsFragment extends Fragment {
 
     private void clickNavigationHandler(View view, TimeSpan timeSpan) {
         Bundle b = new Bundle();
-        b.putParcelable("timeSpan", timeSpan);
+        b.putParcelable("timeSpan", new ParcelableTimeSpan(timeSpan));
         Navigation.findNavController(view).navigate(R.id.action_details_to_time_span_details, b);
     }
 }
