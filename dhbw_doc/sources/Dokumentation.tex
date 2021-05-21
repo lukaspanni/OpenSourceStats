@@ -2,6 +2,7 @@
 \usepackage[ngerman]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[hidelinks]{hyperref}
+\usepackage{bookmark}
 \usepackage{inconsolata}
 \usepackage{color}
 \usepackage{enumitem}
@@ -12,11 +13,13 @@
 \usepackage{listings}
 \usepackage[nottoc,numbib]{tocbibind}
 \usepackage[pagestyles]{titlesec}   
+\usepackage{titling}
 
 \newpagestyle{defaultstyle}{\setfoot[\thepage][][]{}{}{\thepage}\sethead[\chaptertitle][][]{}{}{\chaptertitle}}
 \pagestyle{defaultstyle}
 \titleformat{\chapter}{\Huge\bfseries}{\thechapter.}{20pt}{\Huge\bfseries}
 
+\setlength{\parindent}{0em}
 
 \definecolor{pblue}{rgb}{0.13,0.13,1}
 \definecolor{pgreen}{rgb}{0,0.5,0}
@@ -38,6 +41,15 @@
   moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
 }
 
+\pretitle{
+  \begin{center}
+  \LARGE
+}
+\posttitle{
+  \includegraphics[height=10cm, trim=0 -10 0 -10 mm]{screenshot_dashboard_and_progress.png}
+  \end{center}
+}
+
 
 \title{Dokumentation Programmentwurf \\ Vorlesung Advanced Software Engineering \\ DHBW Karlsruhe Semester 5/6}
 \author{Lukas Panni \\ TINF18B5}
@@ -45,6 +57,8 @@
 
 \maketitle
 \tableofcontents
+
+\input{intro}
 
 \input{legacy_code}
 
