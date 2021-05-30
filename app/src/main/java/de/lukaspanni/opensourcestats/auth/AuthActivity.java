@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -53,17 +52,17 @@ public class AuthActivity extends AppCompatActivity implements AuthHandlerActivi
                     handler.updateState(response, ex1);
                     if (response != null) {
                         Toast.makeText(ctx, getString(R.string.auth_success_text), Toast.LENGTH_LONG).show();
-                        Log.i("AUTH", "User authenticated");
+                        //Log.i("AUTH", "User authenticated");
                         Intent toMainIntent = new Intent(this, MainActivity.class);
                         startActivity(toMainIntent);
                     } else {
                         Toast.makeText(ctx, getString(R.string.auth_failed_text), Toast.LENGTH_LONG).show();
-                        Log.e("AUTH", ex1.getLocalizedMessage());
+                        //Log.e("AUTH", ex1.getLocalizedMessage());
                     }
                 });
             } else {
                 Toast.makeText(ctx, getString(R.string.auth_failed_text), Toast.LENGTH_LONG).show();
-                Log.e("AUTH",  ex.getLocalizedMessage());
+                //Log.e("AUTH",  ex.getLocalizedMessage());
             }
         }
     }

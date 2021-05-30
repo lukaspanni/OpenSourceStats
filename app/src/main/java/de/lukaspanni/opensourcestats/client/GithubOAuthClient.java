@@ -1,7 +1,5 @@
 package de.lukaspanni.opensourcestats.client;
 
-import android.util.Log;
-
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.ApolloClient;
 import com.apollographql.apollo.ApolloQueryCall;
@@ -46,14 +44,14 @@ public class GithubOAuthClient implements RepositoryDataClient, UserContribution
                                 callback.callback(new RepositoryDataResponse(response.getData().repository()));
                             } else {
                                 for (Error err : response.getErrors()) {
-                                    Log.e("API ERROR", err.getMessage());
+                                    //Log.e("API ERROR", err.getMessage());
                                 }
                             }
                         }
 
                         @Override
                         public void onFailure(@NotNull ApolloException e) {
-                            Log.e("ERROR", e.getLocalizedMessage());
+                            //Log.e("ERROR", e.getLocalizedMessage());
                         }
                     });
         });
@@ -78,14 +76,14 @@ public class GithubOAuthClient implements RepositoryDataClient, UserContribution
                                 }
                             } else {
                                 for (Error err : response.getErrors()) {
-                                    Log.e("API ERROR", err.getMessage());
+                                    //Log.e("API ERROR", err.getMessage());
                                 }
                             }
                         }
 
                         @Override
                         public void onFailure(@NotNull ApolloException e) {
-                            Log.e("ERROR", e.getLocalizedMessage());
+                            //Log.e("ERROR", e.getLocalizedMessage());
                         }
                     });
         });

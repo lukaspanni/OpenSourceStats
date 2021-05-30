@@ -2,7 +2,6 @@ package de.lukaspanni.opensourcestats.auth;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import net.openid.appauth.AuthState;
 import net.openid.appauth.AuthorizationException;
@@ -113,7 +112,7 @@ public class GithubOAuthHandler implements AuthenticationHandler {
             try {
                 return AuthState.jsonDeserialize(stateString);
             } catch (JSONException e) {
-                Log.e("Error Loading State", e.getLocalizedMessage());
+                //Log.e("Error Loading State", e.getLocalizedMessage());
             }
         }
         return new AuthState();

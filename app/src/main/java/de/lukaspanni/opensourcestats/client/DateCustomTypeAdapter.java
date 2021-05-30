@@ -1,6 +1,5 @@
 package de.lukaspanni.opensourcestats.client;
 
-import android.util.Log;
 
 import com.apollographql.apollo.api.CustomTypeAdapter;
 import com.apollographql.apollo.api.CustomTypeValue;
@@ -26,7 +25,7 @@ public class DateCustomTypeAdapter implements CustomTypeAdapter<Date> {
         try {
             return format.parse((String) customTypeValue.value);
         } catch (ParseException e) {
-            Log.e("Conversion Error", e.getLocalizedMessage());
+            // Log.e("Conversion Error", e.getLocalizedMessage());
             return null;
         }
     }
