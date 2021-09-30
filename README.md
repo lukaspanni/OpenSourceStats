@@ -1,6 +1,8 @@
 ![Android CI](https://github.com/lukaspanni/OpenSourceStats/workflows/Android%20CI/badge.svg)
 ![Build-LaTeX](https://github.com/lukaspanni/OpenSourceStats/workflows/Build-LaTeX/badge.svg)
 
+<a href='https://play.google.com/store/apps/details?id=de.lukaspanni.opensoucestats&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Jetzt bei Google Play' height="60vh" src='https://play.google.com/intl/en_us/badges/static/images/badges/de_badge_web_generic.png'/></a>
+
 # OpenSourceStats (_Your Open-Source Contribution-Stats on GitHub_ to be exact)
 
 Android-App for simple GitHub Contribution statistics.
@@ -24,3 +26,5 @@ Dokumentation Programmentwurf für die Vorlesung Advanced Software Engineering a
 ### Running Tests
 
 - Unit-Tests can be found [here](https://github.com/lukaspanni/OpenSourceStats/tree/main/app/src/test/java/de/lukaspanni/opensourcestats) and run using the Android-Studio Test-Runner
+
+
